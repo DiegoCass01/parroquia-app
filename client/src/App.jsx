@@ -4,7 +4,8 @@ import axios from "axios";
 import FormGroup from "./components/FormGroup.jsx"; // Importamos el nuevo componente
 import "./App.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://parroquia-app.vercel.app/api";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function App() {
   const [bautismos, setBautismos] = useState([]);
