@@ -1,9 +1,11 @@
 // App.js
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import FormGroup from "./components/FormGroup.jsx"; // Importamos el nuevo componente
 import "./App.css";
-
+import { Alert, Snackbar } from "@mui/material";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -19,6 +21,11 @@ export default function App() {
   const [padrino, setPadrino] = useState("");
   const [madrina, setMadrina] = useState("");
 
+  // Estado para manejar la alerta
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("success"); // "success" | "error"
+
   useEffect(() => {
     fetchBautismos();
   }, []);
@@ -30,6 +37,18 @@ export default function App() {
     } catch (error) {
       console.error("Error al obtener bautismos", error);
     }
+  };
+
+  const ref = useRef();
+
+  const generarPDF = () => {
+    const input = ref.current;
+    html2canvas(input, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
+      pdf.save("fe_de_bautismo.pdf");
+    });
   };
 
   const addBautismo = async (e) => {
@@ -57,8 +76,18 @@ export default function App() {
       setMadre("");
       setPadrino("");
       setMadrina("");
+
+      // Mostrar alerta de éxito
+      setAlertMessage("Bautismo agregado correctamente!");
+      setAlertSeverity("success");
+      setOpenSnackbar(true);
     } catch (error) {
       console.error("Error al agregar bautismo", error);
+
+      // Mostrar alerta de error
+      setAlertMessage("Hubo un error al agregar el bautismo");
+      setAlertSeverity("error");
+      setOpenSnackbar(true);
     }
   };
 
@@ -66,8 +95,18 @@ export default function App() {
     try {
       await axios.delete(`${API_URL}/bautismos/${id}`);
       fetchBautismos();
+
+      // Mostrar alerta de éxito
+      setAlertMessage("Bautismo eliminado correctamente!");
+      setAlertSeverity("success");
+      setOpenSnackbar(true);
     } catch (error) {
       console.error("Error al eliminar bautismo", error);
+
+      // Mostrar alerta de error
+      setAlertMessage("Hubo un error al eliminar el bautismo");
+      setAlertSeverity("error");
+      setOpenSnackbar(true);
     }
   };
 
@@ -155,9 +194,18 @@ export default function App() {
             <span>Padrino: {bautismo.padrino}</span>
             <span>Madrina: {bautismo.madrina}</span>
             <button onClick={() => deleteBautismo(bautismo.id)} >Eliminar</button>
+            <button
+              onClick={() => generarPDF(bautismo)}>Descargar Fe de Bautismo</button>
           </li>
         ))}
       </ul>
+
+      {/* Snackbar para alertas */}
+      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}>
+        <Alert onClose={() => setOpenSnackbar(false)} severity={alertSeverity} sx={{ width: "100%" }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
