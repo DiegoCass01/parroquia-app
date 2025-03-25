@@ -120,3 +120,22 @@ h1 {
   display: flex;
   justify-content: center;
 }
+
+/* Personaliza el color de fondo cuando los campos están autocompletados */
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+  background-color: #fff !important;
+  /* Cambiar el color de fondo */
+  color: #333 !important;
+  /* Cambiar el color del texto */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Para los campos de autocompletado en Firefox */
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  background-color: #fff !important;
+  /* Cambiar el color de fondo */
+  color: #333 !important;
+  /* Cambiar el color del texto */
+}
