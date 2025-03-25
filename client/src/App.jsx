@@ -1,11 +1,11 @@
 // App.js
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import FormGroup from "./components/FormGroup.jsx"; // Importamos el nuevo componente
 import "./App.css";
 import { Alert, Snackbar } from "@mui/material";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
+import { generarPDF } from "./components/FeBautismoPdf.jsx";
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -39,17 +39,24 @@ export default function App() {
     }
   };
 
-  const ref = useRef();
+  // const descargarBD = async () => {
+  //   try {
+  //     const response = await axios.get(`${API_URL}/bautismos`, {
+  //       responseType: 'blob', // Asegúrate de indicar que es un archivo binario
+  //     });
 
-  const generarPDF = () => {
-    const input = ref.current;
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
-      pdf.save("fe_de_bautismo.pdf");
-    });
-  };
+  //     // Crear un enlace temporal para descargar el archivo
+  //     const url = window.URL.createObjectURL(new Blob([response.data]));
+  //     const link = document.createElement('a');
+  //     link.href = url;
+  //     link.setAttribute('download', 'bautismos.sql'); // Nombre del archivo
+  //     document.body.appendChild(link);
+  //     link.click();
+  //   } catch (error) {
+  //     console.error('Error al descargar la base de datos:', error);
+  //   }
+  // };
+
 
   const addBautismo = async (e) => {
     e.preventDefault();
@@ -194,11 +201,13 @@ export default function App() {
             <span>Padrino: {bautismo.padrino}</span>
             <span>Madrina: {bautismo.madrina}</span>
             <button onClick={() => deleteBautismo(bautismo.id)} >Eliminar</button>
-            <button
-              onClick={() => generarPDF(bautismo)}>Descargar Fe de Bautismo</button>
+            <button onClick={() => generarPDF({ datos: bautismo })} className="submit-button">
+              Generar Fe de Bautismo
+            </button>
           </li>
         ))}
       </ul>
+
 
       {/* Snackbar para alertas */}
       <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}>
