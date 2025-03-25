@@ -7,7 +7,7 @@ const generarPDF = ({ datos }) => {
 
   // Crear un objeto de imagen y cargarla
   var img = new Image();
-  img.src = "../src/assets/iglesiaLogo.png"; // Asegúrate de que esta ruta sea correcta
+  img.src = "/assets/iglesiaLogo.png"; // Asegúrate de que esta ruta sea correcta
 
   img.onload = () => {
     // Cuando la imagen se haya cargado, agregarla al PDF
