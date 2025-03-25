@@ -1,9 +1,6 @@
 import jsPDF from "jspdf";
+import { formatDate } from "../functions/formatDate.js";
 
-const formatDate = (date) => {
-  const d = new Date(date);
-  return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-};
 
 const generarPDF = ({ datos }) => {
   const doc = new jsPDF();

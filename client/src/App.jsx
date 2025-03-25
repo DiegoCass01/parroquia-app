@@ -5,7 +5,8 @@ import FormGroup from "./components/FormGroup.jsx"; // Importamos el nuevo compo
 import "./App.css";
 import { Alert, Snackbar } from "@mui/material";
 import { generarPDF } from "./components/FeBautismoPdf.jsx";
-
+import { formatDate } from "./functions/formatDate.js";
+import { descargarSQLDump } from "./functions/getAndDownloadDump.js";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -38,24 +39,6 @@ export default function App() {
       console.error("Error al obtener bautismos", error);
     }
   };
-
-  // const descargarBD = async () => {
-  //   try {
-  //     const response = await axios.get(`${API_URL}/bautismos`, {
-  //       responseType: 'blob', // Asegúrate de indicar que es un archivo binario
-  //     });
-
-  //     // Crear un enlace temporal para descargar el archivo
-  //     const url = window.URL.createObjectURL(new Blob([response.data]));
-  //     const link = document.createElement('a');
-  //     link.href = url;
-  //     link.setAttribute('download', 'bautismos.sql'); // Nombre del archivo
-  //     document.body.appendChild(link);
-  //     link.click();
-  //   } catch (error) {
-  //     console.error('Error al descargar la base de datos:', error);
-  //   }
-  // };
 
 
   const addBautismo = async (e) => {
@@ -120,6 +103,7 @@ export default function App() {
   return (
     <div >
       <h1 >Registro de Bautismos</h1>
+      <button onClick={descargarSQLDump}>Exportar DB</button>
       <form onSubmit={addBautismo} className="form-container">
         <FormGroup
           id="nombre"
@@ -192,10 +176,10 @@ export default function App() {
         {bautismos.map((bautismo) => (
           <li key={bautismo.id} >
             <span><strong>{bautismo.nombre}</strong></span>
-            <span>Fecha Bautismo: {bautismo.fecha_bautismo}</span>
+            <span>Fecha Bautismo: {formatDate(bautismo.fecha_bautismo)}</span>
             <span>Lugar Bautismo: {bautismo.lugar_bautismo}</span>
             <span>Lugar Nacimiento: {bautismo.lugar_nacimiento}</span>
-            <span>Fecha Nacimiento: {bautismo.fecha_nacimiento}</span>
+            <span>Fecha Nacimiento: {formatDate(bautismo.fecha_nacimiento)}</span>
             <span>Padre: {bautismo.padre}</span>
             <span>Madre: {bautismo.madre}</span>
             <span>Padrino: {bautismo.padrino}</span>
