@@ -16,4 +16,4 @@ const FormGroup = ({ id, label, value, onChange, type = "text", required = false
   );
 };
 
-export default FormGroup;
+export { FormGroup };

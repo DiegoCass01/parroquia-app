@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FormGroup } from "./components/FormGroup.jsx";
 import { Alert, Snackbar } from "@mui/material";
-import { generarPDF } from "./functions/FeBautismoPdf.js";
+import { generarPDF } from "./functions/feBautismoPdf.js";
 import { formatDate } from "./functions/formatDate.js";
 import { descargarSQLDump } from "./functions/getAndDownloadDump.js";
 import "./App.css";
