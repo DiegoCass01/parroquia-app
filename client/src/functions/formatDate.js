@@ -4,6 +4,14 @@ const formatDate = (date) => {
 };
 
 const formatDateLong = (date) => {
+  if (!(date instanceof Date)) {
+    date = new Date(date); // Convertir a Date si es una cadena
+  }
+
+  if (isNaN(date)) {
+    return "Fecha inválida"; // Manejar fechas incorrectas
+  }
+
   const meses = [
     "enero",
     "febrero",

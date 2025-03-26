@@ -4,7 +4,7 @@ import axios from "axios";
 import { FormGroup } from "./components/FormGroup.jsx";
 import { Alert, Snackbar } from "@mui/material";
 import { generarPDF } from "./functions/feBautismoPdf.js";
-import { formatDate } from "./functions/formatDate.js";
+import { formatDateLong } from "./functions/formatDate.js";
 import { descargarSQLDump } from "./functions/getAndDownloadDump.js";
 import "./App.css";
 
@@ -176,10 +176,10 @@ export default function App() {
         {bautismos.map((bautismo) => (
           <li key={bautismo.id} >
             <span><strong>{bautismo.nombre}</strong></span>
-            <span>Fecha Bautismo: {formatDate(bautismo.fecha_bautismo)}</span>
+            <span>Fecha Bautismo: {formatDateLong(bautismo.fecha_bautismo)}</span>
             <span>Lugar Bautismo: {bautismo.lugar_bautismo}</span>
             <span>Lugar Nacimiento: {bautismo.lugar_nacimiento}</span>
-            <span>Fecha Nacimiento: {formatDate(bautismo.fecha_nacimiento)}</span>
+            <span>Fecha Nacimiento: {formatDateLong(bautismo.fecha_nacimiento)}</span>
             <span>Padre: {bautismo.padre}</span>
             <span>Madre: {bautismo.madre}</span>
             <span>Padrino: {bautismo.padrino}</span>
