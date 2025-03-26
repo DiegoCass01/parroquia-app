@@ -1,6 +1,5 @@
 import jsPDF from "jspdf";
-import { formatDate } from "../functions/formatDate.js";
-
+import { formatDate } from "./formatDate.js";
 
 const generarPDF = ({ datos }) => {
   const doc = new jsPDF();
@@ -13,19 +12,15 @@ const generarPDF = ({ datos }) => {
     // Cuando la imagen se haya cargado, agregarla al PDF
 
     // Agregar logo
-    doc.addImage(
-      img,
-      'PNG', 10, 10, 50, 50
-    );
-
+    doc.addImage(img, "PNG", 10, 10, 50, 50);
 
     // Título principal
     doc.setFontSize(24);
-    doc.text('FE DE BAUTISMO', 105, 70, { align: 'center' });
+    doc.text("FE DE BAUTISMO", 105, 70, { align: "center" });
 
     // Subtítulo
     doc.setFontSize(16);
-    doc.text(`Iglesia: ${datos.lugar_bautismo}`, 105, 90, { align: 'center' });
+    doc.text(`Iglesia: ${datos.lugar_bautismo}`, 105, 90, { align: "center" });
 
     // Detalles del bautizo
     doc.setFontSize(12);
@@ -36,8 +31,8 @@ const generarPDF = ({ datos }) => {
     doc.text(`Fecha del Bautizo: ${formatDate(datos.fecha_bautismo)}`, 20, 150);
 
     // Firmas
-    doc.text('Firma del Padre:', 20, 170);
-    doc.text('Firma del Sacerdote:', 20, 180);
+    doc.text("Firma del Padre:", 20, 170);
+    doc.text("Firma del Sacerdote:", 20, 180);
 
     // Línea para firmas
     doc.line(20, 172, 180, 172);
@@ -45,19 +40,23 @@ const generarPDF = ({ datos }) => {
 
     // Agregar el texto final
     doc.setFontSize(10);
-    doc.text('Este es un documento oficial que certifica el bautizo de este niño en la iglesia mencionada.', 20, 200, { maxWidth: 180 });
+    doc.text(
+      "Este es un documento oficial que certifica el bautizo de este niño en la iglesia mencionada.",
+      20,
+      200,
+      { maxWidth: 180 }
+    );
 
     // Para mostrar en lugar de descargar:
     // doc.open('fe_de_bautismo.pdf');
 
     // Descargar el PDF
     doc.save(`fe_de_bautismo_${datos.nombre}.pdf`);
-  }
+  };
   img.onerror = (err) => {
     console.error("Error al cargar la imagen:", err);
     alert("No se pudo cargar la imagen, por favor verifica la ruta.");
   };
 };
-
 
 export { generarPDF };

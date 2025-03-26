@@ -1,12 +1,12 @@
 // App.js
 import { useEffect, useState } from "react";
 import axios from "axios";
-import FormGroup from "./components/FormGroup.jsx"; // Importamos el nuevo componente
-import "./App.css";
+import { FormGroup } from "./components/FormGroup.jsx";
 import { Alert, Snackbar } from "@mui/material";
-import { generarPDF } from "./components/FeBautismoPdf.jsx";
+import { generarPDF } from "./functions/FeBautismoPdf.js";
 import { formatDate } from "./functions/formatDate.js";
 import { descargarSQLDump } from "./functions/getAndDownloadDump.js";
+import "./App.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
