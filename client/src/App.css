@@ -139,3 +139,13 @@ textarea:-moz-placeholder {
   color: #333 !important;
   /* Cambiar el color del texto */
 }
+
+.navbar-content {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.navbar-item {
+  margin-right: 1rem;
+}
