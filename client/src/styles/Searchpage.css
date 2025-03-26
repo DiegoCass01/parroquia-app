@@ -1,0 +1,27 @@
+.search-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50vw;
+  max-width: 800px;
+  background-color: #222;
+  border-radius: 8px;
+}
+
+.bautismos-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.bautismo-item {
+  border: 1px solid #ffffff;
+  margin: 2%;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+li span {
+  margin-block: 8px;
+}

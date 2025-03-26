@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { descargarSQLDump } from "../functions/getAndDownloadDump.js";
+
 import { FormGroup } from "../components/FormGroup.jsx";
 import { useBautismoStore } from "../store/useBautismoStore.js";
 
-const API_URL = import.meta.env.VITE_API_URL;
 
 export default function CreatePage({ showSnackbar }) {
 
@@ -46,50 +45,11 @@ export default function CreatePage({ showSnackbar }) {
     showSnackbar("Bautismo agregado correctamente!", "success");
   };
 
-  // const addBautismo = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await axios.post(`${API_URL}/bautismos`, {
-  //       nombre,
-  //       fecha_bautismo: fechaBautismo,
-  //       lugar_bautismo: lugarBautismo,
-  //       lugar_nacimiento: lugarNacimiento,
-  //       fecha_nacimiento: fechaNacimiento,
-  //       padre,
-  //       madre,
-  //       padrino,
-  //       madrina,
-  //       fecha_registro: new Date().toISOString().split("T")[0],
-  //     });
-  //     fetchBautismos();
-  //     setNombre("");
-  //     setFechaBautismo("");
-  //     setLugarBautismo("");
-  //     setLugarNacimiento("");
-  //     setFechaNacimiento("");
-  //     setPadre("");
-  //     setMadre("");
-  //     setPadrino("");
-  //     setMadrina("");
-
-  //     // Mostrar alerta de éxito
-  //     setAlertMessage("Bautismo agregado correctamente!");
-  //     setAlertSeverity("success");
-  //     setOpenSnackbar(true);
-  //   } catch (error) {
-  //     console.error("Error al agregar bautismo", error);
-
-  //     // Mostrar alerta de error
-  //     setAlertMessage("Hubo un error al agregar el bautismo");
-  //     setAlertSeverity("error");
-  //     setOpenSnackbar(true);
-  //   }
-  // };
 
   return (
     <div >
       <h1 >Registro de Bautismos</h1>
-      <button onClick={descargarSQLDump}>Exportar DB</button>
+
       <form onSubmit={handleSubmit} className="form-container">
         <FormGroup
           id="nombre"

@@ -1,5 +1,6 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 import { Link } from "react-router-dom";
+import { descargarSQLDump } from "../functions/getAndDownloadDump.js";
+import "../styles/Navbar.css"
 
 export const AcmeLogo = () => {
   return (
@@ -17,23 +18,24 @@ export const AcmeLogo = () => {
 export default function NavBar() {
 
   return (
-
     <header className="header" >
-
-      <a href="/" className="logo">Logo</a>
+      <a href="/" className="logo">
+        <img src="/vite.svg" height={100} />
+      </a>
 
       <nav className="navbar">
+        <Link to="/">
+          Search Page
+        </Link>
 
+        <Link to="/create">
+          Create Page
+        </Link>
+
+        <button onClick={descargarSQLDump} className="button-nav">
+          Exportar DB
+        </button>
       </nav>
-
-      <Link to="/create">
-        <p>Create Page</p>
-      </Link>
-      <Link to="/">
-        <p>Home Page</p>
-      </Link>
     </header>
-
-
   );
 }

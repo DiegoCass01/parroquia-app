@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { generarPDF } from "../functions/feBautismoPdf";
-import { formatDateLong } from "../functions/formatDate";
-import { useBautismoStore } from "../store/useBautismoStore";
+import { generarPDF } from "../functions/feBautismoPdf.js";
+import { formatDateLong } from "../functions/formatDate.js";
+import { useBautismoStore } from "../store/useBautismoStore.js";
+import "../styles/Searchpage.css"
 
-export default function HomePage({ showSnackbar }) {
+export default function SearchPage({ showSnackbar }) {
   const { bautismos, fetchBautismos, deleteBautismo } = useBautismoStore();
 
   useEffect(() => {
@@ -19,10 +20,15 @@ export default function HomePage({ showSnackbar }) {
 
 
   return (
-    <div>
-      <ul>
+    <div className="search-page">
+      <h1>Bautismos</h1>
+      <search>
+
+      </search>
+
+      <ul className="bautismo-container">
         {bautismos.map((bautismo) => (
-          <li key={bautismo.id} >
+          <li key={bautismo.id} className="bautismo-item">
             <span><strong>{bautismo.nombre}</strong></span>
             <span>Fecha Bautismo: {formatDateLong(bautismo.fecha_bautismo)}</span>
             <span>Lugar Bautismo: {bautismo.lugar_bautismo}</span>

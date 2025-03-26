@@ -2,12 +2,11 @@ import "./App.css";
 import NavBar from './components/NavBar.jsx'
 import { useEffect, useState } from "react";
 import { useBautismoStore } from "./store/useBautismoStore.js";
-import CreatePage from "./pages/CreatePage.jsx";
-import HomePage from "./pages/HomePage.jsx";
 import { Route, Routes } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
+import SearchPage from "./pages/SearchPage.jsx";
+import CreatePage from "./pages/CreatePage.jsx";
 
-const API_URL = import.meta.env.VITE_API_URL;
 
 export default function App() {
   const { fetchBautismos } = useBautismoStore();
@@ -32,7 +31,7 @@ export default function App() {
     <div >
       <NavBar />
       <Routes>
-        <Route path="/" element={<HomePage showSnackbar={showSnackbar} />} />
+        <Route path="/" element={<SearchPage showSnackbar={showSnackbar} />} />
         <Route path="/create" element={<CreatePage showSnackbar={showSnackbar} />} />
       </Routes >
 
