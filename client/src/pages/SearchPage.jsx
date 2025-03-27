@@ -40,15 +40,12 @@ export default function SearchPage({ showSnackbar }) {
     <div className="search-page">
       <h1>Bautismos</h1>
 
-      <search>
-        <form action="https://www.google.com/search">
-          <label>
-            <input type="search" name="q" autocomplete="off" value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} />
-          </label>
+      <search className="search-bautismo">
+        <form className="search-bautismo">
+          <input type="search" placeholder="Ingrese el nombre" name="q" autocomplete="off" value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} />
         </form>
       </search>
-
 
       {/* Lista de bautismos filtrados */}
       <ul className="bautismo-container">

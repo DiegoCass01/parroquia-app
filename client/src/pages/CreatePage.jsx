@@ -49,7 +49,6 @@ export default function CreatePage({ showSnackbar }) {
   return (
     <div >
       <h1 >Registro de Bautismos</h1>
-
       <form onSubmit={handleSubmit} className="form-container">
         <FormGroup
           id="nombre"

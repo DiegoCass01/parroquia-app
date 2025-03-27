@@ -26,38 +26,42 @@ li span {
   margin-block: 8px;
 }
 
-search {
+.search-bautismo {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
-form {
+.search-bautismo form {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
+  background: transparent;
   padding: 5px;
   border-radius: 25px;
+
+  border: 1px solid white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   width: 70%;
   transition: all 0.3s ease;
 }
 
-input[type="search"] {
+.search-bautismo input[type="search"] {
   border: none;
   outline: none;
   background: transparent;
   padding: 10px;
   font-size: 16px;
-  color: #000000;
+  color: #fff;
   width: 100%;
+
 }
 
-input[type="search"]::placeholder {
-  color: #bbb;
+.search-bautismo input[type="search"]::placeholder {
+  font-weight: bold;
+  color: #999;
 }
 
-input[type="search"]:focus {
+.search-bautismo input[type="search"]:focus {
   border-bottom: 2px solid #007bff;
 }
