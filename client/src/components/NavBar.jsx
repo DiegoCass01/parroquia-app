@@ -8,20 +8,26 @@ export default function NavBar() {
   return (
     <header className="header" >
       <a href="/" className="logo">
-        <img src="/vite.svg" height={90} />
+        <img src="/vite.svg" />
       </a>
 
       <nav className="navbar">
         <Link to="/">
-          Registros
+          <p>
+            Registros
+          </p>
         </Link>
 
         <Link to="/create">
-          Crear Registro
+          <p>
+            Crear Registro
+          </p>
         </Link>
 
         <button onClick={descargarSQLDump} className="button-nav">
-          Exportar BD
+          <p>
+            Exportar BD
+          </p>
         </button>
       </nav>
     </header>

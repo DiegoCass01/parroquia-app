@@ -13,10 +13,13 @@
   align-items: center;
 }
 
-
 .logo {
   margin-left: 5%;
   color: #fff;
+}
+
+img {
+  height: 90px;
 }
 
 .navbar {
@@ -59,4 +62,18 @@
 
 .navbar a:hover:before {
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  p {
+    font-size: 0.9rem;
+  }
+
+  img {
+    height: 45px;
+  }
+
+  .navbar .button-nav {
+    margin-right: 15%;
+  }
 }
