@@ -13,15 +13,15 @@ export default function NavBar() {
 
       <nav className="navbar">
         <Link to="/">
-          Search Page
+          Registros
         </Link>
 
         <Link to="/create">
-          Create Page
+          Crear Registro
         </Link>
 
         <button onClick={descargarSQLDump} className="button-nav">
-          Exportar DB
+          Exportar BD
         </button>
       </nav>
     </header>

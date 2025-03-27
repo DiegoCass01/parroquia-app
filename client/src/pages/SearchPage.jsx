@@ -38,14 +38,14 @@ export default function SearchPage({ showSnackbar }) {
 
   return (
     <div className="search-page">
-      <h1>Bautismos</h1>
+      <h1>Busqueda de Bautismo</h1>
 
-      <search className="search-bautismo">
-        <form className="search-bautismo">
-          <input type="search" placeholder="Ingrese el nombre" name="q" autocomplete="off" value={searchQuery}
+      <div className="search-bautismo">
+        <form className="form-search-bautismo">
+          <input type="search" placeholder="Ingrese el nombre" name="q" autoComplete="off" value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} />
         </form>
-      </search>
+      </div>
 
       {/* Lista de bautismos filtrados */}
       <ul className="bautismo-container">
@@ -68,7 +68,9 @@ export default function SearchPage({ showSnackbar }) {
             </li>
           ))
         ) : (
-          <p>No se encontraron bautismos.</p>
+          <div className="no-elements-item">
+            <strong><p>No se encontraron bautismos.</p></strong>
+          </div>
         )}
       </ul>
     </div>

@@ -10,6 +10,12 @@ body {
   font-family: Arial, sans-serif;
   /* Fuente general */
   background-color: #222;
+  padding-top: 5%;
+  /* Ajusta según la altura del navbar */
+}
+
+.form-div {
+  padding-top: 8vh;
 }
 
 /* Estilo para el contenedor principal del formulario */
@@ -72,6 +78,10 @@ body {
 
 /* Aseguramos que el contenedor del formulario se ajuste a la pantalla de manera responsive */
 @media (max-width: 600px) {
+  body {
+    padding-top: 15%;
+  }
+
   .form-container {
     padding: 15px;
   }
