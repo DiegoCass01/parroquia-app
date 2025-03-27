@@ -1,6 +1,5 @@
 .header {
   position: fixed;
-  /* Cambio de sticky a fixed */
   top: 0;
   left: 0;
   width: 100%;
@@ -11,6 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #333;
 }
 
 .logo {
