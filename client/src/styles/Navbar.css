@@ -10,7 +10,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #333;
+  border-bottom: 4px solid #333;
+  border-image-source: linear-gradient(to right, transparent 0%, #333 30%, #333 70%, transparent 100%);
+  border-image-slice: 1;
 }
 
 .logo {
