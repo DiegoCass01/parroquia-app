@@ -25,3 +25,39 @@
 li span {
   margin-block: 8px;
 }
+
+search {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 5px;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  width: 70%;
+  transition: all 0.3s ease;
+}
+
+input[type="search"] {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px;
+  font-size: 16px;
+  color: #000000;
+  width: 100%;
+}
+
+input[type="search"]::placeholder {
+  color: #bbb;
+}
+
+input[type="search"]:focus {
+  border-bottom: 2px solid #007bff;
+}
