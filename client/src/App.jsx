@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
 import SearchPage from "./pages/SearchPage.jsx";
 import CreatePage from "./pages/CreatePage.jsx";
+import EditPage from "./pages/EditPage.jsx";
 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<SearchPage showSnackbar={showSnackbar} />} />
         <Route path="/create" element={<CreatePage showSnackbar={showSnackbar} />} />
+        <Route path="/edit" element={<EditPage showSnackbar={showSnackbar} />} />
       </Routes >
 
       {/* Snackbar para alertas */}

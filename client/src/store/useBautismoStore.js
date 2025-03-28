@@ -26,6 +26,23 @@ export const useBautismoStore = create((set) => ({
     }
   },
 
+  editBautismo: async (bautismo) => {
+    try {
+      const res = await axios.put(
+        `${API_URL}/bautismos/${bautismo.id}`,
+        bautismo
+      );
+
+      set((state) => ({
+        bautismos: state.bautismos.map((b) =>
+          b.id === bautismo.id ? res.data : b
+        ),
+      }));
+    } catch (error) {
+      console.error("Error al editar bautismo", error);
+    }
+  },
+
   deleteBautismo: async (id) => {
     try {
       await axios.delete(`${API_URL}/bautismos/${id}`);

@@ -3,11 +3,13 @@ import { generarPDF } from "../functions/feBautismoPdf.js";
 import { formatDateLong } from "../functions/formatDate.js";
 import { useBautismoStore } from "../store/useBautismoStore.js";
 import "../styles/Searchpage.css"
+import { useNavigate } from "react-router-dom";
 
 export default function SearchPage({ showSnackbar }) {
   const { bautismos, fetchBautismos, deleteBautismo } = useBautismoStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredBautismos, setFilteredBautismos] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBautismos();
@@ -15,12 +17,25 @@ export default function SearchPage({ showSnackbar }) {
 
 
   const handleDelete = async (id) => {
-    await deleteBautismo(id);
-    // Muestra el Snackbar
-    showSnackbar("Bautismo eliminado correctamente!", "success");
+    if (!window.confirm("¿Estás seguro de que deseas eliminar este bautismo?")) return;
+    try {
+      await deleteBautismo(id);
+      // Muestra el Snackbar
+      showSnackbar("Bautismo eliminado correctamente!", "success");
+    } catch (e) {
+      console.error(e);
+      showSnackbar("Error al eliminar bautismo!", "error");
+    }
+  };
+
+  const handleEdit = async (bautismo) => {
+    navigate("/edit", { state: { bautismo } })
   };
 
   useEffect(() => {
+
+    if (!bautismos.length) return; // Solo filtra si hay bautismos disponibles
+
     // 🔍 Función para normalizar texto (remueve acentos y lo convierte a minúsculas)
     const normalizeText = (text) =>
       text
@@ -64,6 +79,9 @@ export default function SearchPage({ showSnackbar }) {
               <button onClick={() => handleDelete(bautismo.id)}>Eliminar</button>
               <button onClick={() => generarPDF({ datos: bautismo })} className="submit-button">
                 Generar Fe de Bautismo
+              </button>
+              <button onClick={() => handleEdit(bautismo)} className="submit-button-edit">
+                Editar Bautismo
               </button>
             </li>
           ))

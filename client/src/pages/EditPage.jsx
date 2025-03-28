@@ -1,26 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import { FormGroup } from "../components/FormGroup.jsx";
 import { useBautismoStore } from "../store/useBautismoStore.js";
+import { useLocation } from "react-router-dom";
 
 
-export default function CreatePage({ showSnackbar }) {
+export default function EditPage({ showSnackbar }) {
+  const location = useLocation();
+  const bautismo = location.state?.bautismo;
 
-  const { createBautismo } = useBautismoStore();
+  const { editBautismo } = useBautismoStore();
 
-  const [nombre, setNombre] = useState("");
-  const [fechaBautismo, setFechaBautismo] = useState("");
-  const [lugarBautismo, setLugarBautismo] = useState("");
-  const [lugarNacimiento, setLugarNacimiento] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState("");
-  const [padre, setPadre] = useState("");
-  const [madre, setMadre] = useState("");
-  const [padrino, setPadrino] = useState("");
-  const [madrina, setMadrina] = useState("");
 
-  const handleSubmit = async (e) => {
+  const [nombre, setNombre] = useState(bautismo?.nombre || "");
+  const [lugarBautismo, setLugarBautismo] = useState(bautismo?.lugar_bautismo || "");
+  const [lugarNacimiento, setLugarNacimiento] = useState(bautismo?.lugar_nacimiento || "");
+  const [fechaBautismo, setFechaBautismo] = useState(bautismo?.fecha_bautismo.substring(0, 10) || "");
+  const [fechaNacimiento, setFechaNacimiento] = useState(bautismo?.fecha_nacimiento.substring(0, 10) || "");
+  const [padre, setPadre] = useState(bautismo?.padre || "");
+  const [madre, setMadre] = useState(bautismo?.madre || "");
+  const [padrino, setPadrino] = useState(bautismo?.padrino || "");
+  const [madrina, setMadrina] = useState(bautismo?.madrina || "");
+
+  // 🔄 Sincronizar los inputs con los datos del bautismo cuando se cargue la página o cambie el bautismo seleccionado
+  useEffect(() => {
+    if (bautismo) {
+      setNombre(bautismo.nombre || "");
+      setFechaBautismo(bautismo.fecha_bautismo.substring(0, 10) || "");
+      setLugarBautismo(bautismo.lugar_bautismo || "");
+      setLugarNacimiento(bautismo.lugar_nacimiento || "");
+      setFechaNacimiento(bautismo.fecha_nacimiento.substring(0, 10) || "");
+      setPadre(bautismo.padre || "");
+      setMadre(bautismo.madre || "");
+      setPadrino(bautismo.padrino || "");
+      setMadrina(bautismo.madrina || "");
+    }
+  }, [bautismo]);
+
+  const handleEdit = async (e) => {
     try {
       e.preventDefault();
-      await createBautismo({
+      await editBautismo({
+        id: bautismo.id,
         nombre,
         fecha_bautismo: fechaBautismo,
         lugar_bautismo: lugarBautismo,
@@ -30,29 +51,20 @@ export default function CreatePage({ showSnackbar }) {
         madre,
         padrino,
         madrina,
-        fecha_registro: new Date().toISOString().split("T")[0],
       });
 
-      setNombre("");
-      setFechaBautismo("");
-      setLugarBautismo("");
-      setLugarNacimiento("");
-      setFechaNacimiento("");
-      setPadre("");
-      setMadre("");
-      setPadrino("");
-      setMadrina("");
-      showSnackbar("Bautismo agregado correctamente!", "success");
+      showSnackbar("Bautismo editado correctamente!", "success");
     } catch (e) {
       console.error(e);
-      showSnackbar("Error al agregar bautismo!", "error");
+      showSnackbar("Error al editar bautismo!", "error");
     }
   };
 
+
   return (
     <div className="form-div">
-      <h1 >Registro de Bautismos</h1>
-      <form onSubmit={handleSubmit} className="form-container">
+      <h1 >Registro de {bautismo.nombre} </h1>
+      <form onSubmit={handleEdit} className="form-container">
         <FormGroup
           id="nombre"
           label="Nombre"
@@ -118,7 +130,7 @@ export default function CreatePage({ showSnackbar }) {
           onChange={(e) => setMadrina(e.target.value)}
           required
         />
-        <button type="submit" className="submit-button" >Agregar</button>
+        <button type="submit" className="submit-button" >Editar</button>
       </form>
 
 
