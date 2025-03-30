@@ -74,7 +74,14 @@ li span {
   border-radius: 4px;
   display: flex;
   justify-content: center;
-  height: 80vh;
+  height: 65vh;
+}
+
+@media (max-width: 1100px) {
+  body {
+    padding-top: 10%;
+  }
+
 }
 
 @media (max-width: 600px) {
@@ -111,7 +118,7 @@ li span {
     border-radius: 4px;
     display: flex;
     justify-content: center;
-    height: 80vh;
+    height: 60vh;
     width: 70vw;
   }
 

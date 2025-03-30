@@ -96,7 +96,7 @@ body {
 /* Aseguramos que el contenedor del formulario se ajuste a la pantalla de manera responsive */
 @media (max-width: 600px) {
   body {
-    padding-top: 15%;
+    padding-top: 20%;
   }
 
   .form-container {
