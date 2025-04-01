@@ -1,35 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { descargarSQLDump } from "../functions/getAndDownloadDump.js";
 import "../styles/Navbar.css"
 
-
 export default function NavBar() {
-
+  const location = useLocation();
   return (
-    <header className="header" >
-      <a href="/" className="logo">
-        <img src="/vite.svg" />
-      </a>
+    <nav className="navbar">
+      <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+        <p>Registros</p>
+      </Link>
 
-      <nav className="navbar">
-        <Link to="/">
-          <p>
-            Registros
-          </p>
-        </Link>
+      <Link to="/create" className={location.pathname === "/create" ? "active" : ""}>
+        <p>Crear Registro</p>
+      </Link>
 
-        <Link to="/create">
-          <p>
-            Crear Registro
-          </p>
-        </Link>
-
-        <button onClick={descargarSQLDump} className="button-nav">
-          <p>
-            Exportar BD
-          </p>
-        </button>
-      </nav>
-    </header>
+      <button onClick={descargarSQLDump} className="button-nav">
+        <p>Exportar BD</p>
+      </button>
+    </nav>
   );
 }
