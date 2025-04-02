@@ -7,47 +7,55 @@ export default function CreatePage({ showSnackbar }) {
 
   const { createBautismo } = useBautismoStore();
 
-  const [nombre, setNombre] = useState("");
-  const [fechaBautismo, setFechaBautismo] = useState("");
-  const [lugarBautismo, setLugarBautismo] = useState("");
-  const [lugarNacimiento, setLugarNacimiento] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState("");
-  const [padre, setPadre] = useState("");
-  const [madre, setMadre] = useState("");
-  const [padrino, setPadrino] = useState("");
-  const [madrina, setMadrina] = useState("");
+  const [bautismo, setBautismo] = useState({
+    nombre: "",
+    fecha_bautismo: "",
+    lugar_bautismo: "",
+    lugar_nacimiento: "",
+    fecha_nacimiento: "",
+    padre: "",
+    madre: "",
+    padrino: "",
+    madrina: "",
+  });
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       await createBautismo({
-        nombre,
-        fecha_bautismo: fechaBautismo,
-        lugar_bautismo: lugarBautismo,
-        lugar_nacimiento: lugarNacimiento,
-        fecha_nacimiento: fechaNacimiento,
-        padre,
-        madre,
-        padrino,
-        madrina,
+        nombre: bautismo.nombre,
+        fecha_bautismo: bautismo.fecha_bautismo,
+        lugar_bautismo: bautismo.lugar_bautismo,
+        lugar_nacimiento: bautismo.lugar_nacimiento,
+        fecha_nacimiento: bautismo.fecha_nacimiento,
+        padre: bautismo.padre,
+        madre: bautismo.madre,
+        padrino: bautismo.padrino,
+        madrina: bautismo.madrina,
         fecha_registro: new Date().toISOString().split("T")[0],
       });
 
-      setNombre("");
-      setFechaBautismo("");
-      setLugarBautismo("");
-      setLugarNacimiento("");
-      setFechaNacimiento("");
-      setPadre("");
-      setMadre("");
-      setPadrino("");
-      setMadrina("");
+      setBautismo({
+        nombre: "",
+        fecha_bautismo: "",
+        lugar_bautismo: "",
+        lugar_nacimiento: "",
+        fecha_nacimiento: "",
+        padre: "",
+        madre: "",
+        padrino: "",
+        madrina: "",
+      });
       showSnackbar("Bautismo agregado correctamente!", "success");
     } catch (e) {
       console.error(e);
       showSnackbar("Error al agregar bautismo!", "error");
     }
   };
+
+  const handleChange = (e) => {
+    setBautismo(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  }
 
   return (
     <div className="form-div">
@@ -56,66 +64,66 @@ export default function CreatePage({ showSnackbar }) {
         <FormGroup
           id="nombre"
           label="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          value={bautismo.nombre}
+          onChange={(e) => handleChange(e)}
           required
         />
         <FormGroup
-          id="fechaBautismo"
+          id="fecha_bautismo"
           label="Fecha de Bautismo"
-          value={fechaBautismo}
-          onChange={(e) => setFechaBautismo(e.target.value)}
+          value={bautismo.fecha_bautismo}
+          onChange={(e) => handleChange(e)}
           type="date"
           required
         />
         <FormGroup
-          id="lugarBautismo"
+          id="lugar_bautismo"
           label="Lugar de Bautismo"
-          value={lugarBautismo}
-          onChange={(e) => setLugarBautismo(e.target.value)}
+          value={bautismo.lugar_bautismo}
+          onChange={(e) => handleChange(e)}
           required
         />
         <FormGroup
-          id="lugarNacimiento"
+          id="lugar_nacimiento"
           label="Lugar de Nacimiento"
-          value={lugarNacimiento}
-          onChange={(e) => setLugarNacimiento(e.target.value)}
+          value={bautismo.lugar_nacimiento}
+          onChange={(e) => handleChange(e)}
           required
         />
         <FormGroup
-          id="fechaNacimiento"
+          id="fecha_nacimiento"
           label="Fecha de Nacimiento"
-          value={fechaNacimiento}
-          onChange={(e) => setFechaNacimiento(e.target.value)}
+          value={bautismo.fecha_nacimiento}
+          onChange={(e) => handleChange(e)}
           type="date"
           required
         />
         <FormGroup
           id="padre"
           label="Padre"
-          value={padre}
-          onChange={(e) => setPadre(e.target.value)}
+          value={bautismo.padre}
+          onChange={(e) => handleChange(e)}
           required
         />
         <FormGroup
           id="madre"
           label="Madre"
-          value={madre}
-          onChange={(e) => setMadre(e.target.value)}
+          value={bautismo.madre}
+          onChange={(e) => handleChange(e)}
           required
         />
         <FormGroup
           id="padrino"
           label="Padrino"
-          value={padrino}
-          onChange={(e) => setPadrino(e.target.value)}
+          value={bautismo.padrino}
+          onChange={(e) => handleChange(e)}
           required
         />
         <FormGroup
           id="madrina"
           label="Madrina"
-          value={madrina}
-          onChange={(e) => setMadrina(e.target.value)}
+          value={bautismo.madrina}
+          onChange={(e) => handleChange(e)}
           required
         />
         <button type="submit" className="submit-button" >Agregar</button>
