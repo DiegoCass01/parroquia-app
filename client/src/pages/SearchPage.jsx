@@ -20,9 +20,12 @@ export default function SearchPage({ showSnackbar }) {
   const handleDelete = async (id) => {
     if (!window.confirm("¿Estás seguro de que deseas eliminar este bautismo?")) return;
     try {
-      await deleteBautismo(id);
-      // Muestra el Snackbar
-      showSnackbar("Bautismo eliminado correctamente!", "success");
+      const response = await deleteBautismo(id);
+      if (response?.status === 200) {
+        showSnackbar("Bautismo eliminado correctamente!", "success");
+      } else {
+        showSnackbar("Error al eliminar bautismo!", "error");
+      }
     } catch (e) {
       console.error(e);
       showSnackbar("Error al eliminar bautismo!", "error");

@@ -49,7 +49,6 @@ export default function EditPage({ showSnackbar }) {
       });
       if (response?.status === 200) {
         showSnackbar("Bautismo editado correctamente!", "success");
-
       } else {
         showSnackbar("Error al editar bautismo!", "error");
       }
