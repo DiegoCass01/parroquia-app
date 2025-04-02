@@ -31,6 +31,7 @@
 
 .navbar a:hover {
   background: #444;
+  transition: background 0.3s ease-in-out;
 }
 
 /* 🌟 Estilos para la página activa */
@@ -57,8 +58,8 @@
 /* 🖥️📱 RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   .navbar {
-    height: 20vh;
-    flex-direction: column;
+    height: 10vh;
+    flex-direction: row;
     padding: 10px 0;
   }
 

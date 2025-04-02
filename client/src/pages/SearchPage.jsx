@@ -9,6 +9,7 @@ export default function SearchPage({ showSnackbar }) {
   const { bautismos, fetchBautismos, deleteBautismo } = useBautismoStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredBautismos, setFilteredBautismos] = useState([]);
+  const [filterParam, setFilterParam] = useState("All");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +34,6 @@ export default function SearchPage({ showSnackbar }) {
   };
 
   useEffect(() => {
-
     if (!bautismos.length) return; // Solo filtra si hay bautismos disponibles
 
     // 🔍 Función para normalizar texto (remueve acentos y lo convierte a minúsculas)
@@ -44,11 +44,20 @@ export default function SearchPage({ showSnackbar }) {
         .toLowerCase();
 
     // Filtrar los bautismos basándose en la búsqueda
-    const resultados = bautismos.filter((bautismo) =>
-      normalizeText(bautismo.nombre).includes(normalizeText(searchQuery))
-    );
+    const resultados = bautismos.filter((bautismo) => {
+      // Asegurar que el nombre existe antes de normalizar
+      const nombre = bautismo.nombre ? normalizeText(bautismo.nombre) : "";
+      const nombreMatch = nombre.includes(normalizeText(searchQuery));
+
+      // Manejar fechas inválidas de forma segura
+      const year = bautismo.fecha_bautismo ? new Date(bautismo.fecha_bautismo).getFullYear() : null;
+      const yearMatch = filterParam !== "All" ? year?.toString() === filterParam : true;
+
+      return nombreMatch && yearMatch;
+    });
+
     setFilteredBautismos(resultados);
-  }, [searchQuery, bautismos]);
+  }, [searchQuery, bautismos, filterParam]);
 
 
   return (
@@ -60,7 +69,31 @@ export default function SearchPage({ showSnackbar }) {
           <input type="search" placeholder="Ingrese el nombre" name="q" autoComplete="off" value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} />
         </form>
+        <div className="search-filters">
+          {/* Filtrado por año */}
+          <select
+            onChange={(e) => setFilterParam(e.target.value)}
+            className="filter"
+          >
+            <option value="" disabled selected hidden>Año de bautismo</option>
+            <option value="All">Todos los años</option>
+            {[
+              ...new Set(
+                bautismos
+                  .map((bautismo) => new Date(bautismo.fecha_bautismo).getFullYear()) // Extrae solo el año
+              ),
+            ]
+              .sort((a, b) => b - a) // Ordena los años en orden descendente
+              .map((year, index) => (
+                <option key={index} value={year}>
+                  {year}
+                </option>
+              ))}
+          </select>
+
+        </div>
       </div>
+
 
       {/* Lista de bautismos filtrados */}
       <ul className="bautismo-container">
@@ -76,7 +109,7 @@ export default function SearchPage({ showSnackbar }) {
               <span>Madre: {bautismo.madre}</span>
               <span>Padrino: {bautismo.padrino}</span>
               <span>Madrina: {bautismo.madrina}</span>
-              <button onClick={() => handleDelete(bautismo.id)}>Eliminar</button>
+              <button onClick={() => handleDelete(bautismo.id)} className="submit-button-delete">Eliminar</button>
               <button onClick={() => generarPDF({ datos: bautismo })} className="submit-button">
                 Generar Fe de Bautismo
               </button>

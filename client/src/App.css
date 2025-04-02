@@ -96,7 +96,7 @@ body {
 /* Aseguramos que el contenedor del formulario se ajuste a la pantalla de manera responsive */
 @media (max-width: 600px) {
   body {
-    padding-top: 20%;
+    padding-top: 22%;
   }
 
   .form-container {
@@ -109,7 +109,7 @@ body {
 }
 
 
-button {
+.submit-button-delete {
   background-color: #dc3545;
   color: white;
   padding: 10px;
@@ -119,7 +119,7 @@ button {
   font-size: 1rem;
 }
 
-button:hover {
+.submit-button-delete:hover {
   background-color: #c82333;
 }
 

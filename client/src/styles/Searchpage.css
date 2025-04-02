@@ -17,6 +17,8 @@
   /* Centra verticalmente */
   width: 100%;
   margin: 2% auto;
+
+  flex-direction: column;
 }
 
 .form-search-bautismo {
@@ -30,6 +32,31 @@
   max-width: 500px;
   /* Para que no sea demasiado grande */
   transition: all 0.3s ease;
+}
+
+.search-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  /* Crea dos columnas iguales */
+  align-items: center;
+  width: 60%;
+  background-color: transparent;
+  padding: 15px;
+}
+
+.filter {
+  background-color: #333;
+  color: white;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  width: fit-content;
+  padding: 5px;
+}
+
+.filter:invalid {
+  color: gray;
+  /* Color del placeholder */
 }
 
 .search-bautismo input[type="search"] {
@@ -85,6 +112,10 @@ li span {
 }
 
 @media (max-width: 600px) {
+  body {
+    padding-top: 12%;
+  }
+
   .search-page {
     width: 100%;
   }
