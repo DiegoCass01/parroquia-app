@@ -22,7 +22,7 @@ export default function CreatePage({ showSnackbar }) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      await createBautismo({
+      const response = await createBautismo({
         nombre: bautismo.nombre,
         fecha_bautismo: bautismo.fecha_bautismo,
         lugar_bautismo: bautismo.lugar_bautismo,
@@ -35,21 +35,25 @@ export default function CreatePage({ showSnackbar }) {
         fecha_registro: new Date().toISOString().split("T")[0],
       });
 
-      setBautismo({
-        nombre: "",
-        fecha_bautismo: "",
-        lugar_bautismo: "",
-        lugar_nacimiento: "",
-        fecha_nacimiento: "",
-        padre: "",
-        madre: "",
-        padrino: "",
-        madrina: "",
-      });
-      showSnackbar("Bautismo agregado correctamente!", "success");
-    } catch (e) {
-      console.error(e);
-      showSnackbar("Error al agregar bautismo!", "error");
+      if (response?.status === 200) {
+        setBautismo({
+          nombre: "",
+          fecha_bautismo: "",
+          lugar_bautismo: "",
+          lugar_nacimiento: "",
+          fecha_nacimiento: "",
+          padre: "",
+          madre: "",
+          padrino: "",
+          madrina: "",
+        });
+        showSnackbar("Bautismo creado correctamente!", "success");
+      } else {
+        showSnackbar("Error al crear bautismo!", "error");
+      }
+    } catch (error) {
+      console.error("Error while creating bautismo:", error);
+      showSnackbar("Error de red al crear bautismo!", "error");
     }
   };
 

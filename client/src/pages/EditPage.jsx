@@ -51,8 +51,6 @@ export default function EditPage({ showSnackbar }) {
         showSnackbar("Bautismo editado correctamente!", "success");
 
       } else {
-        console.log("Server response:", response.status);
-
         showSnackbar("Error al editar bautismo!", "error");
       }
     } catch (error) {
