@@ -12,6 +12,8 @@ const FormGroup = ({ id, label, value, onChange, type = "text", required = false
         onChange={onChange}
         className="input"
         required={required}
+        min={type === "date" ? "1900-01-01" : undefined} // Solo para tipo fecha
+        max={type === "date" ? new Date().toISOString().split("T")[0] : undefined} // Solo para tipo fecha
       />
     </div>
   );
