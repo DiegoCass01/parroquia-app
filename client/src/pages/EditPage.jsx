@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { FormGroup } from "../components/FormGroup.jsx";
 import { useBautismoStore } from "../store/useBautismoStore.js";
-import { useLocation } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function EditPage({ showSnackbar }) {
   const location = useLocation();
   const initialBautismo = location.state?.bautismo;
-
+  const navigate = useNavigate();
   const { editBautismo } = useBautismoStore();
 
   // 📌 Estado del formulario
@@ -24,7 +23,7 @@ export default function EditPage({ showSnackbar }) {
     madrina: initialBautismo?.madrina || "",
   });
 
-  const [originalBautismo, setOriginalBautismo] = useState(initialBautismo);
+  const [hasChanges, setHasChanges] = useState(false); // Estado para rastrear cambios en el form
 
   // 🔄 Sincronizar los inputs con los datos del bautismo cuando se cargue la página o cambie el bautismo seleccionado
   useEffect(() => {
@@ -33,17 +32,27 @@ export default function EditPage({ showSnackbar }) {
       fecha_bautismo: prev.fecha_bautismo?.substring(0, 10) || "",
       fecha_nacimiento: prev.fecha_nacimiento?.substring(0, 10) || "",
     }));
+
   }, []);
 
-  const handleEdit = async (e) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
 
+    // Detecta si el nuevo valor es diferente al inicial
+    const isDifferent = initialBautismo?.[id] !== value;
+
+    setBautismo((prev) => ({ ...prev, [id]: value }));
+    setHasChanges(isDifferent);
+  }
+
+  const handleEdit = async (e) => {
     e.preventDefault();
 
-    if (JSON.stringify(initialBautismo) === JSON.stringify(originalBautismo)) {
+    if (!hasChanges) {
       return showSnackbar("No se han realizado cambios!", "warning");
     }
+
     try {
-      e.preventDefault();
       const response = await editBautismo({
         id: bautismo.id,
         nombre: bautismo.nombre,
@@ -56,20 +65,20 @@ export default function EditPage({ showSnackbar }) {
         padrino: bautismo.padrino,
         madrina: bautismo.madrina
       });
+
       if (response?.status === 200) {
+        navigate("/", { replace: true });
         showSnackbar("Bautismo editado correctamente!", "success");
+
       } else {
         showSnackbar("Error al editar bautismo!", "error");
       }
+
     } catch (error) {
       console.error("Error while editing bautismo:", error);
       showSnackbar("Error de red al editar bautismo!", "error");
     }
   };
-
-  const handleChange = (e) => {
-    setBautismo(prev => ({ ...prev, [e.target.id]: e.target.value }));
-  }
 
   return (
     <div className="form-div">
@@ -139,7 +148,7 @@ export default function EditPage({ showSnackbar }) {
           onChange={(e) => handleChange(e)}
           required
         />
-        <button type="submit" className="submit-button" >Editar</button>
+        <button type="submit" className="submit-button">Editar</button>
       </form>
 
 

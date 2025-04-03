@@ -59,31 +59,35 @@ app.post("/api/bautismos", (req, res) => {
     padrino,
     madrina,
   } = req.body;
-  const query =
-    "INSERT INTO bautismos (nombre, fecha_bautismo, lugar_bautismo, fecha_registro, lugar_nacimiento , fecha_nacimiento, padre, madre, padrino, madrina) VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?)"; // Usamos NOW() para establecer la fecha actual
+
+  const query = `
+    INSERT INTO bautismos 
+    (nombre, fecha_bautismo, lugar_bautismo, fecha_registro, lugar_nacimiento, fecha_nacimiento, padre, madre, padrino, madrina) 
+    VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?)
+  `;
+
   pool.query(
     query,
     [
       nombre,
       fecha_bautismo,
       lugar_bautismo,
-      lugar_nacimiento,
+      lugar_nacimiento, // Aquí sigue correcto
       fecha_nacimiento,
       padre,
       madre,
       padrino,
       madrina,
-    ], // No es necesario pasar fecha_registro, lo maneja el servidor
+    ],
     (err, results) => {
       if (err) {
         console.error("Error al crear el bautismo:", err);
-        res.status(500).json({ error: "Error al crear el bautismo" });
-      } else {
-        res.status(201).json({
-          message: "Bautismo creado correctamente",
-          id: results.insertId,
-        });
+        return res.status(500).json({ error: "Error al crear el bautismo" });
       }
+      res.status(201).json({
+        message: "Bautismo creado correctamente",
+        id: results.insertId,
+      });
     }
   );
 });
