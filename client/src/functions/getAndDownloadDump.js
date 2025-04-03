@@ -38,7 +38,9 @@ const descargarSQLDump = () => {
       // Crear un enlace temporal para descargar el archivo
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "bautismos_dump.sql"; // Nombre del archivo
+      const fecha = Date.now();
+      const hoy = new Date(fecha);
+      link.download = `bautismos_dump_${hoy.toLocaleDateString()}.sql`; // Nombre del archivo
       link.click(); // Simular el clic para descargar el archivo
     })
     .catch((error) => {
