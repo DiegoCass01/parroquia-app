@@ -12,6 +12,7 @@ export default function EditPage({ showSnackbar }) {
 
   // 📌 Estado del formulario
   const [bautismo, setBautismo] = useState({
+    id: initialBautismo?.id || "",
     nombre: initialBautismo?.nombre || "",
     fecha_bautismo: typeof initialBautismo?.fecha_bautismo === "string" ? initialBautismo.fecha_bautismo.substring(0, 10) : "",
     lugar_bautismo: initialBautismo?.lugar_bautismo || "",
@@ -23,6 +24,8 @@ export default function EditPage({ showSnackbar }) {
     madrina: initialBautismo?.madrina || "",
   });
 
+  const [originalBautismo, setOriginalBautismo] = useState(initialBautismo);
+
   // 🔄 Sincronizar los inputs con los datos del bautismo cuando se cargue la página o cambie el bautismo seleccionado
   useEffect(() => {
     setBautismo((prev) => ({
@@ -33,10 +36,16 @@ export default function EditPage({ showSnackbar }) {
   }, []);
 
   const handleEdit = async (e) => {
+
+    e.preventDefault();
+
+    if (JSON.stringify(initialBautismo) === JSON.stringify(originalBautismo)) {
+      return showSnackbar("No se han realizado cambios!", "warning");
+    }
     try {
       e.preventDefault();
       const response = await editBautismo({
-        id: initialBautismo.id,
+        id: bautismo.id,
         nombre: bautismo.nombre,
         fecha_bautismo: bautismo.fecha_bautismo,
         lugar_bautismo: bautismo.lugar_bautismo,
