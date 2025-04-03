@@ -77,8 +77,9 @@ export default function SearchPage({ showSnackbar }) {
           <select
             onChange={(e) => setFilterParam(e.target.value)}
             className="filter"
+            defaultValue={"Placeholder"} // <-- Aquí se controla la opción seleccionada
           >
-            <option value="" disabled selected hidden>Año de bautismo</option>
+            <option value="Placeholder" disabled hidden>Año de bautismo</option>
             <option value="All">Todos los años</option>
             {[
               ...new Set(
