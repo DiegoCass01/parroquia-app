@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pool from "./db.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -9,8 +11,36 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173", // Aquí va la URL de tu frontend
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// Middleware para verificar JWT
+const verifyToken = (req, res, next) => {
+  const token = req.headers["authorization"];
+  if (!token) {
+    return res
+      .status(403)
+      .json({ error: "No se proporcionó un token de autorización" });
+  }
+
+  const tokenWithoutBearer = token.startsWith("Bearer ")
+    ? token.slice(7, token.length)
+    : token;
+
+  jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Token no válido o expirado" });
+    }
+    req.user = decoded; // Decodificamos la información del usuario y la añadimos a la solicitud
+    next();
+  });
+};
 
 // Rutas
 app.get("/", (req, res) => {
@@ -58,12 +88,13 @@ app.post("/api/bautismos", (req, res) => {
     madre,
     padrino,
     madrina,
+    registrado_por,
   } = req.body;
 
   const query = `
     INSERT INTO bautismos 
-    (nombre, fecha_bautismo, lugar_bautismo, fecha_registro, lugar_nacimiento, fecha_nacimiento, padre, madre, padrino, madrina) 
-    VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?)
+    (nombre, fecha_bautismo, lugar_bautismo, fecha_registro, lugar_nacimiento, fecha_nacimiento, padre, madre, padrino, madrina, registrado_por) 
+    VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?)
   `;
 
   pool.query(
@@ -72,7 +103,7 @@ app.post("/api/bautismos", (req, res) => {
       nombre,
       fecha_bautismo,
       lugar_bautismo,
-      lugar_nacimiento, // Aquí sigue correcto
+      lugar_nacimiento,
       fecha_nacimiento,
       padre,
       madre,
@@ -160,6 +191,69 @@ app.delete("/api/bautismos/:id", (req, res) => {
       }
     }
   });
+});
+
+// Obtener todos los usuarios
+app.get("/api/usuarios", (req, res) => {
+  pool.query("SELECT * FROM usuarios", (err, results) => {
+    if (err) {
+      console.error("Error al obtener usuarios:", err);
+      res.status(500).json({ error: "Error al obtener los datos" });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Crear un nuevo usuario
+app.post("/api/usuarios", (req, res) => {
+  const { nombre, email, password } = req.body;
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const query =
+    "INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)";
+  pool.query(query, [nombre, email, hashedPassword], (err) => {
+    if (err) return res.status(500).json({ error: "Error al registrar" });
+    res.status(201).json({ message: "Usuario registrado" });
+  });
+});
+
+// Iniciar sesión
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+
+  pool.query(
+    "SELECT * FROM usuarios WHERE email = ?",
+    [email],
+    async (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(401).json({ error: "Credenciales inválidas" });
+      }
+
+      const user = results[0];
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(401).json({ error: "Contraseña incorrecta" });
+      }
+
+      const token = jwt.sign(
+        { id: user.id, nombre: user.nombre },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+
+      res.json({
+        message: "Inicio de sesión exitoso",
+        token: token,
+      });
+    }
+  );
+});
+
+// Cerrar sesión (logout)
+app.post("/api/logout", (req, res) => {
+  // En realidad, no se necesita hacer nada en el servidor con JWT
+  res.json({ message: "Cierre de sesión exitoso" });
 });
 
 // Iniciar el servidor

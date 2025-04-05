@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import { useAuthStore } from "./useAuthStore";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,7 +22,11 @@ export const useBautismoStore = create((set) => ({
 
   createBautismo: async (nuevoBautismo) => {
     try {
-      const res = await axios.post(`${API_URL}/bautismos`, nuevoBautismo);
+      const { user } = useAuthStore.getState(); // 🔹 Obtiene el usuario actual del store
+      const res = await axios.post(`${API_URL}/bautismos`, {
+        ...nuevoBautismo,
+        registrado_por: user?.nombre,
+      });
 
       set((state) => ({
         bautismos: [...state.bautismos, res.data],
