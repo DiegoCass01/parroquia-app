@@ -7,6 +7,7 @@ function parseJwt(token) {
   try {
     return JSON.parse(atob(token.split(".")[1]));
   } catch (e) {
+    console.error("Error al parsear el JWT:", e);
     return null;
   }
 }

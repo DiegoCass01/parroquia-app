@@ -10,6 +10,7 @@ import EditPage from "./pages/EditPage.jsx";
 import LoginPage from "./login/LoginPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import HomeRedirect from "./components/HomeRedirect.jsx";
+import { useAuthStore } from "./store/useAuthStore.js";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
@@ -27,14 +28,17 @@ export default function App() {
     setAlertSeverity(severity);
     setOpenSnackbar(true);
   };
+  const { user } = useAuthStore();
 
   // Asegúrate de no renderizar el NavBar en rutas donde el usuario no debería verlo
-  const shouldRenderNavBar = location.pathname !== "/login" && location.pathname !== "/"; // No mostrar el NavBar en login ni en la home
+  const shouldRenderNavBar = user && location.pathname !== "/login" && location.pathname !== "/";
+
 
   return (
     <div>
       {shouldRenderNavBar && <NavBar />}
       <Routes>
+
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<LoginPage showSnackbar={showSnackbar} />} />
         <Route

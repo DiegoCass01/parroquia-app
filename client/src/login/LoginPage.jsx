@@ -1,20 +1,33 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/useAuthStore.js"; // Asegúrate de que la ruta sea correcta
+import { useAuthStore } from "../store/useAuthStore.js";
 import { useNavigate } from "react-router-dom"; // Para redirigir después del login
+import "../styles/LoginPage.css";
 
 export default function LoginPage({ showSnackbar }) {
   const { login } = useAuthStore();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     // Intentar hacer login
-    const response = await login(email, password);
+    const response = await login(formData.email, formData.password);
 
     if (response.success) {
       showSnackbar("¡Inicio de sesión exitoso!", "success");
@@ -27,31 +40,37 @@ export default function LoginPage({ showSnackbar }) {
   };
 
   return (
-    <div>
-      <h2>Iniciar sesión</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <input
-            type="email"
-            placeholder="Correo"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Cargando..." : "Iniciar sesión"}
-        </button>
-      </form>
+    <div className="login-container">
+      <div className="login-card">
+        <h2>Iniciar sesión</h2>
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Correo"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="login-input"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="login-input"
+            />
+          </div>
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Cargando..." : "Iniciar sesión"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
