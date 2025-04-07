@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { FormGroup } from "../components/FormGroup.jsx";
-import { useBautizoStore } from "../store/useBautizoStore.js";
+import { FormGroup } from "../../components/FormGroup.jsx";
+import { useBautizoStore } from "../../store/useBautizoStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../../styles/bautizos/CreateBautizo.css";
 
-export default function EditPage({ showSnackbar }) {
+export default function EditBautizo({ showSnackbar }) {
   const location = useLocation();
   const initialBautizo = location.state?.bautizo;
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ export default function EditPage({ showSnackbar }) {
 
   return (
     <div className="form-div">
-      <h1>Editar Registro de {bautizo.nombre} {bautizo.a_paterno} {bautizo.a_materno}</h1>
+      <h1>Editar Bautizo de {bautizo.nombre} {bautizo.a_paterno} {bautizo.a_materno}</h1>
       <form onSubmit={handleEdit} className="form-container">
         <FormGroup
           id="nombre"

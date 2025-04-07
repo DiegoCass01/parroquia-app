@@ -6,5 +6,5 @@ import { useAuthStore } from "../store/useAuthStore";
 // Si el usuario está autenticado, lo redirige a "/search", de lo contrario a "/login"
 export default function HomeRedirect() {
   const { user } = useAuthStore();
-  return user ? <Navigate to="/search" /> : <Navigate to="/login" />;
+  return user ? <Navigate to="/homepage" /> : <Navigate to="/login" />;
 }

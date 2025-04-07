@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
+
+
+*/ .homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: transparent;
+  width: 100%;
+  /* Asegura que ocupe todo el ancho disponible */
+  overflow: hidden;
+  /* Asegura que no haya desbordamiento */
+}
+
+.homepage-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: whitesmoke;
+}
+
+.sacramentos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.btn-navigate {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-navigate:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.btn-navigate .btn-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #555;
+}

@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  justify-content: center;
+  /* Centra horizontalmente */
+  align-items: center;
+  /* Centra verticalmente */
+  margin: 0;
+  /* Elimina el margen por defecto */
+  font-family: Arial, sans-serif;
+  /* Fuente general */
+  background-color: #222;
+  padding-top: 5%;
+  /* Ajusta según la altura del navbar */
+}
+
+.form-div {
+  padding-top: 5vh;
+}
+
+/* Estilo para el contenedor principal del formulario */
+.form-container {
+  width: 50vw;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #222;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  /* Mínimo 1.5rem, preferido 5vw, máximo 3rem */
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}

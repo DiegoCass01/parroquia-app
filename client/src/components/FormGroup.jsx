@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css"
+import "../styles/FormGroup.css"; // Asegúrate de que la ruta sea correcta
 
 const FormGroup = ({ id, label, value, onChange, type = "text", required = false }) => {
   return (

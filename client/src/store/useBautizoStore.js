@@ -25,7 +25,6 @@ export const useBautizoStore = create((set) => ({
       const { user } = useAuthStore.getState(); // 🔹 Obtiene el usuario actual del store
       const res = await axios.post(`${API_URL}/bautizos`, {
         ...nuevoBautizo,
-        registrado_por: user?.nombre,
       });
 
       set((state) => ({

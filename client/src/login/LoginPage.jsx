@@ -44,7 +44,7 @@ export default function LoginPage({ showSnackbar }) {
       <div className="login-card">
         <h2>Iniciar sesión</h2>
         <form onSubmit={handleLogin}>
-          <div className="form-group">
+          <div className="form-group-login">
             <input
               type="email"
               name="email"

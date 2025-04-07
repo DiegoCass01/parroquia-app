@@ -81,35 +81,30 @@ app.get("/api/bautizos", (req, res) => {
 app.post("/api/bautizos", (req, res) => {
   const {
     nombre,
-    fecha_bautizo,
+    a_paterno,
+    a_materno,
     lugar_bautizo,
-    lugar_nacimiento,
-    fecha_nacimiento,
-    padre,
-    madre,
-    padrino,
-    madrina,
-    registrado_por,
+    fecha_bautizo,
+    fecha_nac,
+    libro,
+    foja,
+    acta,
   } = req.body;
 
-  const query = `
-    INSERT INTO bautizos 
-    (nombre, fecha_bautizo, lugar_bautizo, fecha_registro, lugar_nacimiento, fecha_nacimiento, padre, madre, padrino, madrina, registrado_por) 
-    VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?)
-  `;
+  const query = `INSERT INTO bautizos (nombre, a_paterno, a_materno, lugar_bautizo, fecha_bautizo, fecha_nac, libro, foja, acta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   pool.query(
     query,
     [
       nombre,
-      fecha_bautizo,
+      a_paterno,
+      a_materno,
       lugar_bautizo,
-      lugar_nacimiento,
-      fecha_nacimiento,
-      padre,
-      madre,
-      padrino,
-      madrina,
+      fecha_bautizo,
+      fecha_nac,
+      libro,
+      foja,
+      acta,
     ],
     (err, results) => {
       if (err) {

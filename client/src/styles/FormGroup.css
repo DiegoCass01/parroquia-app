@@ -1,0 +1,46 @@
+/* Estilo para cada grupo de campos en el formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilo para las etiquetas de los campos */
+.label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+/* Estilo para los inputs del formulario */
+.input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  /* Asegura que el padding no cambie el tamaño total del input */
+  margin-top: 0.25rem;
+}
+
+
+/* Personaliza el color de fondo cuando los campos están autocompletados */
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+  background-color: #fff !important;
+  /* Cambiar el color de fondo */
+  color: #333 !important;
+  /* Cambiar el color del texto */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Para los campos de autocompletado en Firefox */
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  background-color: #fff !important;
+  /* Cambiar el color de fondo */
+  color: #333 !important;
+  /* Cambiar el color del texto */
+}

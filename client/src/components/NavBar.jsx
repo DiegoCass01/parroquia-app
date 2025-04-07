@@ -14,11 +14,11 @@ export default function NavBar() {
 
   return (
     <nav className="navbar">
-      <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+      <Link to="/" className={location.pathname === "/homepage" ? "active" : ""}>
         <p>Registros</p>
       </Link>
 
-      <Link to="/create" className={location.pathname === "/create" ? "active" : ""}>
+      <Link to="/create/bautizo" className={location.pathname === "/create/bautizo" ? "active" : ""}>
         <p>Crear Registro</p>
       </Link>
 

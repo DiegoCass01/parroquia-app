@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { generarPDF } from "../functions/feBautizoPdf.js";
-import { useBautizoStore } from "../store/useBautizoStore.js";
-import "../styles/Searchpage.css"
+import { generarPDF } from "../../functions/feBautizoPdf.js";
+import { useBautizoStore } from "../../store/useBautizoStore.js";
+import "../../styles/bautizos/SearchBautizo.css";
 import { useNavigate } from "react-router-dom";
-import { formatDateLong } from "../functions/formatDate.js";
+import { formatDateLong } from "../../functions/formatDate.js";
+import { SearchBar } from "../../components/SearchBar.jsx";
 
-export default function SearchPage({ showSnackbar }) {
+export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredBautizos, setFilteredBautizos] = useState([]);
@@ -33,7 +34,7 @@ export default function SearchPage({ showSnackbar }) {
   };
 
   const handleEdit = async (bautizo) => {
-    navigate("/edit", { state: { bautizo } })
+    navigate("/edit/bautizo", { state: { bautizo } })
   };
 
   // Function to normalize text (removes accents and converts to lowercase)
@@ -72,36 +73,7 @@ export default function SearchPage({ showSnackbar }) {
     <div className="search-page">
       <h1>Busqueda de Bautizo</h1>
 
-      <div className="search-bautizo">
-        <form className="form-search-bautizo">
-          <input type="search" placeholder="Ingrese el nombre" name="q" autoComplete="off" value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} />
-        </form>
-        <div className="search-filters">
-          {/* Filtrado por año */}
-          <select
-            onChange={(e) => setFilterParam(e.target.value)}
-            className="filter"
-            defaultValue={"Placeholder"} // <-- Aquí se controla la opción seleccionada
-          >
-            <option value="Placeholder" disabled hidden>Año de bautizo</option>
-            <option value="All">Todos los años</option>
-            {[
-              ...new Set(
-                bautizos
-                  .map((bautizo) => new Date(bautizo.fecha_bautizo).getFullYear()) // Extrae solo el año
-              ),
-            ]
-              .sort((a, b) => b - a) // Ordena los años en orden descendente
-              .map((year, index) => (
-                <option key={index} value={year}>
-                  {year}
-                </option>
-              ))}
-          </select>
-
-        </div>
-      </div>
+      <SearchBar bautizos={filteredBautizos} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} />
 
 
       {/* Lista de bautizos filtrados */}
