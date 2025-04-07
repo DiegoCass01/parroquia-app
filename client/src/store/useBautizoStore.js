@@ -34,27 +34,27 @@ export const useBautizoStore = create((set) => ({
 
       return res;
     } catch (error) {
-      console.error("Error al crear bautismo", error);
+      console.error("Error al crear bautizo", error);
       return null; // ❌ Retorna null en caso de error
     }
   },
 
-  editBautizo: async (bautismo) => {
+  editBautizo: async (bautizo) => {
     try {
       const res = await axios.put(
-        `${API_URL}/bautizos/${bautismo.id}`,
-        bautismo
+        `${API_URL}/bautizos/${bautizo.id_bautizo}`,
+        bautizo
       );
 
       set((state) => ({
         bautizos: state.bautizos.map(
-          (b) => (b.id === bautismo.id ? { ...b, ...bautismo } : b) // 🔹 Asegura que los cambios se reflejen en el estado
+          (b) => (b.id === bautizo.id_bautizo ? { ...b, ...bautizo } : b) // 🔹 Asegura que los cambios se reflejen en el estado
         ),
       }));
 
       return res;
     } catch (error) {
-      console.error("Error al editar bautismo", error);
+      console.error("Error al editar bautizo", error);
       return null; // ❌ Retorna null en caso de error
     }
   },
@@ -64,12 +64,12 @@ export const useBautizoStore = create((set) => ({
       const res = await axios.delete(`${API_URL}/bautizos/${id}`);
 
       set((state) => ({
-        bautizos: state.bautizos.filter((b) => b.id_bautismo !== id),
+        bautizos: state.bautizos.filter((b) => b.id_bautizo !== id),
       }));
 
       return res;
     } catch (error) {
-      console.error("Error al eliminar bautismo", error);
+      console.error("Error al eliminar bautizo", error);
       return null; // ❌ Retorna null en caso de error
     }
   },

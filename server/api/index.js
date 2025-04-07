@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const DB_HOST = process.env.DB_HOST;
 
 // Middleware
@@ -60,13 +60,13 @@ app.get("/api/bautizos", (req, res) => {
   });
 });
 
-// Obtener un bautismo por ID
+// Obtener un bautizo por ID
 // app.get("/api/bautizos/:id", (req, res) => {
 //   const { id } = req.params;
 //   pool.query("SELECT * FROM bautizos WHERE id = ?", [id], (err, results) => {
 //     if (err) {
-//       console.error("Error al obtener bautismo:", err);
-//       res.status(500).json({ error: "Error al obtener el bautismo" });
+//       console.error("Error al obtener bautizo:", err);
+//       res.status(500).json({ error: "Error al obtener el bautizo" });
 //     } else {
 //       if (results.length > 0) {
 //         res.json(results[0]);
@@ -77,12 +77,12 @@ app.get("/api/bautizos", (req, res) => {
 //   });
 // });
 
-// Crear un nuevo bautismo
+// Crear un nuevo bautizo
 app.post("/api/bautizos", (req, res) => {
   const {
     nombre,
-    fecha_bautismo,
-    lugar_bautismo,
+    fecha_bautizo,
+    lugar_bautizo,
     lugar_nacimiento,
     fecha_nacimiento,
     padre,
@@ -94,7 +94,7 @@ app.post("/api/bautizos", (req, res) => {
 
   const query = `
     INSERT INTO bautizos 
-    (nombre, fecha_bautismo, lugar_bautismo, fecha_registro, lugar_nacimiento, fecha_nacimiento, padre, madre, padrino, madrina, registrado_por) 
+    (nombre, fecha_bautizo, lugar_bautizo, fecha_registro, lugar_nacimiento, fecha_nacimiento, padre, madre, padrino, madrina, registrado_por) 
     VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?)
   `;
 
@@ -102,8 +102,8 @@ app.post("/api/bautizos", (req, res) => {
     query,
     [
       nombre,
-      fecha_bautismo,
-      lugar_bautismo,
+      fecha_bautizo,
+      lugar_bautizo,
       lugar_nacimiento,
       fecha_nacimiento,
       padre,
@@ -113,8 +113,8 @@ app.post("/api/bautizos", (req, res) => {
     ],
     (err, results) => {
       if (err) {
-        console.error("Error al crear el bautismo:", err);
-        return res.status(500).json({ error: "Error al crear el bautismo" });
+        console.error("Error al crear el bautizo:", err);
+        return res.status(500).json({ error: "Error al crear el bautizo" });
       }
       res.status(201).json({
         message: "Bautismo creado correctamente",
@@ -124,44 +124,39 @@ app.post("/api/bautizos", (req, res) => {
   );
 });
 
-// Actualizar un bautismo
-app.put("/api/bautizos/:id", (req, res) => {
-  const { id } = req.params;
+// Actualizar un bautizo
+app.put("/api/bautizos/:id_bautizo", (req, res) => {
+  const { id_bautizo } = req.params;
   const {
     nombre,
-    fecha_bautismo,
-    lugar_bautismo,
-    lugar_nacimiento,
-    fecha_nacimiento,
-    padre,
-    madre,
-    padrino,
-    madrina,
+    a_paterno,
+    a_materno,
+    lugar_bautizo,
+    fecha_bautizo,
+    fecha_nac,
+    libro,
+    foja,
+    acta,
   } = req.body;
-  const query = `
-    UPDATE bautizos 
-    SET nombre = ?, fecha_bautismo = ?, lugar_bautismo = ?, 
-        lugar_nacimiento = ?, fecha_nacimiento = ?, 
-        padre = ?, madre = ?, padrino = ?, madrina = ? 
-    WHERE id = ?`;
+  const query = `UPDATE bautizos SET nombre = ?, a_paterno = ?, a_materno = ?, lugar_bautizo = ?, fecha_bautizo = ?, fecha_nac = ?, libro = ?, foja = ?, acta = ? WHERE id_bautizo = ?`;
   pool.query(
     query,
     [
       nombre,
-      fecha_bautismo,
-      lugar_bautismo,
-      lugar_nacimiento,
-      fecha_nacimiento,
-      padre,
-      madre,
-      padrino,
-      madrina,
-      id,
+      a_paterno,
+      a_materno,
+      lugar_bautizo,
+      fecha_bautizo,
+      fecha_nac,
+      libro,
+      foja,
+      acta,
+      id_bautizo,
     ],
     (err, results) => {
       if (err) {
-        console.error("Error al actualizar el bautismo:", err);
-        res.status(500).json({ error: "Error al actualizar el bautismo" });
+        console.error("Error al actualizar el bautizo:", err);
+        res.status(500).json({ error: "Error al actualizar el bautizo" });
       } else {
         if (results.affectedRows > 0) {
           res.json({
@@ -175,16 +170,16 @@ app.put("/api/bautizos/:id", (req, res) => {
   );
 });
 
-// Eliminar un bautismo
-app.delete("/api/bautizos/:id_bautismo", (req, res) => {
-  const { id_bautismo } = req.params;
+// Eliminar un bautizo
+app.delete("/api/bautizos/:id_bautizo", (req, res) => {
+  const { id_bautizo } = req.params;
   pool.query(
-    "DELETE FROM bautizos WHERE id_bautismo = ?",
-    [id_bautismo],
+    "DELETE FROM bautizos WHERE id_bautizo = ?",
+    [id_bautizo],
     (err, results) => {
       if (err) {
-        console.error("Error al eliminar el bautismo:", err);
-        res.status(500).json({ error: "Error al eliminar el bautismo" });
+        console.error("Error al eliminar el bautizo:", err);
+        res.status(500).json({ error: "Error al eliminar el bautizo" });
       } else {
         if (results.affectedRows > 0) {
           res.json({

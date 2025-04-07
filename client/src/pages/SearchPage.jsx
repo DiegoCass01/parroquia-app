@@ -112,12 +112,7 @@ export default function SearchPage({ showSnackbar }) {
               <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
               <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
               <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
-              {/* <span>Lugar Nacimiento: {bautizo.lugar_nacimiento}</span>*/}
               <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
-              {/* <span>Padre: {bautizo.padre}</span>
-              <span>Madre: {bautizo.madre}</span>
-              <span>Padrino: {bautizo.padrino}</span>
-              <span>Madrina: {bautizo.madrina}</span> */}
               <button onClick={() => handleDelete(bautizo.id_bautizo)} className="submit-button-delete">Eliminar</button>
               <button onClick={() => generarPDF({ datos: bautizo })} className="submit-button">
                 Generar Fe de Bautizo

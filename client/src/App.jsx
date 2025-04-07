@@ -29,7 +29,7 @@ export default function App() {
   };
 
   // Asegúrate de no renderizar el NavBar en rutas donde el usuario no debería verlo
-  const shouldRenderNavBar = location.pathname !== "/login" && location.pathname !== "/search"; // No mostrar el NavBar en login ni en la home
+  const shouldRenderNavBar = location.pathname !== "/login" && location.pathname !== "/"; // No mostrar el NavBar en login ni en la home
 
   return (
     <div>
