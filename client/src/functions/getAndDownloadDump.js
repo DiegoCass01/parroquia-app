@@ -25,7 +25,7 @@ const obtenerYGenerarDump = async (apiUrl) => {
 };
 
 const descargarSQLDump = () => {
-  obtenerYGenerarDump(`${API_URL}/bautismos`)
+  obtenerYGenerarDump(`${API_URL}/bautizos`)
     .then((dump) => {
       if (!dump) {
         console.error("No se pudo generar el dump");
@@ -40,7 +40,7 @@ const descargarSQLDump = () => {
       link.href = URL.createObjectURL(blob);
       const fecha = Date.now();
       const hoy = new Date(fecha);
-      link.download = `bautismos_dump_${hoy.toLocaleDateString()}.sql`; // Nombre del archivo
+      link.download = `bautizos_dump_${hoy.toLocaleDateString()}.sql`; // Nombre del archivo
       link.click(); // Simular el clic para descargar el archivo
     })
     .catch((error) => {

@@ -1,7 +1,7 @@
 import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import { useEffect, useState } from "react";
-import { useBautismoStore } from "./store/useBautismoStore.js";
+import { useBautizoStore } from "./store/useBautizoStore.js";
 import { Route, Routes } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
 import SearchPage from "./pages/SearchPage.jsx";
@@ -12,11 +12,11 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import HomeRedirect from "./components/HomeRedirect.jsx";
 
 export default function App() {
-  const { fetchBautismos } = useBautismoStore();
+  const { fetchBautizos } = useBautizoStore();
 
   useEffect(() => {
-    fetchBautismos();
-  }, [fetchBautismos]);
+    fetchBautizos();
+  }, [fetchBautizos]);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -29,7 +29,7 @@ export default function App() {
   };
 
   // Asegúrate de no renderizar el NavBar en rutas donde el usuario no debería verlo
-  const shouldRenderNavBar = location.pathname !== "/login" && location.pathname !== "/"; // No mostrar el NavBar en login ni en la home
+  const shouldRenderNavBar = location.pathname !== "/login" && location.pathname !== "/search"; // No mostrar el NavBar en login ni en la home
 
   return (
     <div>

@@ -16,11 +16,11 @@ const generarPDF = ({ datos }) => {
 
     // Título principal
     doc.setFontSize(24);
-    doc.text("FE DE BAUTISMO", 105, 70, { align: "center" });
+    doc.text("FE DE BAUTIZO", 105, 70, { align: "center" });
 
     // Subtítulo
     doc.setFontSize(16);
-    doc.text(`Iglesia: ${datos.lugar_bautismo}`, 105, 90, { align: "center" });
+    doc.text(`Iglesia: ${datos.lugar_bautizo}`, 105, 90, { align: "center" });
 
     // Detalles del bautizo
     doc.setFontSize(12);
@@ -28,7 +28,7 @@ const generarPDF = ({ datos }) => {
     doc.text(`Nombre del Padre: ${datos.padre}`, 20, 130);
     doc.text(`Nombre de la Madre: ${datos.madre}`, 20, 140);
     // Usar esta función en los textos donde se necesita la fecha
-    doc.text(`Fecha del Bautizo: ${formatDate(datos.fecha_bautismo)}`, 20, 150);
+    doc.text(`Fecha del Bautizo: ${formatDate(datos.fecha_bautizo)}`, 20, 150);
 
     // Firmas
     doc.text("Firma del Padre:", 20, 170);
@@ -48,10 +48,10 @@ const generarPDF = ({ datos }) => {
     );
 
     // Para mostrar en lugar de descargar:
-    // doc.open('fe_de_bautismo.pdf');
+    // doc.open('fe_de_bautizo.pdf');
 
     // Descargar el PDF
-    doc.save(`fe_de_bautismo_${datos.nombre}.pdf`);
+    doc.save(`fe_de_bautizo_${datos.nombre}.pdf`);
   };
   img.onerror = (err) => {
     console.error("Error al cargar la imagen:", err);

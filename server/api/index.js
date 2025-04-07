@@ -9,6 +9,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const DB_HOST = process.env.DB_HOST;
 
 // Middleware
 const corsOptions = {
@@ -47,11 +48,11 @@ app.get("/", (req, res) => {
   res.send("✅ Servidor corriendo correctamente!");
 });
 
-// Obtener todos los bautismos
-app.get("/api/bautismos", (req, res) => {
-  pool.query("SELECT * FROM bautismos", (err, results) => {
+// Obtener todos los bautizos
+app.get("/api/bautizos", (req, res) => {
+  pool.query("SELECT * FROM bautizos", (err, results) => {
     if (err) {
-      console.error("Error al obtener bautismos:", err);
+      console.error("Error al obtener bautizos:", err);
       res.status(500).json({ error: "Error al obtener los datos" });
     } else {
       res.json(results);
@@ -60,24 +61,24 @@ app.get("/api/bautismos", (req, res) => {
 });
 
 // Obtener un bautismo por ID
-app.get("/api/bautismos/:id", (req, res) => {
-  const { id } = req.params;
-  pool.query("SELECT * FROM bautismos WHERE id = ?", [id], (err, results) => {
-    if (err) {
-      console.error("Error al obtener bautismo:", err);
-      res.status(500).json({ error: "Error al obtener el bautismo" });
-    } else {
-      if (results.length > 0) {
-        res.json(results[0]);
-      } else {
-        res.status(404).json({ error: "Bautismo no encontrado" });
-      }
-    }
-  });
-});
+// app.get("/api/bautizos/:id", (req, res) => {
+//   const { id } = req.params;
+//   pool.query("SELECT * FROM bautizos WHERE id = ?", [id], (err, results) => {
+//     if (err) {
+//       console.error("Error al obtener bautismo:", err);
+//       res.status(500).json({ error: "Error al obtener el bautismo" });
+//     } else {
+//       if (results.length > 0) {
+//         res.json(results[0]);
+//       } else {
+//         res.status(404).json({ error: "Bautismo no encontrado" });
+//       }
+//     }
+//   });
+// });
 
 // Crear un nuevo bautismo
-app.post("/api/bautismos", (req, res) => {
+app.post("/api/bautizos", (req, res) => {
   const {
     nombre,
     fecha_bautismo,
@@ -92,7 +93,7 @@ app.post("/api/bautismos", (req, res) => {
   } = req.body;
 
   const query = `
-    INSERT INTO bautismos 
+    INSERT INTO bautizos 
     (nombre, fecha_bautismo, lugar_bautismo, fecha_registro, lugar_nacimiento, fecha_nacimiento, padre, madre, padrino, madrina, registrado_por) 
     VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?)
   `;
@@ -124,7 +125,7 @@ app.post("/api/bautismos", (req, res) => {
 });
 
 // Actualizar un bautismo
-app.put("/api/bautismos/:id", (req, res) => {
+app.put("/api/bautizos/:id", (req, res) => {
   const { id } = req.params;
   const {
     nombre,
@@ -138,7 +139,7 @@ app.put("/api/bautismos/:id", (req, res) => {
     madrina,
   } = req.body;
   const query = `
-    UPDATE bautismos 
+    UPDATE bautizos 
     SET nombre = ?, fecha_bautismo = ?, lugar_bautismo = ?, 
         lugar_nacimiento = ?, fecha_nacimiento = ?, 
         padre = ?, madre = ?, padrino = ?, madrina = ? 
@@ -175,22 +176,26 @@ app.put("/api/bautismos/:id", (req, res) => {
 });
 
 // Eliminar un bautismo
-app.delete("/api/bautismos/:id", (req, res) => {
-  const { id } = req.params;
-  pool.query("DELETE FROM bautismos WHERE id = ?", [id], (err, results) => {
-    if (err) {
-      console.error("Error al eliminar el bautismo:", err);
-      res.status(500).json({ error: "Error al eliminar el bautismo" });
-    } else {
-      if (results.affectedRows > 0) {
-        res.json({
-          message: "Bautismo eliminado correctamente",
-        });
+app.delete("/api/bautizos/:id_bautismo", (req, res) => {
+  const { id_bautismo } = req.params;
+  pool.query(
+    "DELETE FROM bautizos WHERE id_bautismo = ?",
+    [id_bautismo],
+    (err, results) => {
+      if (err) {
+        console.error("Error al eliminar el bautismo:", err);
+        res.status(500).json({ error: "Error al eliminar el bautismo" });
       } else {
-        res.status(404).json({ error: "Bautismo no encontrado" });
+        if (results.affectedRows > 0) {
+          res.json({
+            message: "Bautismo eliminado correctamente",
+          });
+        } else {
+          res.status(404).json({ error: "Bautismo no encontrado" });
+        }
       }
     }
-  });
+  );
 });
 
 // Obtener todos los usuarios
@@ -207,23 +212,27 @@ app.get("/api/usuarios", (req, res) => {
 
 // Crear un nuevo usuario
 app.post("/api/usuarios", (req, res) => {
-  const { nombre, email, password } = req.body;
+  const { nombre, a_paterno, a_materno, n_usuario, correo, password, rol } =
+    req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
-  const query =
-    "INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)";
-  pool.query(query, [nombre, email, hashedPassword], (err) => {
-    if (err) return res.status(500).json({ error: "Error al registrar" });
-    res.status(201).json({ message: "Usuario registrado" });
-  });
+  const query = `INSERT INTO usuarios ( nombre, a_paterno, a_materno,n_usuario, correo, password, rol) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  pool.query(
+    query,
+    [nombre, a_paterno, a_materno, n_usuario, correo, hashedPassword, rol],
+    (err) => {
+      if (err) return res.status(500).json({ error: err });
+      res.status(201).json({ message: "Usuario registrado" });
+    }
+  );
 });
 
 // Iniciar sesión
 app.post("/api/login", (req, res) => {
-  const { email, password } = req.body;
+  const { correo, password } = req.body;
 
   pool.query(
-    "SELECT * FROM usuarios WHERE email = ?",
-    [email],
+    "SELECT * FROM usuarios WHERE correo = ?",
+    [correo],
     async (err, results) => {
       if (err || results.length === 0) {
         return res.status(401).json({ error: "Credenciales inválidas" });
@@ -257,6 +266,6 @@ app.post("/api/logout", (req, res) => {
 });
 
 // Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Servidor corriendo en http://${DB_HOST}:${PORT}`);
 });

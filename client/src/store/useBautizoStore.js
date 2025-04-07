@@ -4,32 +4,32 @@ import { useAuthStore } from "./useAuthStore";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const useBautismoStore = create((set) => ({
-  bautismos: [],
+export const useBautizoStore = create((set) => ({
+  bautizos: [],
 
-  fetchBautismos: async () => {
+  fetchBautizos: async () => {
     try {
-      const res = await axios.get(`${API_URL}/bautismos`);
+      const res = await axios.get(`${API_URL}/bautizos`);
 
-      set({ bautismos: res.data });
+      set({ bautizos: res.data });
 
       return res;
     } catch (error) {
-      console.error("Error al obtener bautismos", error);
+      console.error("Error al obtener bautizos", error);
       return null; // ❌ Retorna null en caso de error
     }
   },
 
-  createBautismo: async (nuevoBautismo) => {
+  createBautizo: async (nuevoBautizo) => {
     try {
       const { user } = useAuthStore.getState(); // 🔹 Obtiene el usuario actual del store
-      const res = await axios.post(`${API_URL}/bautismos`, {
-        ...nuevoBautismo,
+      const res = await axios.post(`${API_URL}/bautizos`, {
+        ...nuevoBautizo,
         registrado_por: user?.nombre,
       });
 
       set((state) => ({
-        bautismos: [...state.bautismos, res.data],
+        bautizos: [...state.bautizos, res.data],
       }));
 
       return res;
@@ -39,15 +39,15 @@ export const useBautismoStore = create((set) => ({
     }
   },
 
-  editBautismo: async (bautismo) => {
+  editBautizo: async (bautismo) => {
     try {
       const res = await axios.put(
-        `${API_URL}/bautismos/${bautismo.id}`,
+        `${API_URL}/bautizos/${bautismo.id}`,
         bautismo
       );
 
       set((state) => ({
-        bautismos: state.bautismos.map(
+        bautizos: state.bautizos.map(
           (b) => (b.id === bautismo.id ? { ...b, ...bautismo } : b) // 🔹 Asegura que los cambios se reflejen en el estado
         ),
       }));
@@ -59,12 +59,12 @@ export const useBautismoStore = create((set) => ({
     }
   },
 
-  deleteBautismo: async (id) => {
+  deleteBautizo: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/bautismos/${id}`);
+      const res = await axios.delete(`${API_URL}/bautizos/${id}`);
 
       set((state) => ({
-        bautismos: state.bautismos.filter((b) => b.id !== id),
+        bautizos: state.bautizos.filter((b) => b.id_bautismo !== id),
       }));
 
       return res;

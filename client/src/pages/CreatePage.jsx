@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { FormGroup } from "../components/FormGroup.jsx";
-import { useBautismoStore } from "../store/useBautismoStore.js";
+import { useBautizoStore } from "../store/useBautizoStore.js";
 
 
 export default function CreatePage({ showSnackbar }) {
 
-  const { createBautismo } = useBautismoStore();
+  const { createBautizo } = useBautizoStore();
 
-  const [bautismo, setBautismo] = useState({
+  const [bautismo, setBautizo] = useState({
     nombre: "",
     fecha_bautismo: "",
     lugar_bautismo: "",
@@ -23,7 +23,7 @@ export default function CreatePage({ showSnackbar }) {
     e.preventDefault();
 
     try {
-      const response = await createBautismo({
+      const response = await createBautizo({
         nombre: bautismo.nombre,
         fecha_bautismo: bautismo.fecha_bautismo,
         lugar_bautismo: bautismo.lugar_bautismo,
@@ -37,7 +37,7 @@ export default function CreatePage({ showSnackbar }) {
       });
 
       if (response && response.status >= 200 && response.status < 300) {
-        setBautismo({
+        setBautizo({
           nombre: "",
           fecha_bautismo: "",
           lugar_bautismo: "",
@@ -48,7 +48,7 @@ export default function CreatePage({ showSnackbar }) {
           padrino: "",
           madrina: "",
         });
-        showSnackbar("Bautismo creado correctamente!", "success");
+        showSnackbar("Bautizo creado correctamente!", "success");
       } else {
         console.error("Error creating bautismo:", response?.data || response);
         showSnackbar("Error al crear bautismo!", "error");
@@ -61,12 +61,12 @@ export default function CreatePage({ showSnackbar }) {
   };
 
   const handleChange = (e) => {
-    setBautismo(prev => ({ ...prev, [e.target.id]: e.target.value }));
+    setBautizo(prev => ({ ...prev, [e.target.id]: e.target.value }));
   }
 
   return (
     <div className="form-div">
-      <h1 >Registro de Bautismos</h1>
+      <h1 >Registro de Bautizos</h1>
       <form onSubmit={handleSubmit} className="form-container">
         <FormGroup
           id="nombre"
@@ -77,7 +77,7 @@ export default function CreatePage({ showSnackbar }) {
         />
         <FormGroup
           id="fecha_bautismo"
-          label="Fecha de Bautismo"
+          label="Fecha de Bautizo"
           value={bautismo.fecha_bautismo}
           onChange={(e) => handleChange(e)}
           type="date"
@@ -85,7 +85,7 @@ export default function CreatePage({ showSnackbar }) {
         />
         <FormGroup
           id="lugar_bautismo"
-          label="Lugar de Bautismo"
+          label="Lugar de Bautizo"
           value={bautismo.lugar_bautismo}
           onChange={(e) => handleChange(e)}
           required

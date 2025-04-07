@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
 import { FormGroup } from "../components/FormGroup.jsx";
-import { useBautismoStore } from "../store/useBautismoStore.js";
+import { useBautizoStore } from "../store/useBautizoStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function EditPage({ showSnackbar }) {
   const location = useLocation();
-  const initialBautismo = location.state?.bautismo;
+  const initialBautizo = location.state?.bautismo;
   const navigate = useNavigate();
-  const { editBautismo } = useBautismoStore();
+  const { editBautizo } = useBautizoStore();
 
   // 📌 Estado del formulario
-  const [bautismo, setBautismo] = useState({
-    id: initialBautismo?.id || "",
-    nombre: initialBautismo?.nombre || "",
-    fecha_bautismo: typeof initialBautismo?.fecha_bautismo === "string" ? initialBautismo.fecha_bautismo.substring(0, 10) : "",
-    lugar_bautismo: initialBautismo?.lugar_bautismo || "",
-    lugar_nacimiento: initialBautismo?.lugar_nacimiento || "",
-    fecha_nacimiento: typeof initialBautismo?.fecha_nacimiento === "string" ? initialBautismo.fecha_nacimiento.substring(0, 10) : "",
-    padre: initialBautismo?.padre || "",
-    madre: initialBautismo?.madre || "",
-    padrino: initialBautismo?.padrino || "",
-    madrina: initialBautismo?.madrina || "",
+  const [bautismo, setBautizo] = useState({
+    id: initialBautizo?.id || "",
+    nombre: initialBautizo?.nombre || "",
+    fecha_bautismo: typeof initialBautizo?.fecha_bautismo === "string" ? initialBautizo.fecha_bautismo.substring(0, 10) : "",
+    lugar_bautismo: initialBautizo?.lugar_bautismo || "",
+    lugar_nacimiento: initialBautizo?.lugar_nacimiento || "",
+    fecha_nacimiento: typeof initialBautizo?.fecha_nacimiento === "string" ? initialBautizo.fecha_nacimiento.substring(0, 10) : "",
+    padre: initialBautizo?.padre || "",
+    madre: initialBautizo?.madre || "",
+    padrino: initialBautizo?.padrino || "",
+    madrina: initialBautizo?.madrina || "",
   });
 
   const [hasChanges, setHasChanges] = useState(false); // Estado para rastrear cambios en el form
 
   // 🔄 Sincronizar los inputs con los datos del bautismo cuando se cargue la página o cambie el bautismo seleccionado
   useEffect(() => {
-    setBautismo((prev) => ({
+    setBautizo((prev) => ({
       ...prev,
       fecha_bautismo: prev.fecha_bautismo?.substring(0, 10) || "",
       fecha_nacimiento: prev.fecha_nacimiento?.substring(0, 10) || "",
@@ -39,9 +39,9 @@ export default function EditPage({ showSnackbar }) {
     const { id, value } = e.target;
 
     // Detecta si el nuevo valor es diferente al inicial
-    const isDifferent = initialBautismo?.[id] !== value;
+    const isDifferent = initialBautizo?.[id] !== value;
 
-    setBautismo((prev) => ({ ...prev, [id]: value }));
+    setBautizo((prev) => ({ ...prev, [id]: value }));
     setHasChanges(isDifferent);
   }
 
@@ -53,7 +53,7 @@ export default function EditPage({ showSnackbar }) {
     }
 
     try {
-      const response = await editBautismo({
+      const response = await editBautizo({
         id: bautismo.id,
         nombre: bautismo.nombre,
         fecha_bautismo: bautismo.fecha_bautismo,
@@ -68,7 +68,7 @@ export default function EditPage({ showSnackbar }) {
 
       if (response?.status === 200) {
         navigate("/", { replace: true });
-        showSnackbar("Bautismo editado correctamente!", "success");
+        showSnackbar("Bautizo editado correctamente!", "success");
 
       } else {
         showSnackbar("Error al editar bautismo!", "error");
@@ -92,7 +92,7 @@ export default function EditPage({ showSnackbar }) {
         />
         <FormGroup
           id="fecha_bautismo"
-          label="Fecha de Bautismo"
+          label="Fecha de Bautizo"
           value={bautismo.fecha_bautismo}
           onChange={(e) => handleChange(e)}
           type="date"
@@ -100,7 +100,7 @@ export default function EditPage({ showSnackbar }) {
         />
         <FormGroup
           id="lugar_bautismo"
-          label="Lugar de Bautismo"
+          label="Lugar de Bautizo"
           value={bautismo.lugar_bautismo}
           onChange={(e) => handleChange(e)}
           name="lugar_nacimiento"

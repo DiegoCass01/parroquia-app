@@ -15,10 +15,10 @@ export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem("user")) || null,
   token: localStorage.getItem("token") || null,
 
-  login: async (email, password) => {
+  login: async (correo, password) => {
     try {
       const res = await axios.post(`${API_URL}/login`, {
-        email,
+        correo,
         password,
       });
 

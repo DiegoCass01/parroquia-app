@@ -9,7 +9,7 @@
   padding-top: 5vh;
 }
 
-.search-bautismo {
+.search-bautizo {
   display: flex;
   justify-content: center;
   /* Centra horizontalmente */
@@ -21,7 +21,7 @@
   flex-direction: column;
 }
 
-.form-search-bautismo {
+.form-search-bautizo {
   display: flex;
   background: transparent;
   padding: 10px;
@@ -59,7 +59,7 @@
   /* Color del placeholder */
 }
 
-.search-bautismo input[type="search"] {
+.search-bautizo input[type="search"] {
   border: none;
   outline: none;
   background: transparent;
@@ -69,18 +69,18 @@
   width: 100%;
 }
 
-.search-bautismo input[type="search"]::placeholder {
+.search-bautizo input[type="search"]::placeholder {
   font-weight: bold;
   color: #999;
 }
 
-.bautismo-container {
+.bautizo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.bautismo-item {
+.bautizo-item {
   width: 50vw;
   border: 1px solid #ffffff;
   margin-bottom: 4%;
@@ -120,11 +120,11 @@ li span {
     width: 100%;
   }
 
-  .search-bautismo form {
+  .search-bautizo form {
     width: 90%;
   }
 
-  .bautismo-container {
+  .bautizo-container {
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -132,7 +132,7 @@ li span {
     padding-inline: 2%;
   }
 
-  .bautismo-item {
+  .bautizo-item {
     width: 60vw;
     border: 1px solid #ffffff;
     margin-bottom: 4%;
@@ -160,6 +160,6 @@ li span {
 }
 
 
-/* .search-bautismo input[type="search"]:focus {
+/* .search-bautizo input[type="search"]:focus {
   border-bottom: 2px solid #007bff;
 } */
