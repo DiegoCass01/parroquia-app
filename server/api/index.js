@@ -49,7 +49,6 @@ app.get("/", (req, res) => {
 });
 
 // Bautizos -------------------------------------------------------------------------------------------
-
 // Obtener todos los bautizos
 app.get("/api/bautizos", (req, res) => {
   pool.query("SELECT * FROM bautizos", (err, results) => {
@@ -172,7 +171,6 @@ app.delete("/api/bautizos/:id_bautizo", (req, res) => {
 });
 
 // Comuniones -------------------------------------------------------------------------------------------
-
 // Obtener todos las comuniones
 app.get("/api/comuniones", (req, res) => {
   pool.query("SELECT * FROM comunion", (err, results) => {
@@ -315,7 +313,6 @@ app.delete("/api/comuniones/:id_comunion", (req, res) => {
 });
 
 // Confirmaciones -------------------------------------------------------------------------------------------
-
 // Obtener todas las confirmaciones
 app.get("/api/confirmaciones", (req, res) => {
   pool.query("SELECT * FROM confirmacion", (err, results) => {
@@ -471,9 +468,146 @@ app.delete("/api/confirmaciones/:id_confirmacion", (req, res) => {
 });
 
 // Matrimonios -------------------------------------------------------------------------------------------
+// Obtener todos los matrimonios
+app.get("/api/matrimonios", (req, res) => {
+  pool.query("SELECT * FROM matrimonio", (err, results) => {
+    if (err) {
+      console.error("Error al obtener matrimonios:", err);
+      res.status(500).json({ error: "Error al obtener los datos" });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Crear un nuevo matrimonio
+app.post("/api/matrimonios", (req, res) => {
+  const {
+    nombre_novio,
+    a_pat_novio,
+    a_mat_novio,
+    nombre_novia,
+    a_pat_novia,
+    a_mat_novia,
+    fecha_matrimonio,
+    libro,
+    foja,
+    acta,
+  } = req.body;
+
+  const query = `
+    INSERT INTO matrimonio (
+      nombre_novio, a_pat_novio, a_mat_novio,
+      nombre_novia, a_pat_novia, a_mat_novia,
+      fecha_matrimonio, libro, foja, acta
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  pool.query(
+    query,
+    [
+      nombre_novio,
+      a_pat_novio,
+      a_mat_novio,
+      nombre_novia,
+      a_pat_novia,
+      a_mat_novia,
+      fecha_matrimonio,
+      libro,
+      foja,
+      acta,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Error al crear el matrimonio:", err);
+        res.status(500).json({ error: "Error al crear el matrimonio" });
+      } else {
+        res.status(201).json({
+          message: "Matrimonio creado correctamente",
+          id: results.insertId,
+        });
+      }
+    }
+  );
+});
+
+// Actualizar un matrimonio
+app.put("/api/matrimonios/:id_matrimonio", (req, res) => {
+  const { id_matrimonio } = req.params;
+  const {
+    nombre_novio,
+    a_pat_novio,
+    a_mat_novio,
+    nombre_novia,
+    a_pat_novia,
+    a_mat_novia,
+    fecha_matrimonio,
+    libro,
+    foja,
+    acta,
+  } = req.body;
+
+  const query = `
+    UPDATE matrimonio SET
+      nombre_novio = ?, a_pat_novio = ?, a_mat_novio = ?,
+      nombre_novia = ?, a_pat_novia = ?, a_mat_novia = ?,
+      fecha_matrimonio = ?, libro = ?, foja = ?, acta = ?
+    WHERE id_matrimonio = ?
+  `;
+
+  pool.query(
+    query,
+    [
+      nombre_novio,
+      a_pat_novio,
+      a_mat_novio,
+      nombre_novia,
+      a_pat_novia,
+      a_mat_novia,
+      fecha_matrimonio,
+      libro,
+      foja,
+      acta,
+      id_matrimonio,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Error al actualizar el matrimonio:", err);
+        res.status(500).json({ error: "Error al actualizar el matrimonio" });
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({ message: "Matrimonio actualizado correctamente" });
+        } else {
+          res.status(404).json({ error: "Matrimonio no encontrado" });
+        }
+      }
+    }
+  );
+});
+
+// Eliminar un matrimonio
+app.delete("/api/matrimonios/:id_matrimonio", (req, res) => {
+  const { id_matrimonio } = req.params;
+
+  pool.query(
+    "DELETE FROM matrimonio WHERE id_matrimonio = ?",
+    [id_matrimonio],
+    (err, results) => {
+      if (err) {
+        console.error("Error al eliminar el matrimonio:", err);
+        res.status(500).json({ error: "Error al eliminar el matrimonio" });
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({ message: "Matrimonio eliminado correctamente" });
+        } else {
+          res.status(404).json({ error: "Matrimonio no encontrado" });
+        }
+      }
+    }
+  );
+});
 
 // Usuarios -------------------------------------------------------------------------------------------
-
 // Obtener todos los usuarios
 app.get("/api/usuarios", (req, res) => {
   pool.query("SELECT * FROM usuarios", (err, results) => {
@@ -503,7 +637,6 @@ app.post("/api/usuarios", (req, res) => {
 });
 
 // Login -------------------------------------------------------------------------------------------
-
 // Iniciar sesión
 app.post("/api/login", (req, res) => {
   const { correo, password } = req.body;

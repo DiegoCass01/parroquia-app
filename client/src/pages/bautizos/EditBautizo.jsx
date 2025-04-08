@@ -65,50 +65,24 @@ export default function EditBautizo({ showSnackbar }) {
     <div className="form-div">
       <h1>Editar Bautizo de {bautizo.nombre} {bautizo.a_paterno} {bautizo.a_materno}</h1>
       <form onSubmit={handleEdit} className="form-container">
-        <FormGroup
-          id="nombre"
-          label="Nombre"
-          value={bautizo.nombre}
-          onChange={handleChange}
-          name="nombre"
-        />
-        <FormGroup
-          id="a_paterno"
-          label="Apellido Paterno"
-          value={bautizo.a_paterno}
-          onChange={handleChange}
-          name="a_paterno"
-        />
-        <FormGroup
-          id="a_materno"
-          label="Apellido Materno"
-          value={bautizo.a_materno}
-          onChange={handleChange}
-          name="a_materno"
-        />
-        <FormGroup
-          id="lugar_bautizo"
-          label="Lugar de Bautizo"
-          value={bautizo.lugar_bautizo}
-          onChange={handleChange}
-          name="lugar_bautizo"
-        />
-        <FormGroup
-          id="fecha_bautizo"
-          label="Fecha de Bautizo"
-          value={bautizo.fecha_bautizo}
-          onChange={handleChange}
-          name="fecha_bautizo"
-          type="date"
-        />
-        <FormGroup
-          id="fecha_nac"
-          label="Fecha de Nacimiento"
-          value={bautizo.fecha_nac}
-          onChange={handleChange}
-          name="fecha_nac"
-          type="date"
-        />
+        {/* DATOS DEL NIÑO/A */}
+        <fieldset>
+          <legend>Datos del Niño o Niña</legend>
+          <FormGroup id="nombre" label="Nombre" value={bautizo.nombre} onChange={handleChange} required />
+          <FormGroup id="a_paterno" label="Apellido Paterno" value={bautizo.a_paterno} onChange={handleChange} required />
+          <FormGroup id="a_materno" label="Apellido Materno" value={bautizo.a_materno} onChange={handleChange} required />
+        </fieldset>
+        <br />
+        {/* DATOS DEL SACRAMENTO */}
+        <fieldset>
+          <legend>Datos del Bautizo</legend>
+          <FormGroup id="fecha_bautizo" label="Fecha de Bautizo" value={bautizo.fecha_bautizo} onChange={handleChange} type="date" required />
+          <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} required />
+          <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={bautizo.fecha_nac} onChange={handleChange} type="date" required />
+          <FormGroup id="libro" label="Libro" value={bautizo.libro} onChange={handleChange} required />
+          <FormGroup id="foja" label="Foja" value={bautizo.foja} onChange={handleChange} required />
+          <FormGroup id="acta" label="Acta" value={bautizo.acta} onChange={handleChange} required />
+        </fieldset>
         <button type="submit" className="submit-button">Editar</button>
       </form>
 

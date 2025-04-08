@@ -64,87 +64,41 @@ export default function EditComunion({ showSnackbar }) {
     <div className="form-div">
       <h1>Editar Comunion de {comunion.nombre} {comunion.a_paterno} {comunion.a_materno}</h1>
       <form onSubmit={handleEdit} className="form-container">
-        <FormGroup
-          id="nombre"
-          label="Nombre"
-          value={comunion.nombre}
-          onChange={handleChange}
-          name="nombre"
-        />
-        <FormGroup
-          id="a_paterno"
-          label="Apellido Paterno"
-          value={comunion.a_paterno}
-          onChange={handleChange}
-          name="a_paterno"
-        />
-        <FormGroup
-          id="a_materno"
-          label="Apellido Materno"
-          value={comunion.a_materno}
-          onChange={handleChange}
-          name="a_materno"
-        />
-        <FormGroup
-          id="nom_padre"
-          label="Nombre del Padre"
-          value={comunion.nom_padre}
-          onChange={handleChange}
-          name="nom_padre"
-        />
-        <FormGroup
-          id="a_pat_padre"
-          label="Apellido Paterno del Padre"
-          value={comunion.a_pat_padre}
-          onChange={handleChange}
-          name="a_pat_padre"
-        />
-        <FormGroup
-          id="a_mat_padre"
-          label="Apellido Materno del Padre"
-          value={comunion.a_mat_padre}
-          onChange={handleChange}
-          name="a_mat_padre"
-        />
-        <FormGroup
-          id="nom_madre"
-          label="Nombre de la Madre"
-          value={comunion.nom_madre}
-          onChange={handleChange}
-          name="nom_madre"
-        />
-        <FormGroup
-          id="a_pat_madre"
-          label="Apellido Paterno de la Madre"
-          value={comunion.a_pat_madre}
-          onChange={handleChange}
-          name="a_pat_madre"
-        />
-        <FormGroup
-          id="a_mat_madre"
-          label="Apellido Materno de la Madre"
-          value={comunion.a_mat_madre}
-          onChange={handleChange}
-          name="a_mat_madre"
-        />
-        <FormGroup
-          id="lugar_comunion"
-          label="Lugar de Comunion"
-          value={comunion.lugar_comunion}
-          onChange={handleChange}
-          name="lugar_comunion"
-        />
-        <FormGroup
-          id="fecha_comunion"
-          label="Fecha de Comunion"
-          value={comunion.fecha_comunion}
-          onChange={handleChange}
-          name="fecha_comunion"
-          type="date"
-        />
+        {/* DATOS DEL NIÑO/A */}
+        <fieldset>
+          <legend>Datos del Niño o Niña</legend>
+          <FormGroup id="nombre" label="Nombre" value={comunion.nombre} onChange={handleChange} name="nombre" required />
+          <FormGroup id="a_paterno" label="Apellido Paterno" value={comunion.a_paterno} onChange={handleChange} name="a_paterno" required />
+          <FormGroup id="a_materno" label="Apellido Materno" value={comunion.a_materno} onChange={handleChange} name="a_materno" required />
+        </fieldset>
+        <br />
+        {/* DATOS DEL PADRE */}
+        <fieldset>
+          <legend>Datos del Padre</legend>
+          <FormGroup id="nom_padre" label="Nombre del Padre" value={comunion.nom_padre} onChange={handleChange} name="nom_padre" required />
+          <FormGroup id="a_pat_padre" label="Apellido Paterno del Padre" value={comunion.a_pat_padre} onChange={handleChange} name="a_pat_padre" required />
+          <FormGroup id="a_mat_padre" label="Apellido Materno del Padre" value={comunion.a_mat_padre} onChange={handleChange} name="a_mat_padre" required />
+        </fieldset>
+        <br />
+        {/* DATOS DE LA MADRE */}
+        <fieldset>
+          <legend>Datos de la Madre</legend>
+          <FormGroup id="nom_madre" label="Nombre de la Madre" value={comunion.nom_madre} onChange={handleChange} name="nom_madre" required />
+          <FormGroup id="a_pat_madre" label="Apellido Paterno de la Madre" value={comunion.a_pat_madre} onChange={handleChange} name="a_pat_madre" required />
+          <FormGroup id="a_mat_madre" label="Apellido Materno de la Madre" value={comunion.a_mat_madre} onChange={handleChange} name="a_mat_madre" required />
+        </fieldset>
+        <br />
+        {/* DATOS DEL SACRAMENTO */}
+        <fieldset>
+          <legend>Datos de la Comunión</legend>
+          <FormGroup id="lugar_comunion" label="Lugar de Comunion" value={comunion.lugar_comunion} onChange={handleChange} name="lugar_comunion" required />
+          <FormGroup id="fecha_comunion" label="Fecha de Comunion" value={comunion.fecha_comunion} onChange={handleChange} name="fecha_comunion" type="date" required />
+          <FormGroup id="libro" label="Libro" value={comunion.libro} onChange={handleChange} required />
+          <FormGroup id="foja" label="Foja" value={comunion.foja} onChange={handleChange} required />
+          <FormGroup id="acta" label="Acta" value={comunion.acta} onChange={handleChange} required />
+        </fieldset>
         <button type="submit" className="submit-button">Editar</button>
       </form>
-
 
     </div>
   )

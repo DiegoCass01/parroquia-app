@@ -19,6 +19,9 @@ import Create from "./pages/Create.jsx";
 import SearchConfirmacion from "./pages/confirmaciones/SearchConfirmacion.jsx";
 import EditConfirmacion from "./pages/confirmaciones/EditConfirmacion.jsx";
 import CreateConfirmacion from "./pages/confirmaciones/CreateConfirmacion.jsx";
+import CreateMatrimonio from "./pages/matrimonios/CreateMatrimonio.jsx";
+import EditMatrimonio from "./pages/matrimonios/EditMatrimonio.jsx";
+import SearchMatrimonio from "./pages/matrimonios/SearchMatrimonio.jsx";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
@@ -128,8 +131,31 @@ export default function App() {
           }
         />
 
-
         {/* Rutas de Matrimonios */}
+        <Route
+          path="/search/matrimonio"
+          element={
+            <ProtectedRoute>
+              <SearchMatrimonio showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create/matrimonio"
+          element={
+            <ProtectedRoute>
+              <CreateMatrimonio showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit/matrimonio"
+          element={
+            <ProtectedRoute>
+              <EditMatrimonio showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}>
