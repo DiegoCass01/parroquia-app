@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
+import { generarPDF } from "../../functions/feBautizoPdf.js";
 
 export default function SearchComunion({ showSnackbar }) {
   const { comuniones, fetchComuniones, deleteComunion } = useComunionStore();
@@ -88,8 +89,7 @@ export default function SearchComunion({ showSnackbar }) {
               <span>Padre: {comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
               <span>Padre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
               <button onClick={() => handleDelete(comunion.id_comunion)} className="submit-button-delete">Eliminar</button>
-              {/* generarPDF({ datos: comunion }) */}
-              <button onClick={() => (console.log("hola"))} className="submit-button">
+              <button onClick={() => generarPDF({ datos: comunion })} className="submit-button">
                 Generar Fe de Comunion
               </button>
               <button onClick={() => handleEdit(comunion)} className="submit-button-edit">

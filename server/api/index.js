@@ -138,10 +138,10 @@ app.put("/api/bautizos/:id_bautizo", (req, res) => {
       } else {
         if (results.affectedRows > 0) {
           res.json({
-            message: "Bautismo actualizado correctamente",
+            message: "Bautizo actualizado correctamente",
           });
         } else {
-          res.status(404).json({ error: "Bautismo no encontrado" });
+          res.status(404).json({ error: "Bautizo no encontrado" });
         }
       }
     }
@@ -181,6 +181,62 @@ app.get("/api/comuniones", (req, res) => {
       res.json(results);
     }
   });
+});
+
+// Actualizar un comunion
+app.put("/api/comuniones/:id_comunion", (req, res) => {
+  const { id_comunion } = req.params;
+  const {
+    nombre,
+    a_paterno,
+    a_materno,
+    nom_padre,
+    a_pat_padre,
+    a_mat_padre,
+    nom_madre,
+    a_pat_madre,
+    a_mat_madre,
+    lugar_comunion,
+    fecha_comunion,
+    libro,
+    foja,
+    acta,
+  } = req.body;
+  const query = `UPDATE comunion SET nombre = ?, a_paterno = ?, a_materno = ?, nom_padre = ?, a_pat_padre = ?, a_mat_padre = ?, nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?, lugar_comunion = ?, fecha_comunion = ?, libro = ?, foja = ?, acta = ? WHERE id_comunion = ?`;
+  pool.query(
+    query,
+    [
+      nombre,
+      a_paterno,
+      a_materno,
+      nom_padre,
+      a_pat_padre,
+      a_mat_padre,
+      nom_madre,
+      a_pat_madre,
+      a_mat_madre,
+      lugar_comunion,
+      fecha_comunion,
+      libro,
+      foja,
+      acta,
+      id_comunion,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Error al actualizar el comunion:", err);
+        res.status(500).json({ error: "Error al actualizar el comunion" });
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({
+            message: "Comunion actualizado correctamente",
+          });
+        } else {
+          res.status(404).json({ error: "Comunion no encontrado" });
+        }
+      }
+    }
+  );
 });
 
 // Obtener todos los usuarios

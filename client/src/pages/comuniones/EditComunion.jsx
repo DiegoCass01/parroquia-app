@@ -6,21 +6,20 @@ import "../../styles/sacramentos/SearchSacramento.css";
 
 export default function EditComunion({ showSnackbar }) {
   const location = useLocation();
-  const initialComunion = location.state?.bautizo;
+  const initialComunion = location.state?.comunion;
   const navigate = useNavigate();
   const { editComunion } = useComunionStore();
 
   // 📌 Estado del formulario
-  const [bautizo, setComunion] = useState(initialComunion);
+  const [comunion, setComunion] = useState(initialComunion);
 
   const [hasChanges, setHasChanges] = useState(false); // Estado para rastrear cambios en el form
 
-  // 🔄 Sincronizar los inputs con los datos del bautizo cuando se cargue la página o cambie el bautizo seleccionado
+  // 🔄 Sincronizar los inputs con los datos del comunion cuando se cargue la página o cambie el comunion seleccionado
   useEffect(() => {
     setComunion((prev) => ({
       ...prev,
-      fecha_bautizo: prev.fecha_bautizo?.substring(0, 10) || "",
-      fecha_nac: prev.fecha_nac?.substring(0, 10) || "",
+      fecha_comunion: prev.fecha_comunion?.substring(0, 10) || "",
     }));
 
   }, []);
@@ -45,68 +44,102 @@ export default function EditComunion({ showSnackbar }) {
     }
 
     try {
-      const response = await editComunion(bautizo);
+      const response = await editComunion(comunion);
 
       if (response?.status === 200) {
         navigate("/search/comunion", { replace: true });
         showSnackbar("Comunion editado correctamente!", "success");
 
       } else {
-        showSnackbar("Error al editar bautizo!", "error");
+        showSnackbar("Error al editar comunion!", "error");
       }
 
     } catch (error) {
-      console.error("Error while editing bautizo:", error);
-      showSnackbar("Error de red al editar bautizo!", "error");
+      console.error("Error while editing comunion:", error);
+      showSnackbar("Error de red al editar comunion!", "error");
     }
   };
 
   return (
     <div className="form-div">
-      <h1>Editar Comunion de {bautizo.nombre} {bautizo.a_paterno} {bautizo.a_materno}</h1>
+      <h1>Editar Comunion de {comunion.nombre} {comunion.a_paterno} {comunion.a_materno}</h1>
       <form onSubmit={handleEdit} className="form-container">
         <FormGroup
           id="nombre"
           label="Nombre"
-          value={bautizo.nombre}
+          value={comunion.nombre}
           onChange={handleChange}
           name="nombre"
         />
         <FormGroup
           id="a_paterno"
           label="Apellido Paterno"
-          value={bautizo.a_paterno}
+          value={comunion.a_paterno}
           onChange={handleChange}
           name="a_paterno"
         />
         <FormGroup
           id="a_materno"
           label="Apellido Materno"
-          value={bautizo.a_materno}
+          value={comunion.a_materno}
           onChange={handleChange}
           name="a_materno"
         />
         <FormGroup
-          id="lugar_bautizo"
+          id="nom_padre"
+          label="Nombre del Padre"
+          value={comunion.nom_padre}
+          onChange={handleChange}
+          name="nom_padre"
+        />
+        <FormGroup
+          id="a_pat_padre"
+          label="Apellido Paterno del Padre"
+          value={comunion.a_pat_padre}
+          onChange={handleChange}
+          name="a_pat_padre"
+        />
+        <FormGroup
+          id="a_mat_padre"
+          label="Apellido Materno del Padre"
+          value={comunion.a_mat_padre}
+          onChange={handleChange}
+          name="a_mat_padre"
+        />
+        <FormGroup
+          id="nom_madre"
+          label="Nombre de la Madre"
+          value={comunion.nom_madre}
+          onChange={handleChange}
+          name="nom_madre"
+        />
+        <FormGroup
+          id="a_pat_madre"
+          label="Apellido Paterno de la Madre"
+          value={comunion.a_pat_madre}
+          onChange={handleChange}
+          name="a_pat_madre"
+        />
+        <FormGroup
+          id="a_mat_madre"
+          label="Apellido Materno de la Madre"
+          value={comunion.a_mat_madre}
+          onChange={handleChange}
+          name="a_mat_madre"
+        />
+        <FormGroup
+          id="lugar_comunion"
           label="Lugar de Comunion"
-          value={bautizo.lugar_bautizo}
+          value={comunion.lugar_comunion}
           onChange={handleChange}
-          name="lugar_bautizo"
+          name="lugar_comunion"
         />
         <FormGroup
-          id="fecha_bautizo"
+          id="fecha_comunion"
           label="Fecha de Comunion"
-          value={bautizo.fecha_bautizo}
+          value={comunion.fecha_comunion}
           onChange={handleChange}
-          name="fecha_bautizo"
-          type="date"
-        />
-        <FormGroup
-          id="fecha_nac"
-          label="Fecha de Nacimiento"
-          value={bautizo.fecha_nac}
-          onChange={handleChange}
-          name="fecha_nac"
+          name="fecha_comunion"
           type="date"
         />
         <button type="submit" className="submit-button">Editar</button>
