@@ -18,7 +18,7 @@ export default function NavBar() {
         <p>Registros</p>
       </Link>
 
-      <Link to="/create/bautizo" className={location.pathname === "/create/bautizo" ? "active" : ""}>
+      <Link to="/create" className={location.pathname === "/create" ? "active" : ""}>
         <p>Crear Registro</p>
       </Link>
 

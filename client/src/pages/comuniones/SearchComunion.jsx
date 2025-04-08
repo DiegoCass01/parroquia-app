@@ -87,7 +87,7 @@ export default function SearchComunion({ showSnackbar }) {
               <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
               <span>Lugar Comunion: {comunion.lugar_comunion}</span>
               <span>Padre: {comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
-              <span>Padre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
+              <span>Madre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
               <button onClick={() => handleDelete(comunion.id_comunion)} className="submit-button-delete">Eliminar</button>
               <button onClick={() => generarPDF({ datos: comunion })} className="submit-button">
                 Generar Fe de Comunion

@@ -48,6 +48,8 @@ app.get("/", (req, res) => {
   res.send("✅ Servidor corriendo correctamente!");
 });
 
+// Bautizos -------------------------------------------------------------------------------------------
+
 // Obtener todos los bautizos
 app.get("/api/bautizos", (req, res) => {
   pool.query("SELECT * FROM bautizos", (err, results) => {
@@ -73,9 +75,7 @@ app.post("/api/bautizos", (req, res) => {
     foja,
     acta,
   } = req.body;
-
   const query = `INSERT INTO bautizos (nombre, a_paterno, a_materno, lugar_bautizo, fecha_bautizo, fecha_nac, libro, foja, acta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
   pool.query(
     query,
     [
@@ -95,7 +95,7 @@ app.post("/api/bautizos", (req, res) => {
         return res.status(500).json({ error: "Error al crear el bautizo" });
       }
       res.status(201).json({
-        message: "Bautismo creado correctamente",
+        message: "Bautizo creado correctamente",
         id: results.insertId,
       });
     }
@@ -171,6 +171,8 @@ app.delete("/api/bautizos/:id_bautizo", (req, res) => {
   );
 });
 
+// Comuniones -------------------------------------------------------------------------------------------
+
 // Obtener todos las comuniones
 app.get("/api/comuniones", (req, res) => {
   pool.query("SELECT * FROM comunion", (err, results) => {
@@ -181,6 +183,56 @@ app.get("/api/comuniones", (req, res) => {
       res.json(results);
     }
   });
+});
+
+// Crear una nueva comunion
+app.post("/api/comuniones", (req, res) => {
+  const {
+    nombre,
+    a_paterno,
+    a_materno,
+    nom_padre,
+    a_pat_padre,
+    a_mat_padre,
+    nom_madre,
+    a_pat_madre,
+    a_mat_madre,
+    lugar_comunion,
+    fecha_comunion,
+    libro,
+    foja,
+    acta,
+  } = req.body;
+  const query = `INSERT INTO comunion (nombre, a_paterno, a_materno, nom_padre, a_pat_padre, a_mat_padre, nom_madre, a_pat_madre, a_mat_madre, lugar_comunion, fecha_comunion, libro, foja, acta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  pool.query(
+    query,
+    [
+      nombre,
+      a_paterno,
+      a_materno,
+      nom_padre,
+      a_pat_padre,
+      a_mat_padre,
+      nom_madre,
+      a_pat_madre,
+      a_mat_madre,
+      lugar_comunion,
+      fecha_comunion,
+      libro,
+      foja,
+      acta,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Error al crear la comunion:", err);
+        return res.status(500).json({ error: "Error al crear la comunion" });
+      }
+      res.status(201).json({
+        message: "Comunion creado correctamente",
+        id: results.insertId,
+      });
+    }
+  );
 });
 
 // Actualizar una comunion
@@ -262,6 +314,164 @@ app.delete("/api/comuniones/:id_comunion", (req, res) => {
   );
 });
 
+// Confirmaciones -------------------------------------------------------------------------------------------
+
+// Obtener todas las confirmaciones
+app.get("/api/confirmaciones", (req, res) => {
+  pool.query("SELECT * FROM confirmacion", (err, results) => {
+    if (err) {
+      console.error("Error al obtener confirmaciones:", err);
+      res.status(500).json({ error: "Error al obtener los datos" });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Crear una nueva confirmación
+app.post("/api/confirmaciones", (req, res) => {
+  const {
+    nombre,
+    a_paterno,
+    a_materno,
+    nom_padre,
+    a_pat_padre,
+    a_mat_padre,
+    nom_madre,
+    a_pat_madre,
+    a_mat_madre,
+    fecha_confirmacion,
+    libro,
+    foja,
+    acta,
+  } = req.body;
+
+  const query = `
+    INSERT INTO confirmacion (
+      nombre, a_paterno, a_materno,
+      nom_padre, a_pat_padre, a_mat_padre,
+      nom_madre, a_pat_madre, a_mat_madre,
+      fecha_confirmacion, libro, foja, acta
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  pool.query(
+    query,
+    [
+      nombre,
+      a_paterno,
+      a_materno,
+      nom_padre,
+      a_pat_padre,
+      a_mat_padre,
+      nom_madre,
+      a_pat_madre,
+      a_mat_madre,
+      fecha_confirmacion,
+      libro,
+      foja,
+      acta,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Error al crear la confirmación:", err);
+        return res
+          .status(500)
+          .json({ error: "Error al crear la confirmación" });
+      }
+      res.status(201).json({
+        message: "Confirmación creada correctamente",
+        id: results.insertId,
+      });
+    }
+  );
+});
+
+// Actualizar una confirmación
+app.put("/api/confirmaciones/:id_confirmacion", (req, res) => {
+  const { id_confirmacion } = req.params;
+  const {
+    nombre,
+    a_paterno,
+    a_materno,
+    nom_padre,
+    a_pat_padre,
+    a_mat_padre,
+    nom_madre,
+    a_pat_madre,
+    a_mat_madre,
+    fecha_confirmacion,
+    libro,
+    foja,
+    acta,
+  } = req.body;
+
+  const query = `
+    UPDATE confirmacion SET
+      nombre = ?, a_paterno = ?, a_materno = ?,
+      nom_padre = ?, a_pat_padre = ?, a_mat_padre = ?,
+      nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?,
+      fecha_confirmacion = ?, libro = ?, foja = ?, acta = ?
+    WHERE id_confirmacion = ?
+  `;
+
+  pool.query(
+    query,
+    [
+      nombre,
+      a_paterno,
+      a_materno,
+      nom_padre,
+      a_pat_padre,
+      a_mat_padre,
+      nom_madre,
+      a_pat_madre,
+      a_mat_madre,
+      fecha_confirmacion,
+      libro,
+      foja,
+      acta,
+      id_confirmacion,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Error al actualizar la confirmación:", err);
+        res.status(500).json({ error: "Error al actualizar la confirmación" });
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({ message: "Confirmación actualizada correctamente" });
+        } else {
+          res.status(404).json({ error: "Confirmación no encontrada" });
+        }
+      }
+    }
+  );
+});
+
+// Eliminar una confirmación
+app.delete("/api/confirmaciones/:id_confirmacion", (req, res) => {
+  const { id_confirmacion } = req.params;
+
+  pool.query(
+    "DELETE FROM confirmacion WHERE id_confirmacion = ?",
+    [id_confirmacion],
+    (err, results) => {
+      if (err) {
+        console.error("Error al eliminar la confirmación:", err);
+        res.status(500).json({ error: "Error al eliminar la confirmación" });
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({ message: "Confirmación eliminada correctamente" });
+        } else {
+          res.status(404).json({ error: "Confirmación no encontrada" });
+        }
+      }
+    }
+  );
+});
+
+// Usuarios -------------------------------------------------------------------------------------------
+
 // Obtener todos los usuarios
 app.get("/api/usuarios", (req, res) => {
   pool.query("SELECT * FROM usuarios", (err, results) => {
@@ -289,6 +499,8 @@ app.post("/api/usuarios", (req, res) => {
     }
   );
 });
+
+// Login -------------------------------------------------------------------------------------------
 
 // Iniciar sesión
 app.post("/api/login", (req, res) => {

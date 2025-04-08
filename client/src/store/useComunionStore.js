@@ -20,11 +20,11 @@ export const useComunionStore = create((set) => ({
     }
   },
 
-  createComunion: async (nuevoComunion) => {
+  createComunion: async (nuevaComunion) => {
     try {
       const { user } = useAuthStore.getState(); // 🔹 Obtiene el usuario actual del store
       const res = await axios.post(`${API_URL}/comuniones`, {
-        ...nuevoComunion,
+        ...nuevaComunion,
       });
 
       set((state) => ({

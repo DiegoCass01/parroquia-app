@@ -6,13 +6,18 @@ export default function CreateComunion({ showSnackbar }) {
 
   const { createComunion } = useComunionStore();
 
-  const [bautizo, setComunion] = useState({
+  const [comunion, setComunion] = useState({
     nombre: "",
     a_paterno: "",
     a_materno: "",
-    lugar_bautizo: "",
-    fecha_bautizo: "",
-    fecha_nac: "",
+    nom_padre: "",
+    a_pat_padre: "",
+    a_mat_padre: "",
+    nom_madre: "",
+    a_pat_madre: "",
+    a_mat_madre: "",
+    lugar_comunion: "",
+    fecha_comunion: "",
     libro: "",
     foja: "",
     acta: "",
@@ -23,15 +28,20 @@ export default function CreateComunion({ showSnackbar }) {
 
     try {
       const response = await createComunion({
-        nombre: bautizo.nombre,
-        a_paterno: bautizo.a_paterno,
-        a_materno: bautizo.a_materno,
-        lugar_bautizo: bautizo.lugar_bautizo,
-        fecha_bautizo: bautizo.fecha_bautizo,
-        fecha_nac: bautizo.fecha_nac,
-        libro: bautizo.libro,
-        foja: bautizo.foja,
-        acta: bautizo.acta,
+        nombre: comunion.nombre,
+        a_paterno: comunion.a_paterno,
+        a_materno: comunion.a_materno,
+        nom_padre: comunion.nom_padre,
+        a_pat_padre: comunion.a_pat_padre,
+        a_mat_padre: comunion.a_mat_padre,
+        nom_madre: comunion.nom_madre,
+        a_pat_madre: comunion.a_pat_madre,
+        a_mat_madre: comunion.a_mat_madre,
+        lugar_comunion: comunion.lugar_comunion,
+        fecha_comunion: comunion.fecha_comunion,
+        libro: comunion.libro,
+        foja: comunion.foja,
+        acta: comunion.acta,
       });
 
       if (response && response.status >= 200 && response.status < 300) {
@@ -39,22 +49,27 @@ export default function CreateComunion({ showSnackbar }) {
           nombre: "",
           a_paterno: "",
           a_materno: "",
-          lugar_bautizo: "",
-          fecha_bautizo: "",
-          fecha_nac: "",
+          nom_padre: "",
+          a_pat_padre: "",
+          a_mat_padre: "",
+          nom_madre: "",
+          a_pat_madre: "",
+          a_mat_madre: "",
+          lugar_comunion: "",
+          fecha_comunion: "",
           libro: "",
           foja: "",
           acta: "",
         });
         showSnackbar("Comunion creado correctamente!", "success");
       } else {
-        console.error("Error creating bautizo:", response?.data || response);
-        showSnackbar("Error al crear bautizo!", "error");
+        console.error("Error creating comunion:", response?.data || response);
+        showSnackbar("Error al crear comunion!", "error");
       }
 
     } catch (error) {
-      console.error("Error while creating bautizo:", error);
-      showSnackbar("Error de red al crear bautizo!", "error");
+      console.error("Error while creating comunion:", error);
+      showSnackbar("Error de red al crear comunion!", "error");
     }
   };
 
@@ -69,65 +84,99 @@ export default function CreateComunion({ showSnackbar }) {
         <FormGroup
           id="nombre"
           label="Nombre"
-          value={bautizo.nombre}
+          value={comunion.nombre}
           onChange={handleChange}
-          required
+          name="nombre"
         />
         <FormGroup
           id="a_paterno"
           label="Apellido Paterno"
-          value={bautizo.a_paterno}
+          value={comunion.a_paterno}
           onChange={handleChange}
-          required
+          name="a_paterno"
         />
         <FormGroup
           id="a_materno"
           label="Apellido Materno"
-          value={bautizo.a_materno}
+          value={comunion.a_materno}
           onChange={handleChange}
-          required
+          name="a_materno"
         />
         <FormGroup
-          id="fecha_bautizo"
-          label="Fecha de Comunion"
-          value={bautizo.fecha_bautizo}
+          id="nom_padre"
+          label="Nombre del Padre"
+          value={comunion.nom_padre}
           onChange={handleChange}
-          type="date"
-          required
+          name="nom_padre"
         />
         <FormGroup
-          id="lugar_bautizo"
+          id="a_pat_padre"
+          label="Apellido Paterno del Padre"
+          value={comunion.a_pat_padre}
+          onChange={handleChange}
+          name="a_pat_padre"
+        />
+        <FormGroup
+          id="a_mat_padre"
+          label="Apellido Materno del Padre"
+          value={comunion.a_mat_padre}
+          onChange={handleChange}
+          name="a_mat_padre"
+        />
+        <FormGroup
+          id="nom_madre"
+          label="Nombre de la Madre"
+          value={comunion.nom_madre}
+          onChange={handleChange}
+          name="nom_madre"
+        />
+        <FormGroup
+          id="a_pat_madre"
+          label="Apellido Paterno de la Madre"
+          value={comunion.a_pat_madre}
+          onChange={handleChange}
+          name="a_pat_madre"
+        />
+        <FormGroup
+          id="a_mat_madre"
+          label="Apellido Materno de la Madre"
+          value={comunion.a_mat_madre}
+          onChange={handleChange}
+          name="a_mat_madre"
+        />
+        <FormGroup
+          id="lugar_comunion"
           label="Lugar de Comunion"
-          value={bautizo.lugar_bautizo}
+          value={comunion.lugar_comunion}
           onChange={handleChange}
-          required
+          name="lugar_comunion"
         />
         <FormGroup
-          id="fecha_nac"
-          label="Fecha de Nacimiento"
-          value={bautizo.fecha_nac}
+          id="fecha_comunion"
+          label="Fecha de Comunion"
+          value={comunion.fecha_comunion}
           onChange={handleChange}
+          name="fecha_comunion"
           type="date"
-          required
         />
         <FormGroup
           id="libro"
           label="Libro"
-          value={bautizo.libro}
+          value={comunion.libro}
           onChange={handleChange}
           required
         />
         <FormGroup
           id="foja"
           label="Foja"
-          value={bautizo.foja}
+          value={comunion.foja}
           onChange={handleChange}
           required
         />
         <FormGroup
           id="acta"
           label="Acta"
-          value={bautizo.acta}
+          value={comunion.acta}
           onChange={handleChange}
           required
         />
