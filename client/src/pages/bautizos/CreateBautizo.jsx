@@ -22,17 +22,7 @@ export default function CreateBautizo({ showSnackbar }) {
     e.preventDefault();
 
     try {
-      const response = await createBautizo({
-        nombre: bautizo.nombre,
-        a_paterno: bautizo.a_paterno,
-        a_materno: bautizo.a_materno,
-        lugar_bautizo: bautizo.lugar_bautizo,
-        fecha_bautizo: bautizo.fecha_bautizo,
-        fecha_nac: bautizo.fecha_nac,
-        libro: bautizo.libro,
-        foja: bautizo.foja,
-        acta: bautizo.acta,
-      });
+      const response = await createBautizo(bautizo);
 
       if (response && response.status >= 200 && response.status < 300) {
         setBautizo({

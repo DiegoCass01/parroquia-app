@@ -6,6 +6,7 @@ import { SearchBar } from "../../components/SearchBar";
 import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf";
+import { normalizeText } from "../../functions/normalizeText";
 
 export default function SearchConfirmacion({ showSnackbar }) {
   const { confirmaciones, fetchConfirmaciones, deleteConfirmacion } = useConfirmacionStore();
@@ -36,12 +37,6 @@ export default function SearchConfirmacion({ showSnackbar }) {
   const handleEdit = async (confirmacion) => {
     navigate("/edit/confirmacion", { state: { confirmacion } });
   };
-
-  const normalizeText = (text) =>
-    text
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
 
   useEffect(() => {
     if (!confirmaciones.length) return;

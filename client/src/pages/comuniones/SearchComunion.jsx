@@ -7,6 +7,7 @@ import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf.js";
+import { normalizeText } from "../../functions/normalizeText.js";
 
 export default function SearchComunion({ showSnackbar }) {
   const { comuniones, fetchComuniones, deleteComunion } = useComunionStore();
@@ -38,13 +39,6 @@ export default function SearchComunion({ showSnackbar }) {
   const handleEdit = async (comunion) => {
     navigate("/edit/comunion", { state: { comunion } })
   };
-
-  // Function to normalize text (removes accents and converts to lowercase)
-  const normalizeText = (text) =>
-    text
-      .normalize("NFD") // Decompose characters with accents
-      .replace(/[\u0300-\u036f]/g, "") // Remove diacritical marks (accents)
-      .toLowerCase();
 
   useEffect(() => {
     if (!comuniones.length) return;

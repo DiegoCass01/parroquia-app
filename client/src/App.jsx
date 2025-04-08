@@ -17,6 +17,8 @@ import SearchComunion from "./pages/comuniones/SearchComunion.jsx";
 import CreateComunion from "./pages/comuniones/CreateComunion.jsx";
 import Create from "./pages/Create.jsx";
 import SearchConfirmacion from "./pages/confirmaciones/SearchConfirmacion.jsx";
+import EditConfirmacion from "./pages/confirmaciones/EditConfirmacion.jsx";
+import CreateConfirmacion from "./pages/confirmaciones/CreateConfirmacion.jsx";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
@@ -109,22 +111,22 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        {/* <Route
-          path="/create/comunion"
+        <Route
+          path="/create/confirmacion"
           element={
             <ProtectedRoute>
-              <CreateComunion showSnackbar={showSnackbar} />
+              <CreateConfirmacion showSnackbar={showSnackbar} />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/edit/comunion"
+          path="/edit/confirmacion"
           element={
             <ProtectedRoute>
-              <EditComunion showSnackbar={showSnackbar} />
+              <EditConfirmacion showSnackbar={showSnackbar} />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
 
         {/* Rutas de Matrimonios */}

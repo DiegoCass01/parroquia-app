@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
+import { normalizeText } from "../../functions/normalizeText.js";
 
 export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
@@ -37,13 +38,6 @@ export default function SearchBautizo({ showSnackbar }) {
   const handleEdit = async (bautizo) => {
     navigate("/edit/bautizo", { state: { bautizo } })
   };
-
-  // Function to normalize text (removes accents and converts to lowercase)
-  const normalizeText = (text) =>
-    text
-      .normalize("NFD") // Decompose characters with accents
-      .replace(/[\u0300-\u036f]/g, "") // Remove diacritical marks (accents)
-      .toLowerCase();
 
   useEffect(() => {
     if (!bautizos.length) return;
