@@ -1,0 +1,108 @@
+import { useEffect, useState } from "react";
+// import { generarPDF } from "../../functions/feComunionPdf.js";
+import { useComunionStore } from "../../store/useComunionStore.js";
+import "../../styles/sacramentos/SearchSacramento.css";
+import { useNavigate } from "react-router-dom";
+import { formatDateLong } from "../../functions/formatDate.js";
+import { SearchBar } from "../../components/SearchBar.jsx";
+import "../../App.css";
+
+export default function SearchComunion({ showSnackbar }) {
+  const { comuniones, fetchComuniones, deleteComunion } = useComunionStore();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredComuniones, setFilteredComuniones] = useState([]);
+  const [filterParam, setFilterParam] = useState("All");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchComuniones();
+  }, [fetchComuniones]);
+
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("¿Estás seguro de que deseas eliminar este comunion?")) return;
+    try {
+      const response = await deleteComunion(id);
+      if (response?.status === 200) {
+        showSnackbar("Comunion eliminado correctamente!", "success");
+      } else {
+        showSnackbar("Error al eliminar comunion!", "error");
+      }
+    } catch (e) {
+      console.error(e);
+      showSnackbar("Error al eliminar comunion en el server!", "error");
+    }
+  };
+
+  const handleEdit = async (comunion) => {
+    navigate("/edit/comunion", { state: { comunion } })
+  };
+
+  // Function to normalize text (removes accents and converts to lowercase)
+  const normalizeText = (text) =>
+    text
+      .normalize("NFD") // Decompose characters with accents
+      .replace(/[\u0300-\u036f]/g, "") // Remove diacritical marks (accents)
+      .toLowerCase();
+
+  useEffect(() => {
+    if (!comuniones.length) return;
+
+    const resultados = comuniones.filter((comunion) => {
+      // Combine the name fields
+      const fullName = `${comunion.nombre} ${comunion.a_paterno} ${comunion.a_materno}`;
+
+      // Normalize the full name and search query
+      const fullNameNormalized = normalizeText(fullName);
+      const searchQueryNormalized = normalizeText(searchQuery);
+
+      // Check if the full name contains the search query
+      const nombreMatch = fullNameNormalized.includes(searchQueryNormalized);
+
+      // Handle the year filtering
+      const year = comunion.fecha_comunion ? new Date(comunion.fecha_comunion).getFullYear() : null;
+      const yearMatch = filterParam !== "All" ? year?.toString() === filterParam : true;
+
+      return nombreMatch && yearMatch;
+    });
+
+    setFilteredComuniones(resultados);
+  }, [searchQuery, comuniones, filterParam]);
+
+
+  return (
+    <div className="search-page">
+      <h1>Busqueda de Comunion</h1>
+
+      <SearchBar sacramento={filteredComuniones} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} fechaField="fecha_comunion" />
+
+
+      {/* Lista de comuniones filtrados */}
+      <ul className="sacramento-container">
+        {filteredComuniones.length > 0 ? (
+          filteredComuniones.map((comunion) => (
+            <li key={comunion.id_comunion} className="sacramento-item">
+              <span><strong>{comunion.nombre + " " + comunion.a_paterno + " " + comunion.a_materno}</strong></span>
+              <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
+              <span>Lugar Comunion: {comunion.lugar_comunion}</span>
+              <span>Padre: {comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
+              <span>Padre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
+              <button onClick={() => handleDelete(comunion.id_comunion)} className="submit-button-delete">Eliminar</button>
+              {/* generarPDF({ datos: comunion }) */}
+              <button onClick={() => (console.log("hola"))} className="submit-button">
+                Generar Fe de Comunion
+              </button>
+              <button onClick={() => handleEdit(comunion)} className="submit-button-edit">
+                Editar Comunion
+              </button>
+            </li>
+          ))
+        ) : (
+          <div className="no-elements-item">
+            <strong><p>No se encontraron comuniones.</p></strong>
+          </div>
+        )}
+      </ul>
+    </div>
+  )
+}

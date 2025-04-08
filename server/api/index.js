@@ -60,23 +60,6 @@ app.get("/api/bautizos", (req, res) => {
   });
 });
 
-// Obtener un bautizo por ID
-// app.get("/api/bautizos/:id", (req, res) => {
-//   const { id } = req.params;
-//   pool.query("SELECT * FROM bautizos WHERE id = ?", [id], (err, results) => {
-//     if (err) {
-//       console.error("Error al obtener bautizo:", err);
-//       res.status(500).json({ error: "Error al obtener el bautizo" });
-//     } else {
-//       if (results.length > 0) {
-//         res.json(results[0]);
-//       } else {
-//         res.status(404).json({ error: "Bautismo no encontrado" });
-//       }
-//     }
-//   });
-// });
-
 // Crear un nuevo bautizo
 app.post("/api/bautizos", (req, res) => {
   const {
@@ -186,6 +169,18 @@ app.delete("/api/bautizos/:id_bautizo", (req, res) => {
       }
     }
   );
+});
+
+// Obtener todos las comuniones
+app.get("/api/comuniones", (req, res) => {
+  pool.query("SELECT * FROM comunion", (err, results) => {
+    if (err) {
+      console.error("Error al obtener comuniones:", err);
+      res.status(500).json({ error: "Error al obtener los datos" });
+    } else {
+      res.json(results);
+    }
+  });
 });
 
 // Obtener todos los usuarios

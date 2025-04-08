@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
-import { useBautizoStore } from "../../store/useBautizoStore.js";
+import { useComunionStore } from "../../store/useComunionStore.js";
 import "../../styles/sacramentos/CreateSacramento.css";
-export default function CreateBautizo({ showSnackbar }) {
+export default function CreateComunion({ showSnackbar }) {
 
-  const { createBautizo } = useBautizoStore();
+  const { createComunion } = useComunionStore();
 
-  const [bautizo, setBautizo] = useState({
+  const [bautizo, setComunion] = useState({
     nombre: "",
     a_paterno: "",
     a_materno: "",
@@ -22,7 +22,7 @@ export default function CreateBautizo({ showSnackbar }) {
     e.preventDefault();
 
     try {
-      const response = await createBautizo({
+      const response = await createComunion({
         nombre: bautizo.nombre,
         a_paterno: bautizo.a_paterno,
         a_materno: bautizo.a_materno,
@@ -35,7 +35,7 @@ export default function CreateBautizo({ showSnackbar }) {
       });
 
       if (response && response.status >= 200 && response.status < 300) {
-        setBautizo({
+        setComunion({
           nombre: "",
           a_paterno: "",
           a_materno: "",
@@ -46,7 +46,7 @@ export default function CreateBautizo({ showSnackbar }) {
           foja: "",
           acta: "",
         });
-        showSnackbar("Bautizo creado correctamente!", "success");
+        showSnackbar("Comunion creado correctamente!", "success");
       } else {
         console.error("Error creating bautizo:", response?.data || response);
         showSnackbar("Error al crear bautizo!", "error");
@@ -59,12 +59,12 @@ export default function CreateBautizo({ showSnackbar }) {
   };
 
   const handleChange = (e) => {
-    setBautizo(prev => ({ ...prev, [e.target.id]: e.target.value }));
+    setComunion(prev => ({ ...prev, [e.target.id]: e.target.value }));
   }
 
   return (
     <div className="form-div">
-      <h1 >Registro de Bautizos</h1>
+      <h1 >Registro de Comuniones</h1>
       <form onSubmit={handleSubmit} className="form-container">
         <FormGroup
           id="nombre"
@@ -89,7 +89,7 @@ export default function CreateBautizo({ showSnackbar }) {
         />
         <FormGroup
           id="fecha_bautizo"
-          label="Fecha de Bautizo"
+          label="Fecha de Comunion"
           value={bautizo.fecha_bautizo}
           onChange={handleChange}
           type="date"
@@ -97,7 +97,7 @@ export default function CreateBautizo({ showSnackbar }) {
         />
         <FormGroup
           id="lugar_bautizo"
-          label="Lugar de Bautizo"
+          label="Lugar de Comunion"
           value={bautizo.lugar_bautizo}
           onChange={handleChange}
           required

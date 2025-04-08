@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
-import { useBautizoStore } from "../../store/useBautizoStore.js";
+import { useComunionStore } from "../../store/useComunionStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/sacramentos/SearchSacramento.css";
 
-export default function EditBautizo({ showSnackbar }) {
+export default function EditComunion({ showSnackbar }) {
   const location = useLocation();
-  const initialBautizo = location.state?.bautizo;
+  const initialComunion = location.state?.bautizo;
   const navigate = useNavigate();
-  const { editBautizo } = useBautizoStore();
+  const { editComunion } = useComunionStore();
 
   // 📌 Estado del formulario
-  const [bautizo, setBautizo] = useState(initialBautizo);
+  const [bautizo, setComunion] = useState(initialComunion);
 
   const [hasChanges, setHasChanges] = useState(false); // Estado para rastrear cambios en el form
 
   // 🔄 Sincronizar los inputs con los datos del bautizo cuando se cargue la página o cambie el bautizo seleccionado
   useEffect(() => {
-    setBautizo((prev) => ({
+    setComunion((prev) => ({
       ...prev,
       fecha_bautizo: prev.fecha_bautizo?.substring(0, 10) || "",
       fecha_nac: prev.fecha_nac?.substring(0, 10) || "",
@@ -30,9 +30,9 @@ export default function EditBautizo({ showSnackbar }) {
     const { id, value } = e.target;
 
     // Detecta si el nuevo valor es diferente al inicial
-    const isDifferent = initialBautizo?.[id] !== value;
+    const isDifferent = initialComunion?.[id] !== value;
 
-    setBautizo((prev) => ({ ...prev, [id]: value }));
+    setComunion((prev) => ({ ...prev, [id]: value }));
     setHasChanges(isDifferent);
   }
 
@@ -45,11 +45,11 @@ export default function EditBautizo({ showSnackbar }) {
     }
 
     try {
-      const response = await editBautizo(bautizo);
+      const response = await editComunion(bautizo);
 
       if (response?.status === 200) {
-        navigate("/search/bautizo", { replace: true });
-        showSnackbar("Bautizo editado correctamente!", "success");
+        navigate("/search/comunion", { replace: true });
+        showSnackbar("Comunion editado correctamente!", "success");
 
       } else {
         showSnackbar("Error al editar bautizo!", "error");
@@ -63,7 +63,7 @@ export default function EditBautizo({ showSnackbar }) {
 
   return (
     <div className="form-div">
-      <h1>Editar Bautizo de {bautizo.nombre} {bautizo.a_paterno} {bautizo.a_materno}</h1>
+      <h1>Editar Comunion de {bautizo.nombre} {bautizo.a_paterno} {bautizo.a_materno}</h1>
       <form onSubmit={handleEdit} className="form-container">
         <FormGroup
           id="nombre"
@@ -88,14 +88,14 @@ export default function EditBautizo({ showSnackbar }) {
         />
         <FormGroup
           id="lugar_bautizo"
-          label="Lugar de Bautizo"
+          label="Lugar de Comunion"
           value={bautizo.lugar_bautizo}
           onChange={handleChange}
           name="lugar_bautizo"
         />
         <FormGroup
           id="fecha_bautizo"
-          label="Fecha de Bautizo"
+          label="Fecha de Comunion"
           value={bautizo.fecha_bautizo}
           onChange={handleChange}
           name="fecha_bautizo"

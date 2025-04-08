@@ -12,6 +12,9 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import HomeRedirect from "./components/HomeRedirect.jsx";
 import { useAuthStore } from "./store/useAuthStore.js";
 import HomePage from "./pages/HomePage.jsx";
+import EditComunion from "./pages/comuniones/EditComunion.jsx";
+import SearchComunion from "./pages/comuniones/SearchComunion.jsx";
+import CreateComunion from "./pages/comuniones/CreateComunion.jsx";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
@@ -68,6 +71,30 @@ export default function App() {
         />
 
         {/* Rutas de Comuniones */}
+        <Route
+          path="/search/comunion"
+          element={
+            <ProtectedRoute>
+              <SearchComunion showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create/comunion"
+          element={
+            <ProtectedRoute>
+              <CreateComunion showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit/comunion"
+          element={
+            <ProtectedRoute>
+              <EditComunion showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Rutas de Confirmaciones */}
 

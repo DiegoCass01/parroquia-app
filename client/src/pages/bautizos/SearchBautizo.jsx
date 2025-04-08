@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { generarPDF } from "../../functions/feBautizoPdf.js";
 import { useBautizoStore } from "../../store/useBautizoStore.js";
-import "../../styles/bautizos/SearchBautizo.css";
+import "../../styles/sacramentos/SearchSacramento.css";
 import { useNavigate } from "react-router-dom";
 import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
+import "../../App.css";
 
 export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
@@ -73,14 +74,14 @@ export default function SearchBautizo({ showSnackbar }) {
     <div className="search-page">
       <h1>Busqueda de Bautizo</h1>
 
-      <SearchBar bautizos={filteredBautizos} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} />
+      <SearchBar sacramento={filteredBautizos} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} fechaField="fecha_bautizo" />
 
 
       {/* Lista de bautizos filtrados */}
-      <ul className="bautizo-container">
+      <ul className="sacramento-container">
         {filteredBautizos.length > 0 ? (
           filteredBautizos.map((bautizo) => (
-            <li key={bautizo.id_bautizo} className="bautizo-item">
+            <li key={bautizo.id_bautizo} className="sacramento-item">
               <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
               <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
               <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
