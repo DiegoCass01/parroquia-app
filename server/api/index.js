@@ -161,10 +161,10 @@ app.delete("/api/bautizos/:id_bautizo", (req, res) => {
       } else {
         if (results.affectedRows > 0) {
           res.json({
-            message: "Bautismo eliminado correctamente",
+            message: "Bautizo eliminado correctamente",
           });
         } else {
-          res.status(404).json({ error: "Bautismo no encontrado" });
+          res.status(404).json({ error: "Bautizo no encontrado" });
         }
       }
     }
@@ -183,7 +183,7 @@ app.get("/api/comuniones", (req, res) => {
   });
 });
 
-// Actualizar un comunion
+// Actualizar una comunion
 app.put("/api/comuniones/:id_comunion", (req, res) => {
   const { id_comunion } = req.params;
   const {
@@ -230,6 +230,29 @@ app.put("/api/comuniones/:id_comunion", (req, res) => {
         if (results.affectedRows > 0) {
           res.json({
             message: "Comunion actualizado correctamente",
+          });
+        } else {
+          res.status(404).json({ error: "Comunion no encontrado" });
+        }
+      }
+    }
+  );
+});
+
+// Eliminar una comunion
+app.delete("/api/comuniones/:id_comunion", (req, res) => {
+  const { id_comunion } = req.params;
+  pool.query(
+    "DELETE FROM comunion WHERE id_comunion = ?",
+    [id_comunion],
+    (err, results) => {
+      if (err) {
+        console.error("Error al eliminar el comunion:", err);
+        res.status(500).json({ error: "Error al eliminar el comunion" });
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({
+            message: "Comunion eliminado correctamente",
           });
         } else {
           res.status(404).json({ error: "Comunion no encontrado" });
