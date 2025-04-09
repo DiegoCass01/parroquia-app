@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import { useAuthStore } from "./useAuthStore";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -20,7 +19,6 @@ export const useConfirmacionStore = create((set) => ({
 
   createConfirmacion: async (nuevaConfirmacion) => {
     try {
-      const { user } = useAuthStore.getState();
       const res = await axios.post(`${API_URL}/confirmaciones`, {
         ...nuevaConfirmacion,
       });

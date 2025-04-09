@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import { useAuthStore } from "./useAuthStore";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -20,7 +19,6 @@ export const useMatrimonioStore = create((set) => ({
 
   createMatrimonio: async (nuevoMatrimonio) => {
     try {
-      const { user } = useAuthStore.getState(); // si necesitas el usuario
       const res = await axios.post(`${API_URL}/matrimonios`, {
         ...nuevoMatrimonio,
       });
