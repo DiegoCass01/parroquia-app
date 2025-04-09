@@ -22,6 +22,7 @@ import CreateConfirmacion from "./pages/confirmaciones/CreateConfirmacion.jsx";
 import CreateMatrimonio from "./pages/matrimonios/CreateMatrimonio.jsx";
 import EditMatrimonio from "./pages/matrimonios/EditMatrimonio.jsx";
 import SearchMatrimonio from "./pages/matrimonios/SearchMatrimonio.jsx";
+import EditUser from "./pages/admin/EditUser.jsx";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
@@ -153,6 +154,15 @@ export default function App() {
           element={
             <ProtectedRoute>
               <EditMatrimonio showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/edit/user"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <EditUser />
             </ProtectedRoute>
           }
         />

@@ -14,4 +14,11 @@ function isTokenExpired(token) {
   return decodedToken.exp < currentTime; // Verifica si el token ha expirado
 }
 
-export { parseJwt, isTokenExpired };
+// Función para verificar si el rol es el adecuado
+function hasRequiredRole(token, requiredRole) {
+  const decodedToken = parseJwt(token);
+  if (!decodedToken || !decodedToken.rol) return false;
+  return decodedToken.rol === requiredRole; // Compara el rol del token con el rol requerido
+}
+
+export { parseJwt, isTokenExpired, hasRequiredRole };

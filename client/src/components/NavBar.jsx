@@ -19,6 +19,13 @@ export default function NavBar() {
 
   return (
     <nav className="navbar">
+      {/* Aparecerá el botón si el usuario es administrador */}
+      {user && user.rol === "admin" && (
+        <Link to="/edit/user" className={location.pathname === "/edit/user" ? "active" : ""}>
+          <p>Admin</p>
+        </Link>
+      )}
+
       <Link to="/" className={location.pathname === "/homepage" ? "active" : ""}>
         <p>Registros</p>
       </Link>
@@ -36,14 +43,6 @@ export default function NavBar() {
         <button onClick={handleLogout} className="button-nav">
           <p>Cerrar sesión</p>
         </button>
-      )}
-
-      {/* Aparecerá el botón si el usuario es administrador */}
-      {user && user.rol === "admin" && (
-        <Link to="/admin" className={location.pathname === "/admin" ? "active" : ""}>
-          <p>Admin</p>
-        </Link>
-
       )}
     </nav>
   );
