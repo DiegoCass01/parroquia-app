@@ -639,11 +639,11 @@ app.post("/api/usuarios", (req, res) => {
 // Login -------------------------------------------------------------------------------------------
 // Iniciar sesión
 app.post("/api/login", (req, res) => {
-  const { correo, password } = req.body;
+  const { n_usuario, password } = req.body;
 
   pool.query(
-    "SELECT * FROM usuarios WHERE correo = ?",
-    [correo],
+    "SELECT * FROM usuarios WHERE n_usuario = ?",
+    [n_usuario],
     async (err, results) => {
       if (err || results.length === 0) {
         return res.status(401).json({ error: "Credenciales inválidas" });

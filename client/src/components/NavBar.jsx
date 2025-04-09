@@ -8,9 +8,6 @@ export default function NavBar() {
   const { user, logout } = useAuthStore(); // Obtener el estado y la función de logout
   const navigate = useNavigate();
 
-  // Verificar si el usuario está correctamente cargado
-  console.log("Usuario en NavBar:", user);
-
   // Función que maneja el cierre de sesión
   const handleLogout = () => {
     logout(); // Llamar a la función de logout del store

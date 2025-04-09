@@ -6,7 +6,7 @@ import "../styles/LoginPage.css";
 export default function LoginPage({ showSnackbar }) {
   const { login } = useAuthStore();
   const [formData, setFormData] = useState({
-    email: "",
+    n_usuario: "",
     password: "",
   });
 
@@ -27,10 +27,10 @@ export default function LoginPage({ showSnackbar }) {
     setLoading(true);
 
     // Intentar hacer login
-    const response = await login(formData.email, formData.password);
+    const response = await login(formData.n_usuario, formData.password);
 
     if (response.success) {
-      showSnackbar("¡Inicio de sesión exitoso!", "success");
+      showSnackbar(`¡Inicio de sesión exitoso! Bienvenido ${formData.n_usuario}`, "success");
       navigate("/homepage"); // Redirige al homepage 
     } else {
       showSnackbar(response.error, "error");
@@ -46,10 +46,10 @@ export default function LoginPage({ showSnackbar }) {
         <form onSubmit={handleLogin}>
           <div className="form-group-login">
             <input
-              type="email"
-              name="email"
-              placeholder="Correo"
-              value={formData.email}
+              type="n_usuario"
+              name="n_usuario"
+              placeholder="Nombre de usuario"
+              value={formData.n_usuario}
               onChange={handleChange}
               required
               className="login-input"

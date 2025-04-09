@@ -8,10 +8,10 @@ export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem("user")) || null,
   token: localStorage.getItem("token") || null,
 
-  login: async (correo, password) => {
+  login: async (n_usuario, password) => {
     try {
       const res = await axios.post(`${API_URL}/login`, {
-        correo,
+        n_usuario,
         password,
       });
 
