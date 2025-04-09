@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/HomePage.css";
 import { SacramentosCard } from "../components/SacramentosCard";
 
-export default function Create() {
+export default function CreatePage() {
   const navigate = useNavigate();
 
   const handleNavigate = (e) => {

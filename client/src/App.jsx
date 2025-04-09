@@ -15,7 +15,6 @@ import HomePage from "./pages/HomePage.jsx";
 import EditComunion from "./pages/comuniones/EditComunion.jsx";
 import SearchComunion from "./pages/comuniones/SearchComunion.jsx";
 import CreateComunion from "./pages/comuniones/CreateComunion.jsx";
-import Create from "./pages/Create.jsx";
 import SearchConfirmacion from "./pages/confirmaciones/SearchConfirmacion.jsx";
 import EditConfirmacion from "./pages/confirmaciones/EditConfirmacion.jsx";
 import CreateConfirmacion from "./pages/confirmaciones/CreateConfirmacion.jsx";
@@ -23,6 +22,7 @@ import CreateMatrimonio from "./pages/matrimonios/CreateMatrimonio.jsx";
 import EditMatrimonio from "./pages/matrimonios/EditMatrimonio.jsx";
 import SearchMatrimonio from "./pages/matrimonios/SearchMatrimonio.jsx";
 import EditUser from "./pages/admin/EditUser.jsx";
+import CreatePage from "./pages/CreatePage.jsx";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
@@ -51,7 +51,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/homepage" element={<HomePage />} />
-        <Route path="/create" element={<Create />} />
+        <Route path="/create" element={<CreatePage />} />
         <Route path="/login" element={<LoginPage showSnackbar={showSnackbar} />} />
 
         {/* Rutas de bautizos */}
