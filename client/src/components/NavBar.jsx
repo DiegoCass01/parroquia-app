@@ -8,6 +8,9 @@ export default function NavBar() {
   const { user, logout } = useAuthStore(); // Obtener el estado y la función de logout
   const navigate = useNavigate();
 
+  // Verificar si el usuario está correctamente cargado
+  console.log("Usuario en NavBar:", user);
+
   // Función que maneja el cierre de sesión
   const handleLogout = () => {
     logout(); // Llamar a la función de logout del store
@@ -33,6 +36,14 @@ export default function NavBar() {
         <button onClick={handleLogout} className="button-nav">
           <p>Cerrar sesión</p>
         </button>
+      )}
+
+      {/* Aparecerá el botón si el usuario es administrador */}
+      {user && user.rol === "admin" && (
+        <Link to="/admin" className={location.pathname === "/admin" ? "active" : ""}>
+          <p>Admin</p>
+        </Link>
+
       )}
     </nav>
   );

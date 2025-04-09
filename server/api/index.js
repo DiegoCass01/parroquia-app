@@ -21,7 +21,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Middleware para verificar JWT
+// Middleware to verify the JWT token
 const verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
   if (!token) {
@@ -38,13 +38,13 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).json({ error: "Token no válido o expirado" });
     }
-    req.user = decoded; // Decodificamos la información del usuario y la añadimos a la solicitud
+    req.user = decoded; // Añadir la información del usuario a la solicitud
     next();
   });
 };
 
 // Rutas
-app.get("/", (req, res) => {
+app.get("/", verifyToken, (req, res) => {
   res.send("✅ Servidor corriendo correctamente!");
 });
 
@@ -657,7 +657,7 @@ app.post("/api/login", (req, res) => {
       }
 
       const token = jwt.sign(
-        { id: user.id, nombre: user.nombre },
+        { id: user.id, nombre: user.nombre, rol: user.rol },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );

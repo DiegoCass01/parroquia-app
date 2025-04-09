@@ -1,16 +1,8 @@
 import { create } from "zustand";
 import axios from "axios";
+import { parseJwt } from "../functions/parseJwt";
 
 const API_URL = import.meta.env.VITE_API_URL;
-
-function parseJwt(token) {
-  try {
-    return JSON.parse(atob(token.split(".")[1]));
-  } catch (e) {
-    console.error("Error al parsear el JWT:", e);
-    return null;
-  }
-}
 
 export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem("user")) || null,
