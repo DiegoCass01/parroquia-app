@@ -31,7 +31,7 @@ export default function LoginPage({ showSnackbar }) {
 
     if (response.success) {
       showSnackbar("¡Inicio de sesión exitoso!", "success");
-      navigate("/"); // Redirige al home o a la página que desees después de loguearte
+      navigate("/homepage"); // Redirige al homepage 
     } else {
       showSnackbar(response.error, "error");
     }

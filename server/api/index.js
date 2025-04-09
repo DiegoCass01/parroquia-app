@@ -13,7 +13,7 @@ const DB_HOST = process.env.DB_HOST;
 
 // Middleware
 const corsOptions = {
-  origin: "http://localhost:5173", // Aquí va la URL de tu frontend
+  origin: "http://localhost:5173",
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };

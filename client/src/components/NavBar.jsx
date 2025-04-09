@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { descargarSQLDump } from "../functions/getAndDownloadDump.js";
 import "../styles/Navbar.css"
 import { useAuthStore } from "../store/useAuthStore.js";
@@ -6,10 +6,12 @@ import { useAuthStore } from "../store/useAuthStore.js";
 export default function NavBar() {
   const location = useLocation();
   const { user, logout } = useAuthStore(); // Obtener el estado y la función de logout
+  const navigate = useNavigate();
 
   // Función que maneja el cierre de sesión
   const handleLogout = () => {
     logout(); // Llamar a la función de logout del store
+    navigate("/"); // Redirigir al home
   };
 
   return (
