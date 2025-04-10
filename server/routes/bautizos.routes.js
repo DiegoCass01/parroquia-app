@@ -13,7 +13,7 @@ pool.getConnection((err, connection) => {
 });
 
 // Obtener todos los bautizos
-router.get("/", (req, res) => {
+router.get("/", verifyToken, (req, res) => {
   pool.query("SELECT * FROM bautizos", (err, results) => {
     if (err) {
       console.error("Error al obtener bautizos:", err);
