@@ -28,9 +28,9 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Rutas
-// app.get("/", (req, res) => {
-//   res.send("✅ Servidor corriendo correctamente!");
-// });
+app.get("/", (req, res) => {
+  res.send("✅ Servidor corriendo correctamente!");
+});
 
 app.use("/api/bautizos", routerBautizos);
 app.use("/api/comuniones", routerComuniones);
