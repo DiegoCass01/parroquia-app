@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { descargarSQLDump } from "../functions/getAndDownloadDump.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import "../styles/Navbar.css"
 import { useAuthStore } from "../store/useAuthStore.js";
 
@@ -31,14 +32,14 @@ export default function NavBar() {
         <p>Crear Registro</p>
       </Link>
 
-      <button onClick={descargarSQLDump} className="button-nav">
-        <p>Exportar BD</p>
-      </button>
+      {/* <button onClick={descargarSQLDump} className="button-nav">
+        <p className="button-nav-title">Exportar BD</p>
+      </button> */}
 
       {/* Verificar si hay un usuario logueado para mostrar el botón de logout */}
       {user && (
         <button onClick={handleLogout} className="button-nav">
-          <p>Cerrar sesión</p>
+          <FontAwesomeIcon icon={faPowerOff} className="button-nav-icon" />
         </button>
       )}
     </nav>

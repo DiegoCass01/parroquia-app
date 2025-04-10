@@ -9,7 +9,7 @@ body {
   /* Elimina el margen por defecto */
   font-family: Arial, sans-serif;
   /* Fuente general */
-  background-color: #222;
+  background-color: aliceblue;
   padding-top: 5%;
   /* Ajusta según la altura del navbar */
 }
@@ -17,7 +17,7 @@ body {
 /* Estilo para el botón de envío */
 .submit-button {
   background-color: #007bff;
-  color: white;
+  color: aliceblue;
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
@@ -30,7 +30,7 @@ body {
 
 .submit-button-edit {
   background-color: #333;
-  color: white;
+  color: aliceblue;
   padding: 12px 20px;
   border: none;
   border-radius: 4px;

@@ -2,13 +2,17 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: aliceblue;
+}
+
 .homepage {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: transparent;
+  background-color: aliceblue;
   width: 100%;
   /* Asegura que ocupe todo el ancho disponible */
   overflow: hidden;
@@ -18,7 +22,7 @@
 .homepage-title {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: whitesmoke;
+  color: black;
 }
 
 .sacramentos-container {
@@ -30,7 +34,7 @@
 }
 
 .btn-navigate {
-  background-color: white;
+  background-color: #444;
   border-radius: 16px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
@@ -41,11 +45,11 @@
 
 .btn-navigate:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 24px rgba(255, 255, 255, 0.15);
 }
 
 .btn-navigate .btn-title {
   margin: 0;
   font-size: 1.2rem;
-  color: #555;
+  color: aliceblue;
 }
