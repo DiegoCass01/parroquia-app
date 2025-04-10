@@ -8,7 +8,12 @@ export const useConfirmacionStore = create((set) => ({
 
   fetchConfirmaciones: async () => {
     try {
-      const res = await axios.get(`${API_URL}/confirmaciones`);
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
+      const res = await axios.get(`${API_URL}/confirmaciones`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+        },
+      });
       set({ confirmaciones: res.data });
       return res;
     } catch (error) {
@@ -19,9 +24,16 @@ export const useConfirmacionStore = create((set) => ({
 
   createConfirmacion: async (nuevaConfirmacion) => {
     try {
-      const res = await axios.post(`${API_URL}/confirmaciones`, {
-        ...nuevaConfirmacion,
-      });
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
+      const res = await axios.post(
+        `${API_URL}/confirmaciones`,
+        nuevaConfirmacion,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+          },
+        }
+      );
 
       set((state) => ({
         confirmaciones: [...state.confirmaciones, res.data],
@@ -36,9 +48,15 @@ export const useConfirmacionStore = create((set) => ({
 
   editConfirmacion: async (confirmacion) => {
     try {
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
       const res = await axios.put(
         `${API_URL}/confirmaciones/${confirmacion.id_confirmacion}`,
-        confirmacion
+        confirmacion,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+          },
+        }
       );
 
       set((state) => ({
@@ -58,7 +76,12 @@ export const useConfirmacionStore = create((set) => ({
 
   deleteConfirmacion: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/confirmaciones/${id}`);
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
+      const res = await axios.delete(`${API_URL}/confirmaciones/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+        },
+      });
 
       set((state) => ({
         confirmaciones: state.confirmaciones.filter(

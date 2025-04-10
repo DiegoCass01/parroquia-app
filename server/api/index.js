@@ -61,7 +61,7 @@ app.post("/api/login", (req, res) => {
       const token = jwt.sign(
         { id: user.id, nombre: user.nombre, rol: user.rol },
         process.env.JWT_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "7d" }
       );
 
       res.json({

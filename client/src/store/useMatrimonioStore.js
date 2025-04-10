@@ -8,7 +8,12 @@ export const useMatrimonioStore = create((set) => ({
 
   fetchMatrimonios: async () => {
     try {
-      const res = await axios.get(`${API_URL}/matrimonios`);
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
+      const res = await axios.get(`${API_URL}/matrimonios`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+        },
+      });
       set({ matrimonios: res.data });
       return res;
     } catch (error) {
@@ -19,8 +24,11 @@ export const useMatrimonioStore = create((set) => ({
 
   createMatrimonio: async (nuevoMatrimonio) => {
     try {
-      const res = await axios.post(`${API_URL}/matrimonios`, {
-        ...nuevoMatrimonio,
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
+      const res = await axios.post(`${API_URL}/matrimonios`, nuevoMatrimonio, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+        },
       });
 
       set((state) => ({
@@ -39,9 +47,15 @@ export const useMatrimonioStore = create((set) => ({
 
   editMatrimonio: async (matrimonio) => {
     try {
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
       const res = await axios.put(
         `${API_URL}/matrimonios/${matrimonio.id_matrimonio}`,
-        matrimonio
+        matrimonio,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+          },
+        }
       );
 
       set((state) => ({
@@ -61,7 +75,12 @@ export const useMatrimonioStore = create((set) => ({
 
   deleteMatrimonio: async (id) => {
     try {
-      const res = await axios.delete(`${API_URL}/matrimonios/${id}`);
+      const token = localStorage.getItem("token"); // Obtén el token cada vez
+      const res = await axios.delete(`${API_URL}/matrimonios/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+        },
+      });
 
       set((state) => ({
         matrimonios: state.matrimonios.filter((m) => m.id_matrimonio !== id),
