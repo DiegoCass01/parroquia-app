@@ -1,10 +1,17 @@
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
+import { isTokenExpired } from "../functions/parseJwt";
 
-// HomeRedirect.jsx
-// Este componente redirige al usuario a la página de login o a la página de búsqueda dependiendo de si está autenticado
-// Si el usuario está autenticado, lo redirige a "/search", de lo contrario a "/login"
+// Este componente redirige al login si el token no existe o ha expirado.
+// Si está autenticado correctamente, va a /homepage
 export default function HomeRedirect() {
-  const { user } = useAuthStore();
+  const { user, token } = useAuthStore();
+
+  // Si no hay token o está expirado, redirigir al login
+  if (!token || isTokenExpired(token)) {
+    return <Navigate to="/login" />;
+  }
+
+  // Si hay token válido y usuario, redirigir al home
   return user ? <Navigate to="/homepage" /> : <Navigate to="/login" />;
 }

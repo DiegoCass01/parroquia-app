@@ -2,7 +2,7 @@ import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import { useEffect, useState } from "react";
 import { useBautizoStore } from "./store/useBautizoStore.js";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
 import SearchBautizo from "./pages/bautizos/SearchBautizo.jsx";
 import CreateBautizo from "./pages/bautizos/CreateBautizo.jsx";
@@ -23,9 +23,21 @@ import EditMatrimonio from "./pages/matrimonios/EditMatrimonio.jsx";
 import SearchMatrimonio from "./pages/matrimonios/SearchMatrimonio.jsx";
 import EditUser from "./pages/admin/EditUser.jsx";
 import CreatePage from "./pages/CreatePage.jsx";
+import { isTokenExpired } from "./functions/parseJwt.js";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
+  const { user, token, logout } = useAuthStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Redirección global si el token ha expirado o no existe
+  useEffect(() => {
+    if (!token || isTokenExpired(token)) {
+      logout(); // limpia el estado de autenticación
+      navigate("/login", { replace: true });
+    }
+  }, [token, logout, navigate]);
 
   useEffect(() => {
     fetchBautizos();
@@ -40,10 +52,9 @@ export default function App() {
     setAlertSeverity(severity);
     setOpenSnackbar(true);
   };
-  const { user } = useAuthStore();
 
-  // Asegúrate de no renderizar el NavBar en rutas donde el usuario no debería verlo
-  const shouldRenderNavBar = user && location.pathname !== "/login" && location.pathname !== "/";
+  const shouldRenderNavBar =
+    user && token && !isTokenExpired(token) && location.pathname !== "/login" && location.pathname !== "/";
 
   return (
     <div>
@@ -152,7 +163,7 @@ export default function App() {
         <Route
           path="/edit/matrimonio"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute >
               <EditMatrimonio showSnackbar={showSnackbar} />
             </ProtectedRoute>
           }
