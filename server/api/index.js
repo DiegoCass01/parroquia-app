@@ -44,7 +44,7 @@ app.post("/api/login", (req, res) => {
   const { n_usuario, password } = req.body;
 
   pool.query(
-    "SELECT * FROM usuarios WHERE n_usuario = ?",
+    "SELECT * FROM usuario WHERE n_usuario = ?",
     [n_usuario],
     async (err, results) => {
       if (err || results.length === 0) {

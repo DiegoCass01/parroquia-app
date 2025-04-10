@@ -24,7 +24,6 @@ export const useAuthStore = create((set) => ({
 
       set({ user, token });
 
-      console.log("✅ Usuario logueado:", user.nombre);
       return { success: true };
     } catch (err) {
       console.error(
