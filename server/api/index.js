@@ -19,7 +19,7 @@ const DB_HOST = process.env.DB_HOST;
 
 // Middleware
 const corsOptions = {
-  // origin: "http://localhost:5173",
+  origin: "*", // Permitir todas las solicitudes de origen
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };
