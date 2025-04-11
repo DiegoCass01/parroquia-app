@@ -8,13 +8,14 @@ body {
   /* Elimina el margen por defecto */
   font-family: Arial, sans-serif;
   /* Fuente general */
-  background-color: #222;
+  background-color: aliceblue;
   padding-top: 5%;
   /* Ajusta según la altura del navbar */
 }
 
 .form-div {
   padding-top: 5vh;
+  color: black;
 }
 
 /* Estilo para el contenedor principal del formulario */
@@ -23,16 +24,16 @@ body {
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #222;
+  background-color: aliceblue;
   border-radius: 8px;
-  border: 1px solid #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #444;
+  box-shadow: 0 0 10px #666;
 }
 
 h1 {
   font-size: clamp(1.5rem, 5vw, 3rem);
   /* Mínimo 1.5rem, preferido 5vw, máximo 3rem */
-  color: #fff;
+  color: black;
   display: flex;
   justify-content: center;
 }
