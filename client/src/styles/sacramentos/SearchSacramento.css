@@ -1,6 +1,6 @@
 .search-page {
   display: flex;
-  top: auto;
+  margin-top: clamp(2vh, 4vw, 8vh);
   left: 0;
   flex-direction: column;
   background-color: whitesmoke;
@@ -28,9 +28,8 @@
 
 .search-page h1 {
   text-align: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #000000;
-  margin-bottom: 2%;
   font-weight: bold;
 }
 
@@ -61,7 +60,7 @@
   align-items: center;
   width: 55%;
   background-color: transparent;
-  padding: 15px;
+  padding-top: 2%;
 }
 
 .filter {
