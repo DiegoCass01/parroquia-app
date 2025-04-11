@@ -3,13 +3,12 @@
   left: 0;
   top: 0;
   z-index: 1000;
-  padding: 1rem 5%;
   width: 100%;
   background-color: whitesmoke;
   display: flex;
   justify-content: space-between;
   gap: 10px;
-
+  padding-right: 5%;
   border-bottom: 4px solid;
   border-image: linear-gradient(to right, transparent 0%, #333 30%, #333 70%, transparent 100%) 1;
 }
@@ -21,25 +20,12 @@
   justify-content: space-evenly;
 }
 
-.button-nav {
-  text-decoration: none;
-  color: black;
-  font-size: 1rem;
-  font-weight: bold;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border-radius: 5px;
-}
-
 .navbar-links a {
+  padding: .8rem 5%;
   text-decoration: none;
   color: black;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  padding-inline: 14px;
-  padding-block: 2px;
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
 }
@@ -57,6 +43,18 @@
   border-image-slice: 2;
   transition: all 0.3s ease-in-out;
   background: transparent;
+}
+
+.button-nav {
+  text-decoration: none;
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
 }
 
 .button-nav {

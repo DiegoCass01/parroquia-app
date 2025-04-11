@@ -41,7 +41,7 @@ export default function LoginPage({ showSnackbar }) {
 
   return (
     <div className="login-container">
-      <div className="login-card">
+      <section className="login-card">
         <h2>Iniciar sesión</h2>
         <form onSubmit={handleLogin}>
           <div className="form-group-login">
@@ -54,8 +54,6 @@ export default function LoginPage({ showSnackbar }) {
               required
               className="login-input"
             />
-          </div>
-          <div className="form-group">
             <input
               type="password"
               name="password"
@@ -66,11 +64,11 @@ export default function LoginPage({ showSnackbar }) {
               className="login-input"
             />
           </div>
-          <button type="submit" className="submit-button" disabled={loading}>
+          <button type="submit" className="submit-button-login" disabled={loading}>
             {loading ? "Cargando..." : "Iniciar sesión"}
           </button>
         </form>
-      </div>
+      </section>
     </div>
   );
 }

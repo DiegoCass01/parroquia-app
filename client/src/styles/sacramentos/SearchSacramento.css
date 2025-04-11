@@ -1,6 +1,6 @@
 .search-page {
   display: flex;
-  margin-top: clamp(2vh, 4vw, 8vh);
+  margin-top: clamp(2vh, 6vw, 8vh);
   left: 0;
   flex-direction: column;
   background-color: whitesmoke;
@@ -22,7 +22,7 @@
   justify-content: center;
   width: 100%;
   background-color: whitesmoke;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 

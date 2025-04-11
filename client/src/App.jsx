@@ -179,8 +179,34 @@ export default function App() {
         />
       </Routes>
 
-      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}>
-        <Alert onClose={() => setOpenSnackbar(false)} severity={alertSeverity} sx={{ width: "100%" }}>
+      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }} // Puedes cambiar "top" y "center"
+        sx={{
+          zIndex: 9999,
+        }} >
+        <Alert onClose={() => setOpenSnackbar(false)} severity={alertSeverity} sx={{
+          width: "100%",
+          fontSize: "1rem",
+          fontWeight: 500,
+          borderRadius: "10px",
+          boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+          backgroundColor:
+            alertSeverity === "success"
+              ? "#e8f5e9"
+              : alertSeverity === "error"
+                ? "#ffebee"
+                : alertSeverity === "warning"
+                  ? "#fff8e1"
+                  : "#e3f2fd",
+          color:
+            alertSeverity === "success"
+              ? "#2e7d32"
+              : alertSeverity === "error"
+                ? "#c62828"
+                : alertSeverity === "warning"
+                  ? "#f9a825"
+                  : "#0277bd",
+        }}>
           {alertMessage}
         </Alert>
       </Snackbar>
