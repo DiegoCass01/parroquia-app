@@ -60,15 +60,16 @@ export default function SearchConfirmacion({ showSnackbar }) {
 
   return (
     <div className="search-page">
-      <h1>Búsqueda de Confirmación</h1>
-
-      <SearchBar
-        sacramento={confirmaciones}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        setFilterParam={setFilterParam}
-        fechaField="fecha_confirmacion" // <-- este campo es clave para usar el año correcto
-      />
+      <section className="search-sacramento-header">
+        <h1>Búsqueda de Confirmación</h1>
+        <SearchBar
+          sacramento={confirmaciones}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setFilterParam={setFilterParam}
+          fechaField="fecha_confirmacion"
+        />
+      </section>
 
       <div className="sacramento-container">
         <ul className="sacramento-container">

@@ -68,9 +68,15 @@ export default function SearchComunion({ showSnackbar }) {
 
   return (
     <div className="search-page">
-      <h1>Busqueda de Comunion</h1>
-
-      <SearchBar sacramento={filteredComuniones} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} fechaField="fecha_comunion" />
+      <section className="search-sacramento-header">
+        <h1>Busqueda de Comunion</h1>
+        <SearchBar
+          sacramento={filteredComuniones}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setFilterParam={setFilterParam}
+          fechaField="fecha_comunion" />
+      </section>
 
       {/* Lista de comuniones filtrados */}
       <div className="sacramento-container">

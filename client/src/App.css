@@ -9,9 +9,8 @@ body {
   /* Elimina el margen por defecto */
   font-family: Arial, sans-serif;
   /* Fuente general */
-  background-color: aliceblue;
-  padding-top: 5%;
-  /* Ajusta según la altura del navbar */
+  background-color: whitesmoke;
+  padding: 0;
 }
 
 /* Estilo para el botón de envío */
@@ -50,8 +49,6 @@ body {
   background-color: #444;
 }
 
-
-
 .submit-button-delete {
   background-color: #dc3545;
   color: aliceblue;
@@ -82,16 +79,4 @@ body {
   .submit-button {
     font-size: 0.9rem;
   }
-}
-
-
-
-.navbar-content {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.navbar-item {
-  margin-right: 1rem;
 }

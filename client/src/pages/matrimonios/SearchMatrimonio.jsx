@@ -61,15 +61,16 @@ export default function SearchMatrimonio({ showSnackbar }) {
 
   return (
     <div className="search-page">
-      <h1>Búsqueda de Matrimonio</h1>
-
-      <SearchBar
-        sacramento={matrimonios}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        setFilterParam={setFilterParam}
-        fechaField="fecha_matrimonio"
-      />
+      <section className="search-sacramento-header">
+        <h1>Búsqueda de Matrimonio</h1>
+        <SearchBar
+          sacramento={matrimonios}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setFilterParam={setFilterParam}
+          fechaField="fecha_matrimonio"
+        />
+      </section>
 
       <div className="sacramento-container">
         <ul className="sacramento-container">

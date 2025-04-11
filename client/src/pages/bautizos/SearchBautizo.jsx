@@ -67,9 +67,15 @@ export default function SearchBautizo({ showSnackbar }) {
 
   return (
     <div className="search-page">
-      <h1>Busqueda de Bautizo</h1>
-
-      <SearchBar sacramento={filteredBautizos} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} fechaField="fecha_bautizo" />
+      <section className="search-sacramento-header">
+        <h1>Busqueda de Bautizo</h1>
+        <SearchBar
+          sacramento={filteredBautizos}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setFilterParam={setFilterParam}
+          fechaField="fecha_bautizo" />
+      </section>
 
       {/* Lista de bautizos filtrados */}
       <div className="sacramento-container">

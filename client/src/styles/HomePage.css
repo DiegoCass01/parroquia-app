@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: aliceblue;
+  background-color: whitesmoke;
 }
 
 .homepage {
@@ -12,7 +12,7 @@ body {
   align-items: center;
   padding: 5rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: aliceblue;
+  background-color: whitesmoke;
   width: 100%;
   /* Asegura que ocupe todo el ancho disponible */
   overflow: hidden;
