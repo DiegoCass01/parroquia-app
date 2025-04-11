@@ -1,0 +1,216 @@
+/* Estilo general para la página de usuarios */
+.usuarios-page {
+  display: flex;
+  margin-top: clamp(2vh, 6vw, 8vh);
+  left: 0;
+  flex-direction: column;
+  background-color: whitesmoke;
+  width: 90vw;
+  /* 80vw para dispositivos grandes y 90vw para móviles */
+  max-width: 1200px;
+  /* Máxima anchura en pantallas grandes */
+  border-radius: 8px;
+  padding: 1rem;
+  /* Añadido relleno para mejor espaciado */
+  box-sizing: border-box;
+}
+
+/* Estilo del header de la página */
+.usuarios-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: whitesmoke;
+  padding: 0.5rem;
+}
+
+/* Estilo del título */
+.usuarios-page h1 {
+  text-align: center;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  /* Tamaño de fuente responsive */
+  color: #000000;
+  font-weight: bold;
+}
+
+/* Estilo del botón de envío */
+.usuarios-submit-button {
+  background-color: #007bff;
+  color: aliceblue;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  width: 60%;
+  max-width: 500px;
+  /* Máximo tamaño en pantallas grandes */
+  padding: 0.75rem;
+}
+
+/* Hover del botón */
+.usuarios-submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* Contenedor de usuarios */
+.usuario-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Estilo para la lista de usuarios */
+.usuario-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Estilo de cada usuario */
+.usuario-item {
+  width: 100%;
+  margin: 16px 0;
+  padding: 20px;
+  background-color: aliceblue;
+  border-radius: 12px;
+  border: 1px solid #666;
+  box-shadow: 0 4px 8px #666;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.usuario-item:hover {
+  box-shadow: 0 6px 12px #999;
+}
+
+/* Estilo de la información de usuario */
+.usuario-info {
+  display: flex;
+  gap: 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  /* Permite que los elementos se ajusten en pantallas más pequeñas */
+}
+
+.info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.75rem;
+  border-right: 1px solid #ccc;
+  background-color: #fafafa;
+  min-width: 150px;
+  /* Asegura que cada sección tenga un tamaño mínimo */
+}
+
+.info-item:last-child {
+  border-right: none;
+}
+
+.info-item label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.info-content {
+  border-top: 1px solid #ccc;
+  padding-top: 0.25rem;
+  width: 100%;
+}
+
+.info-content span {
+  display: block;
+}
+
+/* Estilo de los botones de los sacramentos */
+.sacramento-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  /* Los botones se ajustan en pantallas más pequeñas */
+}
+
+/* Estilo cuando no hay elementos disponibles */
+.no-elements-item {
+  margin: 2%;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  height: 65vh;
+  min-height: 150px;
+  /* Altura mínima para pantallas pequeñas */
+  width: 100%;
+  max-width: 800px;
+  background-color: #f0f0f0;
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .usuarios-page {
+    width: 95vw;
+    margin-top: clamp(2vh, 8vw, 10vh);
+  }
+
+  .usuario-info {
+    flex-direction: column;
+    /* Cambia a columna en pantallas pequeñas */
+  }
+
+  .info-item {
+    border-right: none;
+    /* Quitar borde en pantallas pequeñas */
+    padding: 1rem;
+  }
+
+  .usuarios-submit-button {
+    width: 80%;
+  }
+
+  .usuario-item {
+    padding: 15px;
+  }
+
+  .usuarios-page h1 {
+    font-size: 2rem;
+    /* Ajusta el tamaño de la fuente en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .usuarios-page {
+    width: 100vw;
+    padding: 1rem;
+  }
+
+  .usuarios-submit-button {
+    width: 90%;
+    font-size: 0.9rem;
+  }
+
+  .usuario-item {
+    padding: 12px;
+  }
+
+  .usuario-info {
+    flex-direction: column;
+    /* Mejor presentación en pantallas muy pequeñas */
+  }
+}

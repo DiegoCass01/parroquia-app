@@ -21,9 +21,11 @@ import CreateConfirmacion from "./pages/confirmaciones/CreateConfirmacion.jsx";
 import CreateMatrimonio from "./pages/matrimonios/CreateMatrimonio.jsx";
 import EditMatrimonio from "./pages/matrimonios/EditMatrimonio.jsx";
 import SearchMatrimonio from "./pages/matrimonios/SearchMatrimonio.jsx";
-import EditUser from "./pages/admin/EditUser.jsx";
 import CreatePage from "./pages/CreatePage.jsx";
 import { isTokenExpired } from "./functions/parseJwt.js";
+import UsuariosPage from "./pages/admin/UsuariosPage.jsx";
+import EditUsuario from "./pages/admin/EditUsuario.jsx";
+import CreateUsuario from "./pages/admin/CreateUsuario.jsx";
 
 export default function App() {
   const { fetchBautizos } = useBautizoStore();
@@ -169,11 +171,28 @@ export default function App() {
           }
         />
 
+        {/* Rutas de Admin */}
         <Route
-          path="/edit/user"
+          path="/search/usuarios"
           element={
             <ProtectedRoute requiredRole="admin">
-              <EditUser />
+              <UsuariosPage showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create/usuario"
+          element={
+            <ProtectedRoute>
+              <CreateUsuario showSnackbar={showSnackbar} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit/usuario"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <EditUsuario showSnackbar={showSnackbar} />
             </ProtectedRoute>
           }
         />

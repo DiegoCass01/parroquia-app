@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/FormGroup.css"; // Asegúrate de que la ruta sea correcta
 
-const FormGroup = ({ id, label, value, onChange, type = "text", required = false }) => {
+const FormGroup = ({ id, label, value, onChange, type = "text", required = false, placeholder }) => {
   return (
     <div className="form-group">
       <label htmlFor={id} className="label">{label}</label>
@@ -14,6 +14,7 @@ const FormGroup = ({ id, label, value, onChange, type = "text", required = false
         required={required}
         min={type === "date" ? "1900-01-01" : undefined} // Solo para tipo fecha
         max={type === "date" ? new Date().toISOString().split("T")[0] : undefined} // Solo para tipo fecha
+        placeholder={placeholder}
       />
     </div>
   );

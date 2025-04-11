@@ -20,7 +20,7 @@ export default function NavBar() {
       <section className="navbar-links">
         {/* Aparecerá el botón si el usuario es administrador */}
         {user && user.rol === "admin" && (
-          <Link to="/edit/user" className={location.pathname === "/edit/user" ? "active" : ""}>
+          <Link to="/search/usuarios" className={location.pathname === "/search/usuario" ? "active" : ""}>
             <p>Admin</p>
           </Link>
         )}

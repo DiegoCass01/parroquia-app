@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
 import { useConfirmacionStore } from "../../store/useConfirmacionStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../../styles/sacramentos/SearchSacramento.css";
+import "../../styles/sacramentos/CreateSacramento.css";
+
 
 export default function EditConfirmacion({ showSnackbar }) {
   const location = useLocation();

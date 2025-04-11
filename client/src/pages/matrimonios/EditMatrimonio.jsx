@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
 import { useMatrimonioStore } from "../../store/useMatrimonioStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../../styles/sacramentos/SearchSacramento.css";
+import "../../styles/sacramentos/CreateSacramento.css";
 
 export default function EditMatrimonio({ showSnackbar }) {
   const location = useLocation();

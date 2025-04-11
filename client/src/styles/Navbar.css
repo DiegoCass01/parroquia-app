@@ -9,7 +9,7 @@
   justify-content: space-between;
   gap: 10px;
   padding-right: 5%;
-  border-bottom: 4px solid;
+  border-bottom: 1px solid;
   border-image: linear-gradient(to right, transparent 0%, #333 30%, #333 70%, transparent 100%) 1;
 }
 

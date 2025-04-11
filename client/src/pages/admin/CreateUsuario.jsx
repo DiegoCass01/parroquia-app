@@ -1,0 +1,68 @@
+import { useState } from "react";
+import { FormGroup } from "../../components/FormGroup.jsx";
+import { useUsuarioStore } from "../../store/useUsuarioStore.js";
+import "../../styles/admin/CreateUsuario.css";
+export default function CreateUsuario({ showSnackbar }) {
+
+  const { createUsuario } = useUsuarioStore();
+
+  const [usuario, setUsuario] = useState({
+    nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: ""
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await createUsuario(usuario);
+
+      if (response && response.status >= 200 && response.status < 300) {
+        setUsuario({
+          nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: ""
+        });
+        showSnackbar("Usuario creado correctamente!", "success");
+      } else {
+        console.error("Error creating usuario:", response?.data || response);
+        showSnackbar("Error al crear usuario!", "error");
+      }
+
+    } catch (error) {
+      console.error("Error while creating usuario:", error);
+      showSnackbar("Error de red al crear usuario!", "error");
+    }
+  };
+
+  const handleChange = (e) => {
+    setUsuario(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  }
+
+  return (
+    <div className="form-div">
+      <h1>Registro de Usuarios</h1>
+      <form onSubmit={handleSubmit} className="form-container">
+        {/* DATOS DEL USUARIO */}
+        <fieldset>
+          <legend>Datos del Usuario</legend>
+          <FormGroup id="n_usuario" label="Nombre de Usuario" value={usuario.n_usuario} onChange={handleChange} required />
+          <FormGroup id="password" label="Contraseña" value={usuario.password} onChange={handleChange} type="password" required />
+          <label htmlFor={"rol"} className="label">Rol</label>
+          <select id="rol" name="rol" value={usuario.rol} onChange={handleChange} required className="input">
+            <option value="usuario">Usuario</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </fieldset>
+        <br />
+        <fieldset>
+          <legend>Datos Generales</legend>
+          <FormGroup id="nombre" label="Nombre" value={usuario.nombre} onChange={handleChange} required />
+          <FormGroup id="a_paterno" label="Apellido Paterno" value={usuario.a_paterno} onChange={handleChange} required />
+          <FormGroup id="a_materno" label="Apellido Materno" value={usuario.a_materno} onChange={handleChange} required />
+        </fieldset>
+
+        <button type="submit" className="submit-button" >Agregar</button>
+      </form>
+
+
+    </div >
+  )
+}
