@@ -17,20 +17,22 @@ export default function NavBar() {
 
   return (
     <nav className="navbar">
-      {/* Aparecerá el botón si el usuario es administrador */}
-      {user && user.rol === "admin" && (
-        <Link to="/edit/user" className={location.pathname === "/edit/user" ? "active" : ""}>
-          <p>Admin</p>
+      <section className="navbar-links">
+        {/* Aparecerá el botón si el usuario es administrador */}
+        {user && user.rol === "admin" && (
+          <Link to="/edit/user" className={location.pathname === "/edit/user" ? "active" : ""}>
+            <p>Admin</p>
+          </Link>
+        )}
+
+        <Link to="/" className={location.pathname === "/homepage" ? "active" : ""}>
+          <p>Registros</p>
         </Link>
-      )}
 
-      <Link to="/" className={location.pathname === "/homepage" ? "active" : ""}>
-        <p>Registros</p>
-      </Link>
-
-      <Link to="/create" className={location.pathname === "/create" ? "active" : ""}>
-        <p>Crear Registro</p>
-      </Link>
+        <Link to="/create" className={location.pathname === "/create" ? "active" : ""}>
+          <p>Crear Registro</p>
+        </Link>
+      </section>
 
       {/* <button onClick={descargarSQLDump} className="button-nav">
         <p className="button-nav-title">Exportar BD</p>
