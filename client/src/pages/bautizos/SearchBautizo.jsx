@@ -7,6 +7,7 @@ import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
 import { normalizeText } from "../../functions/normalizeText.js";
+import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 
 export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
@@ -80,16 +81,12 @@ export default function SearchBautizo({ showSnackbar }) {
                 <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
                 <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
                 <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
-                <section className="sacramento-buttons">
-                  <button onClick={() => handleDelete(bautizo.id_bautizo)} className="submit-button-delete">Eliminar</button>
-                  <button onClick={() => generarPDF({ datos: bautizo })} className="submit-button">
-                    Generar Fe de Bautizo
-                  </button>
-                  <button onClick={() => handleEdit(bautizo)} className="submit-button-edit">
-                    Editar Bautizo
-                  </button>
-                </section>
-
+                <SacramentoButtons
+                  handleDelete={() => handleDelete(bautizo.id_bautizo)}
+                  generarPDF={() => generarPDF({ datos: bautizo })}
+                  handleEdit={() => handleEdit(bautizo)}
+                  tipo="bautizo"
+                />
               </li>
             ))
           ) : (

@@ -7,6 +7,7 @@ import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf";
 import { normalizeText } from "../../functions/normalizeText";
+import SacramentoButtons from "../../components/SacramentoButtons";
 
 export default function SearchConfirmacion({ showSnackbar }) {
   const { confirmaciones, fetchConfirmaciones, deleteConfirmacion } = useConfirmacionStore();
@@ -81,11 +82,12 @@ export default function SearchConfirmacion({ showSnackbar }) {
                 <span>Libro: {conf.libro}</span>
                 <span>Foja: {conf.foja}</span>
                 <span>Acta: {conf.acta}</span>
-                <section className="sacramento-buttons">
-                  <button onClick={() => handleDelete(conf.id_confirmacion)} className="submit-button-delete">Eliminar</button>
-                  <button onClick={() => generarPDF({ datos: conf })} className="submit-button">Generar Fe de Confirmacion</button>
-                  <button onClick={() => handleEdit(conf)} className="submit-button-edit">Editar Confirmación</button>
-                </section>
+                <SacramentoButtons
+                  handleDelete={() => handleDelete(conf.id_confirmacion)}
+                  generarPDF={() => generarPDF({ datos: conf })}
+                  handleEdit={() => handleEdit(conf)}
+                  tipo="confirmación"
+                />
 
               </li>
             ))

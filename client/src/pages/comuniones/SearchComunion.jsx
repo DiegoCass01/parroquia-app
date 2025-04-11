@@ -8,6 +8,7 @@ import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf.js";
 import { normalizeText } from "../../functions/normalizeText.js";
+import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 
 export default function SearchComunion({ showSnackbar }) {
   const { comuniones, fetchComuniones, deleteComunion } = useComunionStore();
@@ -82,11 +83,12 @@ export default function SearchComunion({ showSnackbar }) {
                 <span>Lugar Comunion: {comunion.lugar_comunion}</span>
                 <span>Padre: {comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
                 <span>Madre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
-                <section className="sacramento-buttons">
-                  <button onClick={() => handleDelete(comunion.id_comunion)} className="submit-button-delete">Eliminar</button>
-                  <button onClick={() => generarPDF({ datos: comunion })} className="submit-button">Generar Fe de Comunion</button>
-                  <button onClick={() => handleEdit(comunion)} className="submit-button-edit">Editar Comunion</button>
-                </section>
+                <SacramentoButtons
+                  handleDelete={() => handleDelete(comunion.id_comunion)}
+                  generarPDF={() => generarPDF({ datos: comunion })}
+                  handleEdit={() => handleEdit(comunion)}
+                  tipo="comunion"
+                />
               </li>
             ))
           ) : (

@@ -7,6 +7,7 @@ import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf";
 import { normalizeText } from "../../functions/normalizeText";
+import SacramentoButtons from "../../components/SacramentoButtons";
 
 export default function SearchMatrimonio({ showSnackbar }) {
   const { matrimonios, fetchMatrimonios, deleteMatrimonio } = useMatrimonioStore();
@@ -82,11 +83,12 @@ export default function SearchMatrimonio({ showSnackbar }) {
                 <span>Libro: {mat.libro}</span>
                 <span>Foja: {mat.foja}</span>
                 <span>Acta: {mat.acta}</span>
-                <section className="sacramento-buttons">
-                  <button onClick={() => handleDelete(mat.id_matrimonio)} className="submit-button-delete">Eliminar</button>
-                  <button onClick={() => generarPDF({ datos: mat })} className="submit-button">Generar Fe de Matrimonio</button>
-                  <button onClick={() => handleEdit(mat)} className="submit-button-edit">Editar Matrimonio</button>
-                </section>
+                <SacramentoButtons
+                  handleDelete={() => handleDelete(mat.id_matrimonio)}
+                  generarPDF={() => generarPDF({ datos: mat })}
+                  handleEdit={() => handleEdit(mat)}
+                  tipo="matrimonio"
+                />
               </li>
             ))
           ) : (
