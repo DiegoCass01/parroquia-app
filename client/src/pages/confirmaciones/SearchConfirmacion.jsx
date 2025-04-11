@@ -69,32 +69,33 @@ export default function SearchConfirmacion({ showSnackbar }) {
         fechaField="fecha_confirmacion" // <-- este campo es clave para usar el año correcto
       />
 
-      <ul className="sacramento-container">
-        {filteredConfirmaciones.length > 0 ? (
-          filteredConfirmaciones.map((conf) => (
-            <li key={conf.id_confirmacion} className="sacramento-item">
-              <span><strong>{`${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`}</strong></span>
-              <span>Padre: {conf.nom_padre + " " + conf.a_pat_padre + " " + conf.a_mat_padre}</span>
-              <span>Madre: {conf.nom_madre + " " + conf.a_pat_madre + " " + conf.a_mat_madre}</span>
-              <span>Fecha Confirmación: {formatDateLong(conf.fecha_confirmacion)}</span>
-              <span>Libro: {conf.libro}</span>
-              <span>Foja: {conf.foja}</span>
-              <span>Acta: {conf.acta}</span>
-              <button onClick={() => handleDelete(conf.id_confirmacion)} className="submit-button-delete">Eliminar</button>
-              <button onClick={() => generarPDF({ datos: conf })} className="submit-button">
-                Generar Fe de Confirmacion
-              </button>
-              <button onClick={() => handleEdit(conf)} className="submit-button-edit">
-                Editar Confirmación
-              </button>
-            </li>
-          ))
-        ) : (
-          <div className="no-elements-item">
-            <strong><p>No se encontraron confirmaciones.</p></strong>
-          </div>
-        )}
-      </ul>
+      <div className="sacramento-container">
+        <ul className="sacramento-container">
+          {filteredConfirmaciones.length > 0 ? (
+            filteredConfirmaciones.map((conf) => (
+              <li key={conf.id_confirmacion} className="sacramento-item">
+                <span><strong>{`${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`}</strong></span>
+                <span>Padre: {conf.nom_padre + " " + conf.a_pat_padre + " " + conf.a_mat_padre}</span>
+                <span>Madre: {conf.nom_madre + " " + conf.a_pat_madre + " " + conf.a_mat_madre}</span>
+                <span>Fecha Confirmación: {formatDateLong(conf.fecha_confirmacion)}</span>
+                <span>Libro: {conf.libro}</span>
+                <span>Foja: {conf.foja}</span>
+                <span>Acta: {conf.acta}</span>
+                <section className="sacramento-buttons">
+                  <button onClick={() => handleDelete(conf.id_confirmacion)} className="submit-button-delete">Eliminar</button>
+                  <button onClick={() => generarPDF({ datos: conf })} className="submit-button">Generar Fe de Confirmacion</button>
+                  <button onClick={() => handleEdit(conf)} className="submit-button-edit">Editar Confirmación</button>
+                </section>
+
+              </li>
+            ))
+          ) : (
+            <div className="no-elements-item">
+              <strong><p>No se encontraron confirmaciones.</p></strong>
+            </div>
+          )}
+        </ul>
+      </div>
     </div>
   );
 }

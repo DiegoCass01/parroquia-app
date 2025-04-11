@@ -1,23 +1,30 @@
 .search-page {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 70vw;
-  max-width: 800px;
-  background-color: #222;
+  align-items: center;
+  background-color: aliceblue;
+  width: 80vw;
   border-radius: 8px;
   padding-top: 5vh;
+  border-left: #000000 4px solid;
+  border-right: #000000 4px solid;
+  border-image: linear-gradient(to bottom, transparent 0%, transparent 10%, #666 40%, #666 60%, transparent 90%, transparent 100%) 1;
+}
+
+.search-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #000000;
+  margin-bottom: 2%;
+  font-weight: bold;
 }
 
 .search-sacramento {
   display: flex;
   justify-content: center;
-  /* Centra horizontalmente */
   align-items: center;
-  /* Centra verticalmente */
-  width: 100%;
+  width: 60%;
   margin: 2% auto;
-
   flex-direction: column;
 }
 
@@ -26,18 +33,16 @@
   background: transparent;
   padding: 10px;
   border-radius: 25px;
-  border: 1px solid white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
+  box-shadow: 0 4px 6px black;
   width: 60%;
   max-width: 500px;
-  /* Para que no sea demasiado grande */
   transition: all 0.3s ease;
 }
 
 .search-filters {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  /* Crea dos columnas iguales */
   align-items: center;
   width: 60%;
   background-color: transparent;
@@ -45,8 +50,8 @@
 }
 
 .filter {
-  background-color: #333;
-  color: white;
+  background-color: aliceblue;
+  color: #222;
   border-radius: 6px;
   font-size: 1rem;
   transition: background-color 0.3s;
@@ -56,7 +61,6 @@
 
 .filter:invalid {
   color: gray;
-  /* Color del placeholder */
 }
 
 .search-sacramento input[type="search"] {
@@ -65,7 +69,7 @@
   background: transparent;
   padding: 10px;
   font-size: 16px;
-  color: #fff;
+  color: #000000;
   width: 100%;
 }
 
@@ -78,21 +82,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+.sacramento-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 800px;
 }
 
 .sacramento-item {
-  width: 50vw;
-  border: 1px solid #ffffff;
-  margin-bottom: 4%;
-  padding: 4%;
-  border-radius: 4px;
+  width: 100%;
+  margin: 16px 0;
+  padding: 20px;
+  background-color: aliceblue;
+  border-radius: 12px;
+  border: 1px solid #666;
+  box-shadow: 0 4px 8px #666;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sacramento-item:hover {
+  box-shadow: 0 6px 12px #999;
 }
 
 li span {
   margin-block: 8px;
+  color: #000000;
+}
+
+.sacramento-buttons {
+  display: flex;
+  gap: 12px;
 }
 
 .no-elements-item {
@@ -108,7 +134,6 @@ li span {
   body {
     padding-top: 10%;
   }
-
 }
 
 @media (max-width: 600px) {
@@ -125,41 +150,21 @@ li span {
   }
 
   .sacramento-container {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
     padding-inline: 2%;
   }
 
   .sacramento-item {
-    width: 60vw;
-    border: 1px solid #ffffff;
-    margin-bottom: 4%;
-    padding: 15%;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    padding: 8%;
   }
 
   .no-elements-item {
-    margin: 2%;
     padding: 15%;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
     height: 60vh;
-    width: 70vw;
+    width: 90vw;
   }
 
   h1 {
     font-size: 1.2rem;
   }
-
 }
-
-
-/* .search-sacramento input[type="search"]:focus {
-  border-bottom: 2px solid #007bff;
-} */

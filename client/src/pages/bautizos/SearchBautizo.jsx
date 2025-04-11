@@ -70,31 +70,35 @@ export default function SearchBautizo({ showSnackbar }) {
 
       <SearchBar sacramento={filteredBautizos} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} fechaField="fecha_bautizo" />
 
-
       {/* Lista de bautizos filtrados */}
-      <ul className="sacramento-container">
-        {filteredBautizos.length > 0 ? (
-          filteredBautizos.map((bautizo) => (
-            <li key={bautizo.id_bautizo} className="sacramento-item">
-              <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
-              <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
-              <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
-              <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
-              <button onClick={() => handleDelete(bautizo.id_bautizo)} className="submit-button-delete">Eliminar</button>
-              <button onClick={() => generarPDF({ datos: bautizo })} className="submit-button">
-                Generar Fe de Bautizo
-              </button>
-              <button onClick={() => handleEdit(bautizo)} className="submit-button-edit">
-                Editar Bautizo
-              </button>
-            </li>
-          ))
-        ) : (
-          <div className="no-elements-item">
-            <strong><p>No se encontraron bautizos.</p></strong>
-          </div>
-        )}
-      </ul>
+      <div className="sacramento-container">
+        <ul >
+          {filteredBautizos.length > 0 ? (
+            filteredBautizos.map((bautizo) => (
+              <li key={bautizo.id_bautizo} className="sacramento-item">
+                <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
+                <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
+                <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
+                <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
+                <section className="sacramento-buttons">
+                  <button onClick={() => handleDelete(bautizo.id_bautizo)} className="submit-button-delete">Eliminar</button>
+                  <button onClick={() => generarPDF({ datos: bautizo })} className="submit-button">
+                    Generar Fe de Bautizo
+                  </button>
+                  <button onClick={() => handleEdit(bautizo)} className="submit-button-edit">
+                    Editar Bautizo
+                  </button>
+                </section>
+
+              </li>
+            ))
+          ) : (
+            <div className="no-elements-item">
+              <strong><p>No se encontraron bautizos.</p></strong>
+            </div>
+          )}
+        </ul>
+      </div>
     </div>
   )
 }

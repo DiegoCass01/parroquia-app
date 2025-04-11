@@ -71,32 +71,31 @@ export default function SearchComunion({ showSnackbar }) {
 
       <SearchBar sacramento={filteredComuniones} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterParam={setFilterParam} fechaField="fecha_comunion" />
 
-
       {/* Lista de comuniones filtrados */}
-      <ul className="sacramento-container">
-        {filteredComuniones.length > 0 ? (
-          filteredComuniones.map((comunion) => (
-            <li key={comunion.id_comunion} className="sacramento-item">
-              <span><strong>{comunion.nombre + " " + comunion.a_paterno + " " + comunion.a_materno}</strong></span>
-              <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
-              <span>Lugar Comunion: {comunion.lugar_comunion}</span>
-              <span>Padre: {comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
-              <span>Madre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
-              <button onClick={() => handleDelete(comunion.id_comunion)} className="submit-button-delete">Eliminar</button>
-              <button onClick={() => generarPDF({ datos: comunion })} className="submit-button">
-                Generar Fe de Comunion
-              </button>
-              <button onClick={() => handleEdit(comunion)} className="submit-button-edit">
-                Editar Comunion
-              </button>
-            </li>
-          ))
-        ) : (
-          <div className="no-elements-item">
-            <strong><p>No se encontraron comuniones.</p></strong>
-          </div>
-        )}
-      </ul>
+      <div className="sacramento-container">
+        <ul className="sacramento-container">
+          {filteredComuniones.length > 0 ? (
+            filteredComuniones.map((comunion) => (
+              <li key={comunion.id_comunion} className="sacramento-item">
+                <span><strong>{comunion.nombre + " " + comunion.a_paterno + " " + comunion.a_materno}</strong></span>
+                <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
+                <span>Lugar Comunion: {comunion.lugar_comunion}</span>
+                <span>Padre: {comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
+                <span>Madre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
+                <section className="sacramento-buttons">
+                  <button onClick={() => handleDelete(comunion.id_comunion)} className="submit-button-delete">Eliminar</button>
+                  <button onClick={() => generarPDF({ datos: comunion })} className="submit-button">Generar Fe de Comunion</button>
+                  <button onClick={() => handleEdit(comunion)} className="submit-button-edit">Editar Comunion</button>
+                </section>
+              </li>
+            ))
+          ) : (
+            <div className="no-elements-item">
+              <strong><p>No se encontraron comuniones.</p></strong>
+            </div>
+          )}
+        </ul>
+      </div>
     </div>
   )
 }
