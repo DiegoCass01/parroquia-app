@@ -7,7 +7,7 @@ export default function CreateUsuario({ showSnackbar }) {
   const { createUsuario } = useUsuarioStore();
 
   const [usuario, setUsuario] = useState({
-    nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: ""
+    nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: 'usuario',
   });
 
   const handleSubmit = async (e) => {
@@ -15,10 +15,12 @@ export default function CreateUsuario({ showSnackbar }) {
 
     try {
       const response = await createUsuario(usuario);
+      console.error(usuario);
+
 
       if (response && response.status >= 200 && response.status < 300) {
         setUsuario({
-          nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: ""
+          nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: "usuario"
         });
         showSnackbar("Usuario creado correctamente!", "success");
       } else {
