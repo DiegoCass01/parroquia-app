@@ -47,7 +47,7 @@ export default function UsuariosPage({ showSnackbar }) {
         <ul >
           {usuarios.length > 0 ? (
             usuarios.map((usuario) => (
-              <li key={usuario.id} className="usuario-item">
+              <li key={usuario.id} className={`usuario-item ${usuario.rol}`}>
                 <div className="usuario-info">
                   <div className="info-item">
                     <label>Nombre completo</label>
@@ -68,7 +68,6 @@ export default function UsuariosPage({ showSnackbar }) {
                     </div>
                   </div>
                 </div>
-
 
                 <SacramentoButtons
                   handleDelete={() => handleDelete(usuario.id)}

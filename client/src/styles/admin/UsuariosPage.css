@@ -40,7 +40,7 @@
 
 /* Estilo del botón de envío */
 .usuarios-submit-button {
-  background-color: #007bff;
+  background-color: #666;
   color: aliceblue;
   border: none;
   border-radius: 4px;
@@ -91,8 +91,20 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.usuario-item.admin {
+  border-left: 10px solid #6A1B9A;
+  /* verde para admin */
+  background-color: #f0fff5;
+}
+
+.usuario-item.usuario {
+  border-left: 10px solid #1E88E5;
+  /* azul para usuario */
+  background-color: #f5f9ff;
+}
+
 .usuario-item:hover {
-  box-shadow: 0 6px 12px #999;
+  box-shadow: 0 6px 12px #666;
 }
 
 /* Estilo de la información de usuario */
@@ -159,7 +171,8 @@
   /* Altura mínima para pantallas pequeñas */
   width: 100%;
   max-width: 800px;
-  background-color: #f0f0f0;
+  background-color: whitesmoke;
+  color: #000000;
 }
 
 /* Estilos responsivos para pantallas pequeñas */
