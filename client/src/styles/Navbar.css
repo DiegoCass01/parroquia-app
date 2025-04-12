@@ -47,18 +47,11 @@
 
 .button-nav {
   text-decoration: none;
-  color: black;
   font-size: 1rem;
   font-weight: bold;
-  background: none;
-  border: none;
+  background: whitesmoke;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  border-radius: 5px;
-}
-
-.button-nav {
-  background-color: b;
   padding: 8px 12px;
   border-radius: 5px;
   transition: background 0.3s ease-in-out, border 0.3s ease-in-out;

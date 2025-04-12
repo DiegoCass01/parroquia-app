@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import "../styles/Navbar.css"
 import { useAuthStore } from "../store/useAuthStore.js";
 
@@ -20,9 +21,9 @@ export default function NavBar() {
       <section className="navbar-links">
         {/* Aparecerá el botón si el usuario es administrador */}
         {user && user.rol === "admin" && (
-          <Link to="/search/usuarios" className={location.pathname === "/search/usuario" ? "active" : ""}>
-            <p>Admin</p>
-          </Link>
+          <button onClick={() => (navigate("/search/usuarios"))} className="button-nav">
+            <FontAwesomeIcon icon={faGear} className="button-nav-icon" />
+          </button>
         )}
 
         <Link to="/" className={location.pathname === "/homepage" ? "active" : ""}>
@@ -39,11 +40,13 @@ export default function NavBar() {
       </button> */}
 
       {/* Verificar si hay un usuario logueado para mostrar el botón de logout */}
-      {user && (
-        <button onClick={handleLogout} className="button-nav">
-          <FontAwesomeIcon icon={faPowerOff} className="button-nav-icon" />
-        </button>
-      )}
-    </nav>
+      {
+        user && (
+          <button onClick={handleLogout} className="button-nav">
+            <FontAwesomeIcon icon={faPowerOff} className="button-nav-icon" />
+          </button>
+        )
+      }
+    </nav >
   );
 }
