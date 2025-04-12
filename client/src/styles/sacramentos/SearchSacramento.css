@@ -85,6 +85,7 @@
   font-size: 16px;
   color: #000000;
   width: 100%;
+  color-scheme: black;
 }
 
 .search-sacramento input[type="search"]::placeholder {
