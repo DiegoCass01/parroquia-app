@@ -20,13 +20,13 @@ const generarPDF = ({ datos }) => {
 
     // Subtítulo
     doc.setFontSize(16);
-    doc.text(`Iglesia: ${datos.lugar_bautizo}`, 105, 90, { align: "center" });
+    doc.text(`Parroquia Nuestra Señora de Guadalupe`, 105, 90, {
+      align: "center",
+    });
 
     // Detalles del bautizo
     doc.setFontSize(12);
     doc.text(`Nombre del Niño: ${datos.nombre}`, 20, 120);
-    doc.text(`Nombre del Padre: ${datos.padre}`, 20, 130);
-    doc.text(`Nombre de la Madre: ${datos.madre}`, 20, 140);
     // Usar esta función en los textos donde se necesita la fecha
     doc.text(`Fecha del Bautizo: ${formatDate(datos.fecha_bautizo)}`, 20, 150);
 
