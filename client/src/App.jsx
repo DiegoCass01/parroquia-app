@@ -198,7 +198,7 @@ export default function App() {
         />
       </Routes>
 
-      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}
+      <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={() => setOpenSnackbar(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }} // Puedes cambiar "top" y "center"
         sx={{
           zIndex: 9999,

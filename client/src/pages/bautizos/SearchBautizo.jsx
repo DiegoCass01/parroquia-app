@@ -70,7 +70,7 @@ export default function SearchBautizo({ showSnackbar }) {
       <section className="search-sacramento-header">
         <h1>Busqueda de Bautizo</h1>
         <SearchBar
-          sacramento={filteredBautizos}
+          sacramento={bautizos}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           setFilterParam={setFilterParam}

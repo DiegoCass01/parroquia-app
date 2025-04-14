@@ -71,7 +71,7 @@ export default function SearchComunion({ showSnackbar }) {
       <section className="search-sacramento-header">
         <h1>Busqueda de Comunion</h1>
         <SearchBar
-          sacramento={filteredComuniones}
+          sacramento={comuniones}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           setFilterParam={setFilterParam}
