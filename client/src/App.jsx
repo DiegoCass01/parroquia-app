@@ -1,7 +1,6 @@
 import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import { useEffect, useState } from "react";
-import { useBautizoStore } from "./store/useBautizoStore.js";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
 import SearchBautizo from "./pages/bautizos/SearchBautizo.jsx";
@@ -28,7 +27,6 @@ import EditUsuario from "./pages/admin/EditUsuario.jsx";
 import CreateUsuario from "./pages/admin/CreateUsuario.jsx";
 
 export default function App() {
-  const { fetchBautizos } = useBautizoStore();
   const { user, token, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,10 +38,6 @@ export default function App() {
       navigate("/login", { replace: true });
     }
   }, [token, logout, navigate]);
-
-  useEffect(() => {
-    fetchBautizos();
-  }, [fetchBautizos]);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
