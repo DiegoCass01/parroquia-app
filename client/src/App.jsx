@@ -31,6 +31,14 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Redirección global si el token ha expirado o no existe
+  useEffect(() => {
+    const isTokenInvalid = !token || isTokenExpired(token);
+    if (isTokenInvalid) {
+      logout(); // limpia el estado de autenticación
+      navigate("/login");
+    }
+  }, [token, logout, navigate]);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -42,16 +50,10 @@ export default function App() {
     setOpenSnackbar(true);
   };
 
+
+
   const shouldRenderNavBar =
     user && token && !isTokenExpired(token) && location.pathname !== "/login" && location.pathname !== "/";
-
-
-  // Redirección global si el token ha expirado o no existe
-    if (!token || isTokenExpired(token)) {
-      logout(); // limpia el estado de autenticación
-      return <LoginPage showSnackbar={showSnackbar} />
-    }
- 
 
   return (
     <div>
