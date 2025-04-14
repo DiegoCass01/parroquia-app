@@ -80,26 +80,33 @@ export default function SearchBautizo({ showSnackbar }) {
       {/* Lista de bautizos filtrados */}
       <div className="sacramento-container">
         <ul >
-          {filteredBautizos.length > 0 ? (
-            filteredBautizos.map((bautizo) => (
-              <li key={bautizo.id_bautizo} className="sacramento-item">
-                <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
-                <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
-                <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
-                <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
-                <SacramentoButtons
-                  handleDelete={() => handleDelete(bautizo.id_bautizo)}
-                  generarPDF={() => generarPDF({ datos: bautizo })}
-                  handleEdit={() => handleEdit(bautizo)}
-                  tipo="bautizo"
-                />
-              </li>
-            ))
-          ) : (
-            <div className="no-elements-item">
-              <strong><p>No se encontraron bautizos.</p></strong>
-            </div>
-          )}
+          {
+            searchQuery.trim() === "" ? (
+              <div className="no-elements-item">
+                <strong><p>¿A quién buscas? Escribe el nombre del bautizado.</p></strong>
+              </div>
+            ) :
+              filteredBautizos.length > 0 ? (
+                filteredBautizos.map((bautizo) => (
+                  <li key={bautizo.id_bautizo} className="sacramento-item">
+                    <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
+                    <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
+                    <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
+                    <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
+                    <SacramentoButtons
+                      handleDelete={() => handleDelete(bautizo.id_bautizo)}
+                      generarPDF={() => generarPDF({ datos: bautizo })}
+                      handleEdit={() => handleEdit(bautizo)}
+                      tipo="bautizo"
+                    />
+                  </li>
+                ))
+              ) : (
+                <div className="no-elements-item">
+                  <strong><p>No se encontraron bautizos.</p></strong>
+                </div>
+              )
+          }
         </ul>
       </div>
     </div>

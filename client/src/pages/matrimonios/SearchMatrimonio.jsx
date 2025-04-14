@@ -74,29 +74,36 @@ export default function SearchMatrimonio({ showSnackbar }) {
 
       <div className="sacramento-container">
         <ul className="sacramento-container">
-          {filteredMatrimonios.length > 0 ? (
-            filteredMatrimonios.map((mat) => (
-              <li key={mat.id_matrimonio} className="sacramento-item">
-                <span><strong>{`${mat.nombre_novio} ${mat.a_pat_novio} y ${mat.nombre_novia} ${mat.a_pat_novia}`}</strong></span>
-                <span>Novio: {mat.nombre_novio + " " + mat.a_pat_novio + " " + mat.a_mat_novio}</span>
-                <span>Novia: {mat.nombre_novia + " " + mat.a_pat_novia + " " + mat.a_mat_novia}</span>
-                <span>Fecha Matrimonio: {formatDateLong(mat.fecha_matrimonio)}</span>
-                <span>Libro: {mat.libro}</span>
-                <span>Foja: {mat.foja}</span>
-                <span>Acta: {mat.acta}</span>
-                <SacramentoButtons
-                  handleDelete={() => handleDelete(mat.id_matrimonio)}
-                  generarPDF={() => generarPDF({ datos: mat })}
-                  handleEdit={() => handleEdit(mat)}
-                  tipo="matrimonio"
-                />
-              </li>
-            ))
-          ) : (
-            <div className="no-elements-item">
-              <strong><p>No se encontraron matrimonios.</p></strong>
-            </div>
-          )}
+          {
+            searchQuery.trim() === "" ? (
+              <div className="no-elements-item">
+                <strong><p>Escribe el nombre de uno de los esposos.</p></strong>
+              </div>
+            ) :
+              filteredMatrimonios.length > 0 ? (
+                filteredMatrimonios.map((mat) => (
+                  <li key={mat.id_matrimonio} className="sacramento-item">
+                    <span><strong>{`${mat.nombre_novio} ${mat.a_pat_novio} y ${mat.nombre_novia} ${mat.a_pat_novia}`}</strong></span>
+                    <span>Novio: {mat.nombre_novio + " " + mat.a_pat_novio + " " + mat.a_mat_novio}</span>
+                    <span>Novia: {mat.nombre_novia + " " + mat.a_pat_novia + " " + mat.a_mat_novia}</span>
+                    <span>Fecha Matrimonio: {formatDateLong(mat.fecha_matrimonio)}</span>
+                    <span>Libro: {mat.libro}</span>
+                    <span>Foja: {mat.foja}</span>
+                    <span>Acta: {mat.acta}</span>
+                    <SacramentoButtons
+                      handleDelete={() => handleDelete(mat.id_matrimonio)}
+                      generarPDF={() => generarPDF({ datos: mat })}
+                      handleEdit={() => handleEdit(mat)}
+                      tipo="matrimonio"
+                    />
+                  </li>
+                ))
+              ) : (
+                <div className="no-elements-item">
+                  <strong><p>No se encontraron matrimonios.</p></strong>
+                </div>
+              )
+          }
         </ul>
 
       </div>

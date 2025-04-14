@@ -73,30 +73,37 @@ export default function SearchConfirmacion({ showSnackbar }) {
 
       <div className="sacramento-container">
         <ul className="sacramento-container">
-          {filteredConfirmaciones.length > 0 ? (
-            filteredConfirmaciones.map((conf) => (
-              <li key={conf.id_confirmacion} className="sacramento-item">
-                <span><strong>{`${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`}</strong></span>
-                <span>Padre: {conf.nom_padre + " " + conf.a_pat_padre + " " + conf.a_mat_padre}</span>
-                <span>Madre: {conf.nom_madre + " " + conf.a_pat_madre + " " + conf.a_mat_madre}</span>
-                <span>Fecha Confirmación: {formatDateLong(conf.fecha_confirmacion)}</span>
-                <span>Libro: {conf.libro}</span>
-                <span>Foja: {conf.foja}</span>
-                <span>Acta: {conf.acta}</span>
-                <SacramentoButtons
-                  handleDelete={() => handleDelete(conf.id_confirmacion)}
-                  generarPDF={() => generarPDF({ datos: conf })}
-                  handleEdit={() => handleEdit(conf)}
-                  tipo="confirmación"
-                />
+          {
+            searchQuery.trim() === "" ? (
+              <div className="no-elements-item">
+                <strong><p>Busca por nombre de la persona confirmada.</p></strong>
+              </div>
+            ) :
+              filteredConfirmaciones.length > 0 ? (
+                filteredConfirmaciones.map((conf) => (
+                  <li key={conf.id_confirmacion} className="sacramento-item">
+                    <span><strong>{`${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`}</strong></span>
+                    <span>Padre: {conf.nom_padre + " " + conf.a_pat_padre + " " + conf.a_mat_padre}</span>
+                    <span>Madre: {conf.nom_madre + " " + conf.a_pat_madre + " " + conf.a_mat_madre}</span>
+                    <span>Fecha Confirmación: {formatDateLong(conf.fecha_confirmacion)}</span>
+                    <span>Libro: {conf.libro}</span>
+                    <span>Foja: {conf.foja}</span>
+                    <span>Acta: {conf.acta}</span>
+                    <SacramentoButtons
+                      handleDelete={() => handleDelete(conf.id_confirmacion)}
+                      generarPDF={() => generarPDF({ datos: conf })}
+                      handleEdit={() => handleEdit(conf)}
+                      tipo="confirmación"
+                    />
 
-              </li>
-            ))
-          ) : (
-            <div className="no-elements-item">
-              <strong><p>No se encontraron confirmaciones.</p></strong>
-            </div>
-          )}
+                  </li>
+                ))
+              ) : (
+                <div className="no-elements-item">
+                  <strong><p>No se encontraron confirmaciones.</p></strong>
+                </div>
+              )
+          }
         </ul>
       </div>
     </div>
