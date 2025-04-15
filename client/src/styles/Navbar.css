@@ -45,6 +45,131 @@
   background: transparent;
 }
 
+.navbar-user-info {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5rem;
+  width: 10%;
+  justify-content: space-evenly;
+  color-scheme: black;
+  color: black;
+  border-radius: 20px;
+  background: whitesmoke;
+  left: 2%;
+
+  &:hover {
+    background: #ccc;
+    transition: background 0.3s ease-in-out;
+  }
+}
+
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-align: center;
+  color: white;
+}
+
+/* Estilos según el rol */
+.user-role.admin {
+  background-color: var(--role-admin);
+  /* rojo para admin */
+}
+
+.user-role.moderador {
+  background-color: var(--role-moderador);
+  /* naranja para moderador */
+}
+
+.user-role.usuario {
+  background-color: var(--role-usuario);
+  /* celeste para usuario normal */
+}
+
+/* Mostrar el menú lateral */
+.sidebar-menu.show {
+  display: flex;
+}
+
+/* Sidebar base */
+.sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 20%;
+  display: none;
+  flex-direction: column;
+  background-color: aliceblue;
+  border-right: 1px solid #ddd;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 2rem 1rem;
+  gap: 1rem;
+  border-top-right-radius: 2%;
+}
+
+/* Botones dentro del sidebar */
+.sidebar-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 8vh;
+  background: none;
+  border: none;
+  padding: 10px 12px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 6px;
+  transition: background 0.2s ease-in-out;
+  color: black;
+}
+
+/* Hover para el botón de configuración */
+.sidebar-menu .config:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Hover para cerrar sesión */
+.sidebar-menu .logout:hover {
+  background-color: red;
+  color: white;
+}
+
+.sidebar-menu fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sidebar-menu legend {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  padding-left: 4px;
+}
+
+
 .button-nav {
   text-decoration: none;
   font-size: 1rem;

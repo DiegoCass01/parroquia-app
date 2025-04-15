@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 const router = express.Router();
 
 // Obtener todos los usuarios que tengan el rol de usuario
-router.get("/", verifyToken, verifyRole("admin"), (req, res) => {
+router.get("/", verifyToken, verifyRole(["admin", "moderador"]), (req, res) => {
   const query = `SELECT * FROM usuario`;
   pool.query(query, (err, rows) => {
     if (err) return res.status(500).json({ error: err });
@@ -45,51 +45,61 @@ router.post("/", (req, res) => {
 });
 
 // Editar un usuario
-router.put("/:id", verifyToken, verifyRole("admin"), (req, res) => {
-  const { id } = req.params;
-  const { nombre, a_paterno, a_materno, n_usuario, password, rol } = req.body;
+router.put(
+  "/:id",
+  verifyToken,
+  verifyRole(["admin", "moderador"]),
+  (req, res) => {
+    const { id } = req.params;
+    const { nombre, a_paterno, a_materno, n_usuario, password, rol } = req.body;
 
-  let fields = [
-    "nombre = ?",
-    "a_paterno = ?",
-    "a_materno = ?",
-    "n_usuario = ?",
-    "rol = ?",
-  ];
-  const values = [nombre, a_paterno, a_materno, n_usuario, rol];
+    let fields = [
+      "nombre = ?",
+      "a_paterno = ?",
+      "a_materno = ?",
+      "n_usuario = ?",
+      "rol = ?",
+    ];
+    const values = [nombre, a_paterno, a_materno, n_usuario, rol];
 
-  // Si se proporciona una nueva contraseña, la agregamos al query y al arreglo de valores
-  if (password) {
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    fields.push("password = ?");
-    values.push(hashedPassword);
-  }
+    // Si se proporciona una nueva contraseña, la agregamos al query y al arreglo de valores
+    if (password) {
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      fields.push("password = ?");
+      values.push(hashedPassword);
+    }
 
-  values.push(id); // El id siempre va al final
+    values.push(id); // El id siempre va al final
 
-  const query = `
+    const query = `
     UPDATE usuario 
     SET ${fields.join(", ")} 
     WHERE id = ?`;
 
-  pool.query(query, values, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ error: err.message });
-    }
+    pool.query(query, values, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: err.message });
+      }
 
-    res.status(200).json({ message: "Usuario actualizado correctamente" });
-  });
-});
+      res.status(200).json({ message: "Usuario actualizado correctamente" });
+    });
+  }
+);
 
 // Eliminar un usuario
-router.delete("/:id", verifyToken, verifyRole("admin"), (req, res) => {
-  const { id } = req.params;
-  const query = `DELETE FROM usuario WHERE id = ?`;
-  pool.query(query, [id], (err) => {
-    if (err) return res.status(500).json({ error: err });
-    res.status(200).json({ message: "Usuario eliminado" });
-  });
-});
+router.delete(
+  "/:id",
+  verifyToken,
+  verifyRole(["admin", "moderador"]),
+  (req, res) => {
+    const { id } = req.params;
+    const query = `DELETE FROM usuario WHERE id = ?`;
+    pool.query(query, [id], (err) => {
+      if (err) return res.status(500).json({ error: err });
+      res.status(200).json({ message: "Usuario eliminado" });
+    });
+  }
+);
 
 export { router as usuariosRouter };

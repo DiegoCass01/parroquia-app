@@ -172,7 +172,7 @@ export default function App() {
         <Route
           path="/search/usuarios"
           element={
-            <ProtectedRoute requiredRole="admin">
+            <ProtectedRoute requiredRole={["admin", "moderador"]}>
               <UsuariosPage showSnackbar={showSnackbar} />
             </ProtectedRoute>
           }
@@ -188,7 +188,7 @@ export default function App() {
         <Route
           path="/edit/usuario"
           element={
-            <ProtectedRoute requiredRole="admin">
+            <ProtectedRoute requiredRole={["admin", "moderador"]}>
               <EditUsuario showSnackbar={showSnackbar} />
             </ProtectedRoute>
           }

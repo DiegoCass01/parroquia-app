@@ -11,9 +11,11 @@ export default function ProtectedRoute({ children, requiredRole }) {
     return <Navigate to="/" />;
   }
 
-  // Si se requiere un rol específico y el usuario no lo tiene
-  if (requiredRole && user?.rol !== requiredRole) {
-    return <Navigate to="/homepage" />; // Puedes crear esta página o redirigir al home
+  if (requiredRole) {
+    const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
+    if (!roles.includes(user.rol)) {
+      return <Navigate to="/homepage" />;
+    }
   }
   return children;
 }

@@ -92,13 +92,19 @@
 }
 
 .usuario-item.admin {
-  border-left: 10px solid #6A1B9A;
+  border-left: 10px solid var(--role-admin);
   /* verde para admin */
   background-color: #f0fff5;
 }
 
 .usuario-item.usuario {
-  border-left: 10px solid #1E88E5;
+  border-left: 10px solid var(--role-usuario);
+  /* azul para usuario */
+  background-color: #f5f9ff;
+}
+
+.usuario-item.moderador {
+  border-left: 10px solid var(--role-moderador);
   /* azul para usuario */
   background-color: #f5f9ff;
 }

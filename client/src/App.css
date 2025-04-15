@@ -1,3 +1,12 @@
+:root {
+  --role-admin: black;
+  /* Color para el rol admin */
+  --role-usuario: #1E88E5;
+  /* Color para el rol user */
+  --role-moderador: #6A1B9A;
+  /* Color para el rol moderator */
+}
+
 /* Centra el contenido de la página */
 body {
   display: flex;

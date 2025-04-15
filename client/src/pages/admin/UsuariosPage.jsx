@@ -73,6 +73,7 @@ export default function UsuariosPage({ showSnackbar }) {
                   handleDelete={() => handleDelete(usuario.id)}
                   handleEdit={() => handleEdit(usuario)}
                   tipo="usuario"
+
                 />
               </li>
             ))

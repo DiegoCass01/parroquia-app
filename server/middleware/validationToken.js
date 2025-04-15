@@ -23,11 +23,14 @@ const verifyToken = (req, res, next) => {
 };
 
 // Middleware para verificar el rol de usuario
-const verifyRole = (role) => {
+const verifyRole = (roles) => {
   return (req, res, next) => {
-    if (!req.user || req.user.rol !== role) {
+    const allowedRoles = Array.isArray(roles) ? roles : [roles];
+
+    if (!req.user || !allowedRoles.includes(req.user.rol)) {
       return res.status(403).json({ error: "Acceso denegado" });
     }
+
     next();
   };
 };

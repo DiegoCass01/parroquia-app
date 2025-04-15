@@ -50,6 +50,7 @@ export default function CreateUsuario({ showSnackbar }) {
           <label htmlFor={"rol"} className="label">Rol</label>
           <select id="rol" name="rol" value={usuario.rol} onChange={handleChange} required className="input">
             <option value="usuario">Usuario</option>
+            <option value="moderador">Moderador</option>
             <option value="admin">Administrador</option>
           </select>
         </fieldset>
