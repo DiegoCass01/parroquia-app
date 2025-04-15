@@ -1,0 +1,8 @@
+:root {
+  --role-admin: #FF5733;
+  /* Color para el rol admin */
+  --role-user: #4CAF50;
+  /* Color para el rol user */
+  --role-moderator: #2196F3;
+  /* Color para el rol moderator */
+}

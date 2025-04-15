@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const router = express.Router();
 
 // Iniciar sesión
-router.post("/api/login", (req, res) => {
+router.post("/login", (req, res) => {
   const { n_usuario, password } = req.body;
 
   pool.query(
@@ -25,9 +25,14 @@ router.post("/api/login", (req, res) => {
       }
 
       const token = jwt.sign(
-        { id: user.id, nombre: user.nombre, rol: user.rol },
+        {
+          id: user.id,
+          nombre: user.nombre,
+          rol: user.rol,
+          n_usuario: user.n_usuario,
+        },
         process.env.JWT_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "7d" }
       );
 
       res.json({
@@ -39,9 +44,35 @@ router.post("/api/login", (req, res) => {
 });
 
 // Cerrar sesión (logout)
-router.post("/api/logout", (req, res) => {
+router.post("/logout", (req, res) => {
   // En realidad, no se necesita hacer nada en el servidor con JWT
   res.json({ message: "Cierre de sesión exitoso" });
+});
+
+// Validar credenciales del admin
+router.post("/validate-admin", (req, res) => {
+  const { n_usuario, password } = req.body;
+
+  pool.query(
+    "SELECT * FROM usuario WHERE n_usuario = ? AND rol = 'admin'",
+    [n_usuario],
+    async (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(401).json({ error: "Credenciales inválidas" });
+      }
+
+      const user = results[0];
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(401).json({ error: "Contraseña incorrecta" });
+      }
+
+      res.status(200).json({
+        message: "Validación Exitosa",
+      });
+    }
+  );
 });
 
 export { router as loginRouter };

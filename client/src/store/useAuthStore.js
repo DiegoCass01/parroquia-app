@@ -10,7 +10,7 @@ export const useAuthStore = create((set) => ({
 
   login: async (n_usuario, password) => {
     try {
-      const res = await axios.post(`${API_URL}/login`, {
+      const res = await axios.post(`${API_URL}/auth/login`, {
         n_usuario,
         password,
       });
@@ -44,5 +44,19 @@ export const useAuthStore = create((set) => ({
 
     set({ user: null, token: null });
     console.log("👋 Sesión cerrada");
+  },
+
+  // Función para validar credenciales de administrador
+  validateAdminPassword: async ({ n_usuario, password }) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/validate-admin`, {
+        n_usuario,
+        password,
+      });
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
   },
 }));

@@ -10,6 +10,7 @@ import { routerComuniones } from "../routes/comuniones.routes.js";
 import { routerConfirmaciones } from "../routes/confirmaciones.routes.js";
 import { routerMatrimonios } from "../routes/matrimonios.routes.js";
 import { usuariosRouter } from "../routes/usuarios.routes.js";
+import { loginRouter } from "../routes/login.routes.js";
 
 dotenv.config();
 
@@ -37,51 +38,7 @@ app.use("/api/comuniones", routerComuniones);
 app.use("/api/confirmaciones", routerConfirmaciones);
 app.use("/api/matrimonios", routerMatrimonios);
 app.use("/api/usuarios", usuariosRouter);
-
-// // Login -------------------------------------------------------------------------------------------
-// Iniciar sesión
-app.post("/api/login", (req, res) => {
-  const { n_usuario, password } = req.body;
-
-  pool.query(
-    "SELECT * FROM usuario WHERE n_usuario = ?",
-    [n_usuario],
-    async (err, results) => {
-      if (err || results.length === 0) {
-        return res.status(401).json({ error: "Credenciales inválidas" });
-      }
-
-      const user = results[0];
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch) {
-        return res.status(401).json({ error: "Contraseña incorrecta" });
-      }
-
-      const token = jwt.sign(
-        {
-          id: user.id,
-          nombre: user.nombre,
-          rol: user.rol,
-          n_usuario: user.n_usuario,
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: "7d" }
-      );
-
-      res.json({
-        message: "Inicio de sesión exitoso",
-        token: token,
-      });
-    }
-  );
-});
-
-// Cerrar sesión (logout)
-app.post("/api/logout", (req, res) => {
-  // En realidad, no se necesita hacer nada en el servidor con JWT
-  res.json({ message: "Cierre de sesión exitoso" });
-});
+app.use("/api/auth", loginRouter);
 
 // Iniciar el servidor
 app.listen(PORT, "0.0.0.0", () => {

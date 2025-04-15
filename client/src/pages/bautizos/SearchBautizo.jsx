@@ -8,36 +8,73 @@ import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
 import { normalizeText } from "../../functions/normalizeText.js";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
-
+import { useAuthStore } from "../../store/useAuthStore.js";
 export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredBautizos, setFilteredBautizos] = useState([]);
   const [filterParam, setFilterParam] = useState("All");
   const navigate = useNavigate();
+  const { user, validateAdminPassword } = useAuthStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
+  const [admin, setAdmin] = useState({
+    adminName: "",
+    adminPassword: ""
+  }); // Para almacenar la contraseña
+  const [bautizoIdToDelete, setBautizoIdToDelete] = useState(null); // Estado para almacenar el ID del bautizo
 
   useEffect(() => {
     fetchBautizos();
   }, [fetchBautizos]);
 
-
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este bautizo?")) return;
-    try {
-      const response = await deleteBautizo(id);
-      if (response?.status === 200) {
-        showSnackbar("Bautizo eliminado correctamente!", "success");
-      } else {
-        showSnackbar("Error al eliminar bautizo!", "error");
+    if (user.rol === "admin") {
+      try {
+        const response = await deleteBautizo(id);
+        if (response?.status === 200) {
+          showSnackbar("Bautizo eliminado correctamente!", "success");
+        } else {
+          showSnackbar("Error al eliminar bautizo!", "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showSnackbar("Error al eliminar bautizo en el server!", "error");
       }
-    } catch (e) {
-      console.error(e);
-      showSnackbar("Error al eliminar bautizo en el server!", "error");
+    } else {
+      setBautizoIdToDelete(id); // Asignamos el ID del bautizo a eliminar
+      setIsModalOpen(true); // Si no es admin, abre el modal para validación
     }
   };
 
   const handleEdit = async (bautizo) => {
     navigate("/edit/bautizo", { state: { bautizo } })
+  };
+
+  const handleAdminValidation = async () => {
+    try {
+      console.log(admin.adminName, admin.adminPassword);
+
+      const response = await validateAdminPassword({
+        n_usuario: admin.adminName,
+        password: admin.adminPassword
+      }); // Enviar la contraseña para validarla
+      if (response?.status === 200) {
+        // Si las credenciales son correctas, proceder con la eliminación
+        const deleteResponse = await deleteBautizo(bautizoIdToDelete); // Llama a la función de eliminación
+        if (deleteResponse?.status === 200) {
+          showSnackbar("Bautizo eliminado correctamente!", "success");
+          setAdmin({ adminName: "", adminPassword: "" })
+          setIsModalOpen(false); // Cierra el modal después de la eliminación
+        } else {
+          showSnackbar("Error al eliminar bautizo!", "error");
+        }
+      } else {
+        showSnackbar("Credenciales incorrectas", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showSnackbar("Error en la validación", "error");
+    }
   };
 
   useEffect(() => {
@@ -109,6 +146,43 @@ export default function SearchBautizo({ showSnackbar }) {
           }
         </ul>
       </div>
+
+      {/* Modal para validar admin */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Validar Admin</h2>
+            <input
+              id="adminName"
+              type="text"
+              placeholder="Nombre de Admin"
+              value={admin.adminName}
+              onChange={(e) =>
+                setAdmin(prev => ({ ...prev, adminName: e.target.value }))
+              }
+            />
+            <input
+              id="adminPassword"
+              type="password"
+              placeholder="Contraseña de Admin"
+              value={admin.adminPassword}
+              onChange={(e) =>
+                setAdmin(prev => ({ ...prev, adminPassword: e.target.value }))
+              }
+            />
+            <section className="buttons-modal">
+              <button onClick={handleAdminValidation}>Validar</button>
+              <button onClick={() => {
+                setIsModalOpen(false);
+                setAdmin({
+                  adminName: "",
+                  adminPassword: ""
+                })
+              }}>Cancelar</button>
+            </section>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
