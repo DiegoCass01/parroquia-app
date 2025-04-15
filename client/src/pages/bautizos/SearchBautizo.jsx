@@ -9,18 +9,19 @@ import "../../App.css";
 import { normalizeText } from "../../functions/normalizeText.js";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
+import AdminValidationModal from "../../components/AdminValidationModal.jsx";
 export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredBautizos, setFilteredBautizos] = useState([]);
-  const [filterParam, setFilterParam] = useState("All");
+  const [searchQuery, setSearchQuery] = useState(""); // texto de la busqueda
+  const [filteredBautizos, setFilteredBautizos] = useState([]); // bautizos que arroja la busqueda
+  const [filterParam, setFilterParam] = useState("All"); // filtros
   const navigate = useNavigate();
-  const { user, validateAdminPassword } = useAuthStore();
+  const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
   const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
   const [admin, setAdmin] = useState({
     adminName: "",
     adminPassword: ""
-  }); // Para almacenar la contraseña
+  });
   const [bautizoIdToDelete, setBautizoIdToDelete] = useState(null); // Estado para almacenar el ID del bautizo
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function SearchBautizo({ showSnackbar }) {
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
+      if (!window.confirm("¿Estás seguro de que deseas eliminar este bautizo?")) return;
       try {
         const response = await deleteBautizo(id);
         if (response?.status === 200) {
@@ -51,6 +53,7 @@ export default function SearchBautizo({ showSnackbar }) {
   };
 
   const handleAdminValidation = async () => {
+    if (admin.adminName === "" || admin.adminPassword === "") return showSnackbar("Ingrese todos los datos!", "warning");
     try {
       console.log(admin.adminName, admin.adminPassword);
 
@@ -149,40 +152,14 @@ export default function SearchBautizo({ showSnackbar }) {
 
       {/* Modal para validar admin */}
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Validar Admin</h2>
-            <input
-              id="adminName"
-              type="text"
-              placeholder="Nombre de Admin"
-              value={admin.adminName}
-              onChange={(e) =>
-                setAdmin(prev => ({ ...prev, adminName: e.target.value }))
-              }
-            />
-            <input
-              id="adminPassword"
-              type="password"
-              placeholder="Contraseña de Admin"
-              value={admin.adminPassword}
-              onChange={(e) =>
-                setAdmin(prev => ({ ...prev, adminPassword: e.target.value }))
-              }
-            />
-            <section className="buttons-modal">
-              <button onClick={handleAdminValidation}>Validar</button>
-              <button onClick={() => {
-                setIsModalOpen(false);
-                setAdmin({
-                  adminName: "",
-                  adminPassword: ""
-                })
-              }}>Cancelar</button>
-            </section>
-          </div>
-        </div>
+        <AdminValidationModal
+          admin={admin}
+          setAdmin={setAdmin}
+          onValidate={handleAdminValidation}
+          onCancel={() => setIsModalOpen(false)}
+        />
       )}
     </div>
   )
 }
+
