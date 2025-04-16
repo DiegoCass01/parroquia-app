@@ -1,13 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUsuarioStore } from "../../store/useUsuarioStore.js";
 import "../../styles/admin/UsuariosPage.css";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import AdminValidationModal from "../../components/AdminValidationModal.jsx";
 
 export default function UsuariosPage({ showSnackbar }) {
   const { usuarios, fetchUsuarios, deleteUsuario } = useUsuarioStore();
   const navigate = useNavigate();
+
+  const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
+  const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
+  const [admin, setAdmin] = useState({
+    adminName: "",
+    adminPassword: ""
+  });
+  const [usuarioIdToDelete, setUsuarioIdToDelete] = useState(null); // Estado para almacenar el ID del usuario
+
 
   useEffect(() => {
     fetchUsuarios();
@@ -15,17 +26,48 @@ export default function UsuariosPage({ showSnackbar }) {
 
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
-    try {
-      const response = await deleteUsuario(id);
-      if (response?.status === 200) {
-        showSnackbar("Usuario eliminado correctamente!", "success");
-      } else {
-        showSnackbar("Error al eliminar usuario!", "error");
+    if (user.rol === "admin") {
+      if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
+      try {
+        const response = await deleteUsuario(id);
+        if (response?.status === 200) {
+          showSnackbar("Usuario eliminado correctamente!", "success");
+        } else {
+          showSnackbar("Error al eliminar usuario!", "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showSnackbar("Error al eliminar usuario en el server!", "error");
       }
-    } catch (e) {
-      console.error(e);
-      showSnackbar("Error al eliminar usuario en el server!", "error");
+    } else {
+      setUsuarioIdToDelete(id); // Asignamos el ID del bautizo a eliminar
+      setIsModalOpen(true); // Si no es admin, abre el modal para validación
+    }
+  };
+
+  const handleAdminValidation = async () => {
+    if (admin.adminName === "" || admin.adminPassword === "") return showSnackbar("Ingrese todos los datos!", "warning");
+    try {
+      const response = await validateAdminPassword({
+        n_usuario: admin.adminName,
+        password: admin.adminPassword
+      }); // Enviar la contraseña para validarla
+      if (response?.status === 200) {
+        // Si las credenciales son correctas, proceder con la eliminación
+        const deleteResponse = await deleteUsuario(usuarioIdToDelete); // Llama a la función de eliminación
+        if (deleteResponse?.status === 200) {
+          showSnackbar("Usuario eliminado correctamente!", "success");
+          setAdmin({ adminName: "", adminPassword: "" })
+          setIsModalOpen(false); // Cierra el modal después de la eliminación
+        } else {
+          showSnackbar("Error al eliminar usuario!", "error");
+        }
+      } else {
+        showSnackbar("Credenciales incorrectas", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showSnackbar("Error en la validación", "error");
     }
   };
 
@@ -84,6 +126,16 @@ export default function UsuariosPage({ showSnackbar }) {
           )}
         </ul>
       </div>
+
+      {/* Modal para validar admin */}
+      {isModalOpen && (
+        <AdminValidationModal
+          admin={admin}
+          setAdmin={setAdmin}
+          onValidate={handleAdminValidation}
+          onCancel={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   )
 }
