@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore.js";
 import { useNavigate } from "react-router-dom"; // Para redirigir después del login
 import "../styles/LoginPage.css";
 
 export default function LoginPage({ showSnackbar }) {
+  const { user } = useAuthStore();
   const { login } = useAuthStore();
   const [formData, setFormData] = useState({
     n_usuario: "",
@@ -31,13 +32,19 @@ export default function LoginPage({ showSnackbar }) {
 
     if (response.success) {
       showSnackbar(`¡Inicio de sesión exitoso! Bienvenido ${formData.n_usuario}`, "success");
-      navigate("/homepage"); // Redirige al homepage 
     } else {
       showSnackbar(response.error, "error");
     }
 
     setLoading(false);
   };
+
+  // handles the change of page to login
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate, user]);
 
   return (
     <div className="login-container">

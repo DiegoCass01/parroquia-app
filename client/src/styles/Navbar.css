@@ -148,7 +148,7 @@
 
 /* Hover para cerrar sesión */
 .sidebar-menu .logout:hover {
-  background-color: red;
+  background-color: crimson;
   color: white;
 }
 

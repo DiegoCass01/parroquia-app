@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children, requiredRole }) {
   if (requiredRole) {
     const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
     if (!roles.includes(user.rol)) {
-      return <Navigate to="/homepage" />;
+      return <Navigate to="/" />;
     }
   }
   return children;

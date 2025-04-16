@@ -1,7 +1,7 @@
 import "./App.css";
 import NavBar from "./components/NavBar.jsx";
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
 import SearchBautizo from "./pages/bautizos/SearchBautizo.jsx";
 import CreateBautizo from "./pages/bautizos/CreateBautizo.jsx";
@@ -29,7 +29,6 @@ import CreateUsuario from "./pages/admin/CreateUsuario.jsx";
 export default function App() {
   const { user, token, logout } = useAuthStore();
   const navigate = useNavigate();
-  const location = useLocation();
 
   // Redirección global si el token ha expirado o no existe
   useEffect(() => {
@@ -53,14 +52,14 @@ export default function App() {
 
 
   const shouldRenderNavBar =
-    user && token && !isTokenExpired(token) && location.pathname !== "/login" && location.pathname !== "/";
+    user && token && !isTokenExpired(token) && location.pathname !== "/login";
 
   return (
     <div>
       {shouldRenderNavBar && <NavBar />}
       <Routes>
-        <Route path="/" element={<HomeRedirect />} />
-        <Route path="/homepage" element={<HomePage />} />
+        {/* <Route path="/" element={<HomeRedirect />} /> */}
+        <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreatePage />} />
         <Route path="/login" element={<LoginPage showSnackbar={showSnackbar} />} />
 
@@ -170,7 +169,7 @@ export default function App() {
 
         {/* Rutas de Admin */}
         <Route
-          path="/search/usuarios"
+          path="/search/usuario"
           element={
             <ProtectedRoute requiredRole={["admin", "moderador"]}>
               <UsuariosPage showSnackbar={showSnackbar} />

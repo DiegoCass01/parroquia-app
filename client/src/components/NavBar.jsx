@@ -71,7 +71,7 @@ export default function NavBar() {
             {(user.rol === "admin" || user.rol === "moderador") && (
               <fieldset>
                 <legend>Ajustes</legend>
-                <button onClick={() => (navigate("/search/usuarios"))} className="config">
+                <button onClick={() => (navigate("/search/usuario"))} className="config">
                   <FontAwesomeIcon icon={faGear} />
                   &nbsp;&nbsp;Administrar usuarios
                 </button>
@@ -89,7 +89,7 @@ export default function NavBar() {
       )}
 
       <section className="navbar-links">
-        <Link to="/" className={location.pathname === "/homepage" ? "active" : ""}>
+        <Link to="/" className={location.pathname === "/" ? "active" : ""}>
           <p>Registros</p>
         </Link>
 

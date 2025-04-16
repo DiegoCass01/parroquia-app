@@ -13,5 +13,5 @@ export default function HomeRedirect() {
   }
 
   // Si hay token válido y usuario, redirigir al home
-  return user ? <Navigate to="/homepage" /> : <Navigate to="/login" />;
+  return user ? <Navigate to="/" /> : <Navigate to="/login" />;
 }
