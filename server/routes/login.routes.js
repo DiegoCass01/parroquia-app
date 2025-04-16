@@ -31,8 +31,8 @@ router.post("/login", (req, res) => {
           rol: user.rol,
           n_usuario: user.n_usuario,
         },
-        process.env.JWT_SECRET,
-        { expiresIn: "7d" }
+        process.env.JWT_SECRET
+        // { expiresIn: "15s" }
       );
 
       res.json({

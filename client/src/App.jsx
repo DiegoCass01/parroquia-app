@@ -8,7 +8,6 @@ import CreateBautizo from "./pages/bautizos/CreateBautizo.jsx";
 import EditBautizo from "./pages/bautizos/EditBautizo.jsx";
 import LoginPage from "./login/LoginPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import HomeRedirect from "./components/HomeRedirect.jsx";
 import { useAuthStore } from "./store/useAuthStore.js";
 import HomePage from "./pages/HomePage.jsx";
 import EditComunion from "./pages/comuniones/EditComunion.jsx";
@@ -33,11 +32,11 @@ export default function App() {
   // Redirección global si el token ha expirado o no existe
   useEffect(() => {
     const isTokenInvalid = !token || isTokenExpired(token);
-    if (isTokenInvalid) {
+    if (isTokenInvalid || !user) {
       logout(); // limpia el estado de autenticación
       navigate("/login");
     }
-  }, [token, logout, navigate]);
+  }, [user, token, logout, navigate]);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -49,8 +48,6 @@ export default function App() {
     setOpenSnackbar(true);
   };
 
-
-
   const shouldRenderNavBar =
     user && token && !isTokenExpired(token) && location.pathname !== "/login";
 
@@ -58,7 +55,6 @@ export default function App() {
     <div>
       {shouldRenderNavBar && <NavBar />}
       <Routes>
-        {/* <Route path="/" element={<HomeRedirect />} /> */}
         <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreatePage />} />
         <Route path="/login" element={<LoginPage showSnackbar={showSnackbar} />} />
@@ -207,20 +203,22 @@ export default function App() {
           boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
           backgroundColor:
             alertSeverity === "success"
-              ? "#e8f5e9"
+              ? "#c8e6c9" // verde más oscuro
               : alertSeverity === "error"
-                ? "#ffebee"
+                ? "#ffcdd2" // rojo más oscuro
                 : alertSeverity === "warning"
-                  ? "#fff8e1"
-                  : "#e3f2fd",
+                  ? "#ffe0b2" // naranja más oscuro
+                  : "#bbdefb", // azul más oscuro
+
           color:
             alertSeverity === "success"
-              ? "#2e7d32"
+              ? "#1b5e20" // verde oscuro
               : alertSeverity === "error"
-                ? "#c62828"
+                ? "#b71c1c" // rojo oscuro
                 : alertSeverity === "warning"
-                  ? "#f9a825"
-                  : "#0277bd",
+                  ? "#f57f17" // naranja oscuro
+                  : "#01579b", // azul oscuro
+
         }}>
           {alertMessage}
         </Alert>
