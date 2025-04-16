@@ -53,7 +53,7 @@ export default function EditUsuario({ showSnackbar }) {
       const response = await editUsuario(dataToSend);
 
       if (response && response.status >= 200 && response.status < 300) {
-        navigate("/search/usuarios", { replace: true });
+        navigate("/search/usuario", { replace: true });
         showSnackbar("Usuario editado correctamente!", "success");
       } else {
         console.error("Error editing usuario:", response?.data || response);
@@ -101,6 +101,7 @@ export default function EditUsuario({ showSnackbar }) {
             className="input"
           >
             <option value="usuario">Usuario</option>
+            <option value="moderador">Moderador</option>
             <option value="admin">Administrador</option>
           </select>
         </fieldset>
