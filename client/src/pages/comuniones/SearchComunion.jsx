@@ -9,6 +9,8 @@ import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf.js";
 import { normalizeText } from "../../functions/normalizeText.js";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import AdminValidationModal from "../../components/AdminValidationModal.jsx";
 
 export default function SearchComunion({ showSnackbar }) {
   const { comuniones, fetchComuniones, deleteComunion } = useComunionStore();
@@ -17,28 +19,66 @@ export default function SearchComunion({ showSnackbar }) {
   const [filterParam, setFilterParam] = useState("All");
   const navigate = useNavigate();
 
+  const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
+  const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
+  const [admin, setAdmin] = useState({
+    adminName: "",
+    adminPassword: ""
+  });
+  const [comunionIdToDelete, setComunionIdToDelete] = useState(null); // Estado para almacenar el ID del comunion
+
   useEffect(() => {
     fetchComuniones();
   }, [fetchComuniones]);
 
-
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este comunion?")) return;
-    try {
-      const response = await deleteComunion(id);
-      if (response?.status === 200) {
-        showSnackbar("Comunion eliminado correctamente!", "success");
-      } else {
-        showSnackbar("Error al eliminar comunion!", "error");
+    if (user.rol === "admin") {
+      if (!window.confirm("¿Estás seguro de que deseas eliminar este comunion?")) return;
+      try {
+        const response = await deleteComunion(id);
+        if (response?.status === 200) {
+          showSnackbar("Comunion eliminado correctamente!", "success");
+        } else {
+          showSnackbar("Error al eliminar comunion!", "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showSnackbar("Error al eliminar comunion en el server!", "error");
       }
-    } catch (e) {
-      console.error(e);
-      showSnackbar("Error al eliminar comunion en el server!", "error");
+    } else {
+      setComunionIdToDelete(id); // Asignamos el ID del bautizo a eliminar
+      setIsModalOpen(true); // Si no es admin, abre el modal para validación
     }
   };
 
   const handleEdit = async (comunion) => {
     navigate("/edit/comunion", { state: { comunion } })
+  };
+
+  const handleAdminValidation = async () => {
+    if (admin.adminName === "" || admin.adminPassword === "") return showSnackbar("Ingrese todos los datos!", "warning");
+    try {
+      const response = await validateAdminPassword({
+        n_usuario: admin.adminName,
+        password: admin.adminPassword
+      }); // Enviar la contraseña para validarla
+      if (response?.status === 200) {
+        // Si las credenciales son correctas, proceder con la eliminación
+        const deleteResponse = await deleteComunion(comunionIdToDelete); // Llama a la función de eliminación
+        if (deleteResponse?.status === 200) {
+          showSnackbar("Comunion eliminado correctamente!", "success");
+          setAdmin({ adminName: "", adminPassword: "" })
+          setIsModalOpen(false); // Cierra el modal después de la eliminación
+        } else {
+          showSnackbar("Error al eliminar comunion!", "error");
+        }
+      } else {
+        showSnackbar("Credenciales incorrectas", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showSnackbar("Error en la validación", "error");
+    }
   };
 
   useEffect(() => {
@@ -111,6 +151,16 @@ export default function SearchComunion({ showSnackbar }) {
           }
         </ul>
       </div>
+
+      {/* Modal para validar admin */}
+      {isModalOpen && (
+        <AdminValidationModal
+          admin={admin}
+          setAdmin={setAdmin}
+          onValidate={handleAdminValidation}
+          onCancel={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   )
 }

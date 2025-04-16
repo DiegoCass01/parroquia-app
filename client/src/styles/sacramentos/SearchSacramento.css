@@ -160,29 +160,6 @@ li span {
   z-index: 1000;
 }
 
-/* Contenido del modal */
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  width: 300px;
-  color: black;
-}
-
-.buttons-modal button {
-  padding: 10px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.buttons-modal button:hover {
-  background: #0056b3;
-}
-
 @media (max-width: 1100px) {
   body {
     padding-top: 10%;

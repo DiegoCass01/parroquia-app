@@ -8,6 +8,8 @@ import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf";
 import { normalizeText } from "../../functions/normalizeText";
 import SacramentoButtons from "../../components/SacramentoButtons";
+import AdminValidationModal from "../../components/AdminValidationModal";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export default function SearchConfirmacion({ showSnackbar }) {
   const { confirmaciones, fetchConfirmaciones, deleteConfirmacion } = useConfirmacionStore();
@@ -16,27 +18,66 @@ export default function SearchConfirmacion({ showSnackbar }) {
   const [filterParam, setFilterParam] = useState("All");
   const navigate = useNavigate();
 
+  const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
+  const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
+  const [admin, setAdmin] = useState({
+    adminName: "",
+    adminPassword: ""
+  });
+  const [confIdToDelete, setConfIdToDelete] = useState(null); // Estado para almacenar el ID del confirmacion
+
   useEffect(() => {
     fetchConfirmaciones();
   }, [fetchConfirmaciones]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar esta confirmación?")) return;
-    try {
-      const response = await deleteConfirmacion(id);
-      if (response?.status === 200) {
-        showSnackbar("Confirmación eliminada correctamente!", "success");
-      } else {
-        showSnackbar("Error al eliminar confirmación!", "error");
+    if (user.rol === "admin") {
+      if (!window.confirm("¿Estás seguro de que deseas eliminar esta confirmación?")) return;
+      try {
+        const response = await deleteConfirmacion(id);
+        if (response?.status === 200) {
+          showSnackbar("Confirmación eliminada correctamente!", "success");
+        } else {
+          showSnackbar("Error al eliminar confirmación!", "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showSnackbar("Error al eliminar confirmación en el servidor!", "error");
       }
-    } catch (e) {
-      console.error(e);
-      showSnackbar("Error al eliminar confirmación en el servidor!", "error");
+    } else {
+      setConfIdToDelete(id); // Asignamos el ID del bautizo a eliminar
+      setIsModalOpen(true); // Si no es admin, abre el modal para validación
     }
   };
 
   const handleEdit = async (confirmacion) => {
     navigate("/edit/confirmacion", { state: { confirmacion } });
+  };
+
+  const handleAdminValidation = async () => {
+    if (admin.adminName === "" || admin.adminPassword === "") return showSnackbar("Ingrese todos los datos!", "warning");
+    try {
+      const response = await validateAdminPassword({
+        n_usuario: admin.adminName,
+        password: admin.adminPassword
+      }); // Enviar la contraseña para validarla
+      if (response?.status === 200) {
+        // Si las credenciales son correctas, proceder con la eliminación
+        const deleteResponse = await deleteConfirmacion(confIdToDelete); // Llama a la función de eliminación
+        if (deleteResponse?.status === 200) {
+          showSnackbar("Confirmacion eliminado correctamente!", "success");
+          setAdmin({ adminName: "", adminPassword: "" })
+          setIsModalOpen(false); // Cierra el modal después de la eliminación
+        } else {
+          showSnackbar("Error al eliminar confirmacion!", "error");
+        }
+      } else {
+        showSnackbar("Credenciales incorrectas", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showSnackbar("Error en la validación", "error");
+    }
   };
 
   useEffect(() => {
@@ -106,6 +147,16 @@ export default function SearchConfirmacion({ showSnackbar }) {
           }
         </ul>
       </div>
+
+      {/* Modal para validar admin */}
+      {isModalOpen && (
+        <AdminValidationModal
+          admin={admin}
+          setAdmin={setAdmin}
+          onValidate={handleAdminValidation}
+          onCancel={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

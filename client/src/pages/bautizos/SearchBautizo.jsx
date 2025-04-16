@@ -10,12 +10,14 @@ import { normalizeText } from "../../functions/normalizeText.js";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
 import AdminValidationModal from "../../components/AdminValidationModal.jsx";
+
 export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
   const [searchQuery, setSearchQuery] = useState(""); // texto de la busqueda
   const [filteredBautizos, setFilteredBautizos] = useState([]); // bautizos que arroja la busqueda
   const [filterParam, setFilterParam] = useState("All"); // filtros
   const navigate = useNavigate();
+
   const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
   const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
   const [admin, setAdmin] = useState({
@@ -55,8 +57,6 @@ export default function SearchBautizo({ showSnackbar }) {
   const handleAdminValidation = async () => {
     if (admin.adminName === "" || admin.adminPassword === "") return showSnackbar("Ingrese todos los datos!", "warning");
     try {
-      console.log(admin.adminName, admin.adminPassword);
-
       const response = await validateAdminPassword({
         n_usuario: admin.adminName,
         password: admin.adminPassword

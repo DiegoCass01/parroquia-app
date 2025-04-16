@@ -8,6 +8,8 @@ import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf";
 import { normalizeText } from "../../functions/normalizeText";
 import SacramentoButtons from "../../components/SacramentoButtons";
+import { useAuthStore } from "../../store/useAuthStore";
+import AdminValidationModal from "../../components/AdminValidationModal";
 
 export default function SearchMatrimonio({ showSnackbar }) {
   const { matrimonios, fetchMatrimonios, deleteMatrimonio } = useMatrimonioStore();
@@ -16,27 +18,67 @@ export default function SearchMatrimonio({ showSnackbar }) {
   const [filterParam, setFilterParam] = useState("All");
   const navigate = useNavigate();
 
+
+  const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
+  const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
+  const [admin, setAdmin] = useState({
+    adminName: "",
+    adminPassword: ""
+  });
+  const [matrimonioIdToDelete, setMatrimonioIdToDelete] = useState(null); // Estado para almacenar el ID del matrimonio
+
   useEffect(() => {
     fetchMatrimonios();
   }, [fetchMatrimonios]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este matrimonio?")) return;
-    try {
-      const response = await deleteMatrimonio(id);
-      if (response?.status === 200) {
-        showSnackbar("Matrimonio eliminado correctamente!", "success");
-      } else {
-        showSnackbar("Error al eliminar matrimonio!", "error");
+    if (user.rol === "admin") {
+      if (!window.confirm("¿Estás seguro de que deseas eliminar este matrimonio?")) return;
+      try {
+        const response = await deleteMatrimonio(id);
+        if (response?.status === 200) {
+          showSnackbar("Matrimonio eliminado correctamente!", "success");
+        } else {
+          showSnackbar("Error al eliminar matrimonio!", "error");
+        }
+      } catch (e) {
+        console.error(e);
+        showSnackbar("Error al eliminar matrimonio en el servidor!", "error");
       }
-    } catch (e) {
-      console.error(e);
-      showSnackbar("Error al eliminar matrimonio en el servidor!", "error");
+    } else {
+      setMatrimonioIdToDelete(id); // Asignamos el ID del bautizo a eliminar
+      setIsModalOpen(true); // Si no es admin, abre el modal para validación
     }
   };
 
   const handleEdit = async (matrimonio) => {
     navigate("/edit/matrimonio", { state: { matrimonio } });
+  };
+
+  const handleAdminValidation = async () => {
+    if (admin.adminName === "" || admin.adminPassword === "") return showSnackbar("Ingrese todos los datos!", "warning");
+    try {
+      const response = await validateAdminPassword({
+        n_usuario: admin.adminName,
+        password: admin.adminPassword
+      }); // Enviar la contraseña para validarla
+      if (response?.status === 200) {
+        // Si las credenciales son correctas, proceder con la eliminación
+        const deleteResponse = await deleteMatrimonio(matrimonioIdToDelete); // Llama a la función de eliminación
+        if (deleteResponse?.status === 200) {
+          showSnackbar("Matrimonio eliminado correctamente!", "success");
+          setAdmin({ adminName: "", adminPassword: "" })
+          setIsModalOpen(false); // Cierra el modal después de la eliminación
+        } else {
+          showSnackbar("Error al eliminar matrimonio!", "error");
+        }
+      } else {
+        showSnackbar("Credenciales incorrectas", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showSnackbar("Error en la validación", "error");
+    }
   };
 
   useEffect(() => {
@@ -108,6 +150,15 @@ export default function SearchMatrimonio({ showSnackbar }) {
 
       </div>
 
+      {/* Modal para validar admin */}
+      {isModalOpen && (
+        <AdminValidationModal
+          admin={admin}
+          setAdmin={setAdmin}
+          onValidate={handleAdminValidation}
+          onCancel={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
