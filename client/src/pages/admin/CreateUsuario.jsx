@@ -38,6 +38,12 @@ export default function CreateUsuario({ showSnackbar }) {
     setUsuario(prev => ({ ...prev, [e.target.id]: e.target.value }));
   }
 
+  const roleOptions = [
+    { value: "admin", name: "Administrador" },
+    { value: "moderador", name: "Moderador" },
+    { value: "usuario", name: "Usuario" },
+  ];
+
   return (
     <div className="form-div">
       <h1>Registro de Usuarios</h1>
@@ -47,12 +53,7 @@ export default function CreateUsuario({ showSnackbar }) {
           <legend>Datos del Usuario</legend>
           <FormGroup id="n_usuario" label="Nombre de Usuario" value={usuario.n_usuario} onChange={handleChange} required />
           <FormGroup id="password" label="Contraseña" value={usuario.password} onChange={handleChange} type="password" required />
-          <label htmlFor={"rol"} className="label">Rol</label>
-          <select id="rol" name="rol" value={usuario.rol} onChange={handleChange} required className="input">
-            <option value="usuario">Usuario</option>
-            <option value="moderador">Moderador</option>
-            <option value="admin">Administrador</option>
-          </select>
+          <FormGroup id="rol" label="Rol" value={usuario.rol} onChange={handleChange} type="select" options={roleOptions} required />
         </fieldset>
         <br />
         <fieldset>
