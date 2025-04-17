@@ -10,7 +10,7 @@ export default function CreateBautizo({ showSnackbar }) {
     nombre: "",
     a_paterno: "",
     a_materno: "",
-    lugar_bautizo: "",
+    lugar_bautizo: "Parroquia Nuestra Señora de Guadalupe Mante",
     fecha_bautizo: "",
     fecha_nac: "",
     libro: "",
@@ -23,6 +23,8 @@ export default function CreateBautizo({ showSnackbar }) {
 
     try {
       const response = await createBautizo(bautizo);
+
+      console.log(bautizo.lugar_bautizo);
 
       if (response && response.status >= 200 && response.status < 300) {
         setBautizo({
@@ -51,6 +53,9 @@ export default function CreateBautizo({ showSnackbar }) {
   const handleChange = (e) => {
     setBautizo(prev => ({ ...prev, [e.target.id]: e.target.value }));
   }
+  const options = [
+    { value: "Parroquia Nuestra Señora de Guadalupe Mante", name: "Parroquia Nuestra Señora de Guadalupe Mante" }
+  ]
 
   return (
     <div className="form-div">
@@ -68,7 +73,7 @@ export default function CreateBautizo({ showSnackbar }) {
         <fieldset>
           <legend>Datos del Bautizo</legend>
           <FormGroup id="fecha_bautizo" label="Fecha de Bautizo" value={bautizo.fecha_bautizo} onChange={handleChange} type="date" required />
-          <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} required />
+          <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} type="select" options={options} required />
           <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={bautizo.fecha_nac} onChange={handleChange} type="date" required />
           <FormGroup id="libro" label="Libro" value={bautizo.libro} onChange={handleChange} required />
           <FormGroup id="foja" label="Foja" value={bautizo.foja} onChange={handleChange} required />
