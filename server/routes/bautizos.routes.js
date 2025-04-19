@@ -30,6 +30,7 @@ router.post("/", verifyToken, (req, res) => {
     nombre,
     a_paterno,
     a_materno,
+    nombre_parroquia,
     lugar_bautizo,
     fecha_bautizo,
     fecha_nac,
@@ -37,13 +38,14 @@ router.post("/", verifyToken, (req, res) => {
     foja,
     acta,
   } = req.body;
-  const query = `INSERT INTO bautizos (nombre, a_paterno, a_materno, lugar_bautizo, fecha_bautizo, fecha_nac, libro, foja, acta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const query = `INSERT INTO bautizos (nombre, a_paterno, a_materno, nombre_parroquia, lugar_bautizo, fecha_bautizo, fecha_nac, libro, foja, acta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   pool.query(
     query,
     [
       nombre,
       a_paterno,
       a_materno,
+      nombre_parroquia,
       lugar_bautizo,
       fecha_bautizo,
       fecha_nac,
@@ -71,6 +73,7 @@ router.put("/:id_bautizo", verifyToken, (req, res) => {
     nombre,
     a_paterno,
     a_materno,
+    nombre_parroquia,
     lugar_bautizo,
     fecha_bautizo,
     fecha_nac,
@@ -78,13 +81,14 @@ router.put("/:id_bautizo", verifyToken, (req, res) => {
     foja,
     acta,
   } = req.body;
-  const query = `UPDATE bautizos SET nombre = ?, a_paterno = ?, a_materno = ?, lugar_bautizo = ?, fecha_bautizo = ?, fecha_nac = ?, libro = ?, foja = ?, acta = ? WHERE id_bautizo = ?`;
+  const query = `UPDATE bautizos SET nombre = ?, a_paterno = ?, a_materno = ?, nombre_parroquia = ?, lugar_bautizo = ?, fecha_bautizo = ?, fecha_nac = ?, libro = ?, foja = ?, acta = ? WHERE id_bautizo = ?`;
   pool.query(
     query,
     [
       nombre,
       a_paterno,
       a_materno,
+      nombre_parroquia,
       lugar_bautizo,
       fecha_bautizo,
       fecha_nac,

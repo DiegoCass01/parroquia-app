@@ -5,9 +5,15 @@ import "../../styles/admin/CreateUsuario.css";
 export default function CreateUsuario({ showSnackbar }) {
 
   const { createUsuario } = useUsuarioStore();
+  const roleOptions = [
+    { value: "usuario", name: "Usuario" },
+    { value: "moderador", name: "Moderador" },
+    { value: "admin", name: "Administrador" },
+
+  ];
 
   const [usuario, setUsuario] = useState({
-    nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: 'usuario',
+    nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: roleOptions[0].value,
   });
 
   const handleSubmit = async (e) => {
@@ -15,8 +21,6 @@ export default function CreateUsuario({ showSnackbar }) {
 
     try {
       const response = await createUsuario(usuario);
-      console.error(usuario);
-
 
       if (response && response.status >= 200 && response.status < 300) {
         setUsuario({
@@ -38,11 +42,6 @@ export default function CreateUsuario({ showSnackbar }) {
     setUsuario(prev => ({ ...prev, [e.target.id]: e.target.value }));
   }
 
-  const roleOptions = [
-    { value: "admin", name: "Administrador" },
-    { value: "moderador", name: "Moderador" },
-    { value: "usuario", name: "Usuario" },
-  ];
 
   return (
     <div className="form-div">

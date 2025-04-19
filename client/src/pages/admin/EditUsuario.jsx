@@ -9,7 +9,12 @@ export default function EditUsuario({ showSnackbar }) {
   const initialUsuario = location.state?.usuario;
   const navigate = useNavigate();
   const { editUsuario } = useUsuarioStore();
+  const roleOptions = [
+    { value: "usuario", name: "Usuario" },
+    { value: "moderador", name: "Moderador" },
+    { value: "admin", name: "Administrador" },
 
+  ];
   const [usuario, setUsuario] = useState(initialUsuario);
   const [hasChanges, setHasChanges] = useState(false); // Estado para rastrear cambios en el form
   const [newPassword, setNewPassword] = useState("");
@@ -89,21 +94,7 @@ export default function EditUsuario({ showSnackbar }) {
             type="password"
             placeholder="Ingrese nueva contraseña"
           />
-          <label htmlFor="rol" className="label">
-            Rol
-          </label>
-          <select
-            id="rol"
-            name="rol"
-            value={usuario.rol}
-            onChange={handleChange}
-            required
-            className="input"
-          >
-            <option value="usuario">Usuario</option>
-            <option value="moderador">Moderador</option>
-            <option value="admin">Administrador</option>
-          </select>
+          <FormGroup id="rol" label="Rol" value={usuario.rol} onChange={handleChange} type="select" options={roleOptions} required />
         </fieldset>
         <br />
         <fieldset>

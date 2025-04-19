@@ -5,12 +5,20 @@ import "../../styles/sacramentos/CreateSacramento.css";
 export default function CreateBautizo({ showSnackbar }) {
 
   const { createBautizo } = useBautizoStore();
+  const nombreParroquia = [
+    { value: "Parroquia Nuestra Señora de Guadalupe Mante", name: "Parroquia Nuestra Señora de Guadalupe Mante" }
+  ]
+
+  const lugarBautizo = [
+    { value: "Cd. Mante", name: "Cd. Mante" }
+  ]
 
   const [bautizo, setBautizo] = useState({
     nombre: "",
     a_paterno: "",
     a_materno: "",
-    lugar_bautizo: "Parroquia Nuestra Señora de Guadalupe Mante",
+    nombre_parroquia: nombreParroquia[0].value,
+    lugar_bautizo: lugarBautizo[0].value,
     fecha_bautizo: "",
     fecha_nac: "",
     libro: "",
@@ -29,7 +37,8 @@ export default function CreateBautizo({ showSnackbar }) {
           nombre: "",
           a_paterno: "",
           a_materno: "",
-          lugar_bautizo: "",
+          nombre_parroquia: nombreParroquia[0].value,
+          lugar_bautizo: lugarBautizo[0].value,
           fecha_bautizo: "",
           fecha_nac: "",
           libro: "",
@@ -51,9 +60,7 @@ export default function CreateBautizo({ showSnackbar }) {
   const handleChange = (e) => {
     setBautizo(prev => ({ ...prev, [e.target.id]: e.target.value }));
   }
-  const options = [
-    { value: "Parroquia Nuestra Señora de Guadalupe Mante", name: "Parroquia Nuestra Señora de Guadalupe Mante" }
-  ]
+
 
   return (
     <div className="form-div">
@@ -71,7 +78,8 @@ export default function CreateBautizo({ showSnackbar }) {
         <fieldset>
           <legend>Datos del Bautizo</legend>
           <FormGroup id="fecha_bautizo" label="Fecha de Bautizo" value={bautizo.fecha_bautizo} onChange={handleChange} type="date" required />
-          <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} type="select" options={options} required />
+          <FormGroup id="nombre_parroquia" label="Nombre de Parroquia" value={bautizo.nombre_parroquia} onChange={handleChange} type="select" options={nombreParroquia} required />
+          <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} type="select" options={lugarBautizo} required />
           <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={bautizo.fecha_nac} onChange={handleChange} type="date" required />
           <FormGroup id="libro" label="Libro" value={bautizo.libro} onChange={handleChange} required />
           <FormGroup id="foja" label="Foja" value={bautizo.foja} onChange={handleChange} required />
@@ -80,7 +88,6 @@ export default function CreateBautizo({ showSnackbar }) {
 
         <button type="submit" className="submit-button" >Agregar</button>
       </form>
-
 
     </div >
   )

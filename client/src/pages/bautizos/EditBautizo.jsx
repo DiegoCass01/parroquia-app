@@ -9,6 +9,13 @@ export default function EditBautizo({ showSnackbar }) {
   const initialBautizo = location.state?.bautizo;
   const navigate = useNavigate();
   const { editBautizo } = useBautizoStore();
+  const nombreParroquia = [
+    { value: "Parroquia Nuestra Señora de Guadalupe Mante", name: "Parroquia Nuestra Señora de Guadalupe Mante" }
+  ]
+
+  const lugarBautizo = [
+    { value: "Cd. Mante", name: "Cd. Mante" }
+  ]
 
   // 📌 Estado del formulario
   const [bautizo, setBautizo] = useState(initialBautizo);
@@ -77,7 +84,8 @@ export default function EditBautizo({ showSnackbar }) {
         <fieldset>
           <legend>Datos del Bautizo</legend>
           <FormGroup id="fecha_bautizo" label="Fecha de Bautizo" value={bautizo.fecha_bautizo} onChange={handleChange} type="date" required />
-          <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} required />
+          <FormGroup id="nombre_parroquia" label="Nombre de Parroquia" value={bautizo.nombre_parroquia} onChange={handleChange} type="select" options={nombreParroquia} required />
+          <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} type="select" options={lugarBautizo} required />
           <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={bautizo.fecha_nac} onChange={handleChange} type="date" required />
           <FormGroup id="libro" label="Libro" value={bautizo.libro} onChange={handleChange} required />
           <FormGroup id="foja" label="Foja" value={bautizo.foja} onChange={handleChange} required />
