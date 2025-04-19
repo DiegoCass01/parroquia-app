@@ -15,7 +15,9 @@ export default function EditUsuario({ showSnackbar }) {
     { value: "admin", name: "Administrador" },
 
   ];
-  const [usuario, setUsuario] = useState(initialUsuario);
+  const { password, ...restOfUser } = initialUsuario; // Elimina el campo password
+  const [usuario, setUsuario] = useState(restOfUser);
+
   const [hasChanges, setHasChanges] = useState(false); // Estado para rastrear cambios en el form
   const [newPassword, setNewPassword] = useState("");
 
@@ -45,13 +47,15 @@ export default function EditUsuario({ showSnackbar }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!hasChanges && !newPassword) {
+    const noChangesMade = !hasChanges && !newPassword;
+
+    if (noChangesMade) {
       return showSnackbar("No se han realizado cambios!", "warning");
     }
 
     const dataToSend = {
       ...usuario,
-      ...(newPassword && { password: newPassword }), // Solo si hay nueva contraseña
+      ...(newPassword.trim() !== "" && { password: newPassword }), // Solo si hay nueva contraseña
     };
 
     try {

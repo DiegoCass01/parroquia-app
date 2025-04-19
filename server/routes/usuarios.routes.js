@@ -53,37 +53,59 @@ router.put(
     const { id } = req.params;
     const { nombre, a_paterno, a_materno, n_usuario, password, rol } = req.body;
 
-    let fields = [
-      "nombre = ?",
-      "a_paterno = ?",
-      "a_materno = ?",
-      "n_usuario = ?",
-      "rol = ?",
-    ];
-    const values = [nombre, a_paterno, a_materno, n_usuario, rol];
+    // Primero, buscamos el usuario para obtener su contraseña actual
+    pool.query(
+      "SELECT password FROM usuario WHERE id = ?",
+      [id],
+      (err, results) => {
+        if (err) {
+          console.error("Error al buscar usuario:", err);
+          return res.status(500).json({ error: "Error al buscar el usuario" });
+        }
 
-    // Si se proporciona una nueva contraseña, la agregamos al query y al arreglo de valores
-    if (password) {
-      const hashedPassword = bcrypt.hashSync(password, 10);
-      fields.push("password = ?");
-      values.push(hashedPassword);
-    }
+        if (results.length === 0) {
+          return res.status(404).json({ error: "Usuario no encontrado" });
+        }
 
-    values.push(id); // El id siempre va al final
+        const currentHashedPassword = results[0].password;
 
-    const query = `
-    UPDATE usuario 
-    SET ${fields.join(", ")} 
-    WHERE id = ?`;
+        let fields = [
+          "nombre = ?",
+          "a_paterno = ?",
+          "a_materno = ?",
+          "n_usuario = ?",
+          "rol = ?",
+        ];
+        const values = [nombre, a_paterno, a_materno, n_usuario, rol];
 
-    pool.query(query, values, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: err.message });
+        // Solo si viene contraseña nueva y es distinta a la actual, la actualizamos
+        if (password && !bcrypt.compareSync(password, currentHashedPassword)) {
+          const hashedPassword = bcrypt.hashSync(password, 10);
+          fields.push("password = ?");
+          values.push(hashedPassword);
+        }
+
+        values.push(id); // Siempre va al final
+
+        const query = `
+        UPDATE usuario 
+        SET ${fields.join(", ")} 
+        WHERE id = ?`;
+
+        pool.query(query, values, (err) => {
+          if (err) {
+            console.error("Error al actualizar usuario:", err);
+            return res
+              .status(500)
+              .json({ error: "Error al actualizar usuario" });
+          }
+
+          res
+            .status(200)
+            .json({ message: "Usuario actualizado correctamente" });
+        });
       }
-
-      res.status(200).json({ message: "Usuario actualizado correctamente" });
-    });
+    );
   }
 );
 
