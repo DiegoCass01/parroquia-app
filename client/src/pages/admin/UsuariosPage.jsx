@@ -89,35 +89,37 @@ export default function UsuariosPage({ showSnackbar }) {
         <ul >
           {usuarios.length > 0 ? (
             usuarios.map((usuario) => (
-              <li key={usuario.id} className={`usuario-item ${usuario.rol}`}>
-                <div className="usuario-info">
-                  <div className="info-item">
-                    <label>Nombre completo</label>
-                    <div className="info-content">
-                      <span>{usuario.nombre + " " + usuario.a_paterno + " " + usuario.a_materno}</span>
+              user.id !== usuario.id && (
+                < li key={usuario.id} className={`usuario-item ${usuario.rol}`} >
+                  <div className="usuario-info">
+                    <div className="info-item">
+                      <label>Nombre completo</label>
+                      <div className="info-content">
+                        <span>{usuario.nombre + " " + usuario.a_paterno + " " + usuario.a_materno}</span>
+                      </div>
+                    </div>
+                    <div className="info-item">
+                      <label>Nombre de usuario</label>
+                      <div className="info-content">
+                        <span>{usuario.n_usuario}</span>
+                      </div>
+                    </div>
+                    <div className="info-item">
+                      <label>Rol</label>
+                      <div className="info-content">
+                        <span>{usuario.rol}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="info-item">
-                    <label>Nombre de usuario</label>
-                    <div className="info-content">
-                      <span>{usuario.n_usuario}</span>
-                    </div>
-                  </div>
-                  <div className="info-item">
-                    <label>Rol</label>
-                    <div className="info-content">
-                      <span>{usuario.rol}</span>
-                    </div>
-                  </div>
-                </div>
 
-                <SacramentoButtons
-                  handleDelete={() => handleDelete(usuario.id)}
-                  handleEdit={() => handleEdit(usuario)}
-                  tipo="usuario"
+                  <SacramentoButtons
+                    handleDelete={() => handleDelete(usuario.id)}
+                    handleEdit={() => handleEdit(usuario)}
+                    tipo="usuario"
 
-                />
-              </li>
+                  />
+                </li>)
+
             ))
           ) : (
             <div className="no-elements-item">
@@ -128,14 +130,16 @@ export default function UsuariosPage({ showSnackbar }) {
       </div>
 
       {/* Modal para validar admin */}
-      {isModalOpen && (
-        <AdminValidationModal
-          admin={admin}
-          setAdmin={setAdmin}
-          onValidate={handleAdminValidation}
-          onCancel={() => setIsModalOpen(false)}
-        />
-      )}
-    </div>
+      {
+        isModalOpen && (
+          <AdminValidationModal
+            admin={admin}
+            setAdmin={setAdmin}
+            onValidate={handleAdminValidation}
+            onCancel={() => setIsModalOpen(false)}
+          />
+        )
+      }
+    </div >
   )
 }

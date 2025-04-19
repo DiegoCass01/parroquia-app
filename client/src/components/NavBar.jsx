@@ -48,7 +48,7 @@ export default function NavBar() {
         <>
           <section className="navbar-user-info" onClick={toggleSidebar}>
             <div className="user-details">
-              <span className="user-name">{user.nombre}</span>
+              <span className="user-name">{user.n_usuario}</span>
               <span className={`user-role ${user.rol}`}>{user.rol.toUpperCase()}</span>
             </div>
             <FontAwesomeIcon
