@@ -31,7 +31,6 @@ export default function CreateBautizo({ showSnackbar }) {
 
     try {
       const response = await createBautizo(bautizo);
-
       if (response && response.status >= 200 && response.status < 300) {
         setBautizo({
           nombre: "",

@@ -38,9 +38,12 @@ router.post("/", verifyToken, (req, res) => {
     foja,
     acta,
   } = req.body;
-  const query = `INSERT INTO bautizos (nombre, a_paterno, a_materno, nombre_parroquia, lugar_bautizo, fecha_bautizo, fecha_nac, libro, foja, acta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const insertQuery = `
+    INSERT INTO bautizos 
+    (nombre, a_paterno, a_materno, nombre_parroquia, lugar_bautizo, fecha_bautizo, fecha_nac, libro, foja, acta, folio)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   pool.query(
-    query,
+    insertQuery,
     [
       nombre,
       a_paterno,
@@ -52,15 +55,33 @@ router.post("/", verifyToken, (req, res) => {
       libro,
       foja,
       acta,
+      "AB",
     ],
     (err, results) => {
       if (err) {
         console.error("Error al crear el bautizo:", err);
         return res.status(500).json({ error: "Error al crear el bautizo" });
       }
+
+      // Crear un objeto con los valores que fueron insertados
+      const nuevoBautizo = {
+        id: results.insertId,
+        nombre,
+        a_paterno,
+        a_materno,
+        nombre_parroquia,
+        lugar_bautizo,
+        fecha_bautizo,
+        fecha_nac,
+        libro,
+        foja,
+        acta,
+        folio: "AB", // Asignamos el valor de 'folio' que es "AB"
+      };
+
       res.status(201).json({
         message: "Bautizo creado correctamente",
-        id: results.insertId,
+        bautizo: nuevoBautizo,
       });
     }
   );
