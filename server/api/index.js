@@ -1,16 +1,13 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import pool from "./db.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { verifyToken } from "../middleware/validationToken.js";
 import { routerBautizos } from "../routes/bautizos.routes.js";
 import { routerComuniones } from "../routes/comuniones.routes.js";
 import { routerConfirmaciones } from "../routes/confirmaciones.routes.js";
 import { routerMatrimonios } from "../routes/matrimonios.routes.js";
 import { usuariosRouter } from "../routes/usuarios.routes.js";
 import { loginRouter } from "../routes/login.routes.js";
+import { routerMovimiento } from "../routes/movimiento.routes.js";
 
 dotenv.config();
 
@@ -39,6 +36,7 @@ app.use("/api/confirmaciones", routerConfirmaciones);
 app.use("/api/matrimonios", routerMatrimonios);
 app.use("/api/usuarios", usuariosRouter);
 app.use("/api/auth", loginRouter);
+app.use("/api/movimiento", routerMovimiento);
 
 // Iniciar el servidor
 app.listen(PORT, "0.0.0.0", () => {

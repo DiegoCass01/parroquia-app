@@ -13,7 +13,7 @@ pool.getConnection((err, connection) => {
 });
 
 // Obtener todos los movimientos
-router.get("/", verifyToken, (req, res) => {
+router.get("/", (req, res) => {
   pool.query("SELECT * FROM movimiento", (err, results) => {
     if (err) {
       console.error("Error al obtener los movimientos:", err);
