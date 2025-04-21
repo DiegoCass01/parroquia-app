@@ -120,6 +120,7 @@ export default function CreateBautizo({ showSnackbar }) {
           <FormGroup id="nom_padre" label="Nombre del Padre" value={bautizo.nom_padre} onChange={handleChange} required />
           <FormGroup id="a_pat_padre" label="Apellido Paterno del Padre" value={bautizo.a_pat_padre} onChange={handleChange} required />
           <FormGroup id="a_mat_padre" label="Apellido Materno del Padre" value={bautizo.a_mat_padre} onChange={handleChange} required />
+
           <FormGroup id="nom_madre" label="Nombre de la Madre" value={bautizo.nom_madre} onChange={handleChange} required />
           <FormGroup id="a_pat_madre" label="Apellido Paterno de la Madre" value={bautizo.a_pat_madre} onChange={handleChange} required />
           <FormGroup id="a_mat_madre" label="Apellido Materno de la Madre" value={bautizo.a_mat_madre} onChange={handleChange} required />

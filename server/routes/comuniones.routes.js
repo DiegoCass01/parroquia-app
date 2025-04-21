@@ -4,9 +4,20 @@ import { verifyToken } from "../middleware/validationToken.js";
 
 const router = express.Router();
 
-// Obtener todos las comuniones
+// Obtener todas las comuniones con padrinos
 router.get("/", verifyToken, (req, res) => {
-  pool.query("SELECT * FROM comunion", (err, results) => {
+  const query = `
+    SELECT 
+      c.*, 
+      p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
+      p.mad_nom, p.mad_ap_pat, p.mad_ap_mat
+    FROM comunion c
+    LEFT JOIN padrinos p 
+      ON c.id_comunion = p.id_sacramento 
+      AND p.tipo_sacramento = 'comunion'
+  `;
+
+  pool.query(query, (err, results) => {
     if (err) {
       console.error("Error al obtener comuniones:", err);
       res.status(500).json({ error: "Error al obtener los datos" });
@@ -16,7 +27,7 @@ router.get("/", verifyToken, (req, res) => {
   });
 });
 
-// Crear una nueva comunion
+// Crear una nueva comunión con padrinos
 router.post("/", verifyToken, (req, res) => {
   const {
     nombre,
@@ -28,15 +39,36 @@ router.post("/", verifyToken, (req, res) => {
     nom_madre,
     a_pat_madre,
     a_mat_madre,
+    parroquia_bautizo,
+    nombre_parroquia,
     lugar_comunion,
     fecha_comunion,
+    parroco,
     libro,
     foja,
     acta,
+    pad_nom,
+    pad_ap_pat,
+    pad_ap_mat,
+    mad_nom,
+    mad_ap_pat,
+    mad_ap_mat,
   } = req.body;
-  const query = `INSERT INTO comunion (nombre, a_paterno, a_materno, nom_padre, a_pat_padre, a_mat_padre, nom_madre, a_pat_madre, a_mat_madre, lugar_comunion, fecha_comunion, libro, foja, acta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  const insertComunQuery = `
+    INSERT INTO comunion (
+      nombre, a_paterno, a_materno,
+      nom_padre, a_pat_padre, a_mat_padre,
+      nom_madre, a_pat_madre, a_mat_madre,
+      parroquia_bautizo,
+      nombre_parroquia, lugar_comunion, 
+      fecha_comunion, parroco,
+      libro, foja, acta
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
   pool.query(
-    query,
+    insertComunQuery,
     [
       nombre,
       a_paterno,
@@ -47,26 +79,61 @@ router.post("/", verifyToken, (req, res) => {
       nom_madre,
       a_pat_madre,
       a_mat_madre,
+      parroquia_bautizo,
+      nombre_parroquia,
       lugar_comunion,
       fecha_comunion,
+      parroco,
       libro,
       foja,
       acta,
     ],
     (err, results) => {
       if (err) {
-        console.error("Error al crear la comunion:", err);
-        return res.status(500).json({ error: "Error al crear la comunion" });
+        console.error("Error al crear la comunión:", err);
+        return res.status(500).json({ error: "Error al crear la comunión" });
       }
+
+      const comunionId = results.insertId;
+
+      const insertPadrinosQuery = `
+        INSERT INTO padrinos (
+          id_sacramento, tipo_sacramento,
+          pad_nom, pad_ap_pat, pad_ap_mat,
+          mad_nom, mad_ap_pat, mad_ap_mat,
+          tipo_pad
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+
+      pool.query(
+        insertPadrinosQuery,
+        [
+          comunionId,
+          "comunion",
+          pad_nom,
+          pad_ap_pat,
+          pad_ap_mat,
+          mad_nom,
+          mad_ap_pat,
+          mad_ap_mat,
+          "general",
+        ],
+        (err2) => {
+          if (err2) {
+            console.error("Error al insertar padrinos:", err2);
+            // No se hace rollback, solo se notifica
+          }
+        }
+      );
+
       res.status(201).json({
-        message: "Comunion creado correctamente",
-        id: results.insertId,
+        message: "Comunión creada correctamente",
+        id: comunionId,
       });
     }
   );
 });
-
-// Actualizar una comunion
+// Actualizar una comunión y sus padrinos
 router.put("/:id_comunion", verifyToken, (req, res) => {
   const { id_comunion } = req.params;
   const {
@@ -79,15 +146,36 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
     nom_madre,
     a_pat_madre,
     a_mat_madre,
+    parroquia_bautizo,
+    nombre_parroquia,
     lugar_comunion,
     fecha_comunion,
+    parroco,
     libro,
     foja,
     acta,
+    pad_nom,
+    pad_ap_pat,
+    pad_ap_mat,
+    mad_nom,
+    mad_ap_pat,
+    mad_ap_mat,
   } = req.body;
-  const query = `UPDATE comunion SET nombre = ?, a_paterno = ?, a_materno = ?, nom_padre = ?, a_pat_padre = ?, a_mat_padre = ?, nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?, lugar_comunion = ?, fecha_comunion = ?, libro = ?, foja = ?, acta = ? WHERE id_comunion = ?`;
+
+  const updateComunQuery = `
+    UPDATE comunion SET
+      nombre = ?, a_paterno = ?, a_materno = ?,
+      nom_padre = ?, a_pat_padre = ?, a_mat_padre = ?,
+      nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?,
+      parroquia_bautizo = ?,
+      nombre_parroquia = ?, lugar_comunion = ?,
+      fecha_comunion = ?, parroco = ?,
+      libro = ?, foja = ?, acta = ?
+    WHERE id_comunion = ?
+  `;
+
   pool.query(
-    query,
+    updateComunQuery,
     [
       nombre,
       a_paterno,
@@ -98,8 +186,11 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
       nom_madre,
       a_pat_madre,
       a_mat_madre,
+      parroquia_bautizo,
+      nombre_parroquia,
       lugar_comunion,
       fecha_comunion,
+      parroco,
       libro,
       foja,
       acta,
@@ -107,42 +198,79 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
     ],
     (err, results) => {
       if (err) {
-        console.error("Error al actualizar el comunion:", err);
-        res.status(500).json({ error: "Error al actualizar el comunion" });
-      } else {
-        if (results.affectedRows > 0) {
-          res.json({
-            message: "Comunion actualizado correctamente",
-          });
-        } else {
-          res.status(404).json({ error: "Comunion no encontrado" });
-        }
+        console.error("Error al actualizar la comunión:", err);
+        return res
+          .status(500)
+          .json({ error: "Error al actualizar la comunión" });
       }
+
+      const updatePadrinosQuery = `
+        UPDATE padrinos SET
+          pad_nom = ?, pad_ap_pat = ?, pad_ap_mat = ?,
+          mad_nom = ?, mad_ap_pat = ?, mad_ap_mat = ?
+        WHERE id_sacramento = ? AND tipo_sacramento = 'comunion'
+      `;
+
+      pool.query(
+        updatePadrinosQuery,
+        [
+          pad_nom,
+          pad_ap_pat,
+          pad_ap_mat,
+          mad_nom,
+          mad_ap_pat,
+          mad_ap_mat,
+          id_comunion,
+        ],
+        (err2, results2) => {
+          if (err2) {
+            console.error("Error al actualizar los padrinos:", err2);
+            return res
+              .status(500)
+              .json({ error: "Error al actualizar los padrinos" });
+          }
+
+          res.json({
+            message: "Comunión y padrinos actualizados correctamente",
+          });
+        }
+      );
     }
   );
 });
 
-// Eliminar una comunion
+// Eliminar una comunión y sus padrinos
 router.delete("/:id_comunion", verifyToken, (req, res) => {
   const { id_comunion } = req.params;
-  pool.query(
-    "DELETE FROM comunion WHERE id_comunion = ?",
-    [id_comunion],
-    (err, results) => {
-      if (err) {
-        console.error("Error al eliminar el comunion:", err);
-        res.status(500).json({ error: "Error al eliminar el comunion" });
-      } else {
-        if (results.affectedRows > 0) {
-          res.json({
-            message: "Comunion eliminado correctamente",
-          });
-        } else {
-          res.status(404).json({ error: "Comunion no encontrado" });
-        }
-      }
+
+  const deletePadrinosQuery = `
+    DELETE FROM padrinos 
+    WHERE id_sacramento = ? AND tipo_sacramento = 'comunion'
+  `;
+
+  pool.query(deletePadrinosQuery, [id_comunion], (err1) => {
+    if (err1) {
+      console.error("Error al eliminar padrinos:", err1);
+      return res.status(500).json({ error: "Error al eliminar los padrinos" });
     }
-  );
+
+    const deleteComunQuery = `
+      DELETE FROM comunion WHERE id_comunion = ?
+    `;
+
+    pool.query(deleteComunQuery, [id_comunion], (err2, results2) => {
+      if (err2) {
+        console.error("Error al eliminar la comunión:", err2);
+        return res.status(500).json({ error: "Error al eliminar la comunión" });
+      }
+
+      if (results2.affectedRows > 0) {
+        res.json({ message: "Comunión y padrinos eliminados correctamente" });
+      } else {
+        res.status(404).json({ error: "Comunión no encontrada" });
+      }
+    });
+  });
 });
 
 export { router as routerComuniones };

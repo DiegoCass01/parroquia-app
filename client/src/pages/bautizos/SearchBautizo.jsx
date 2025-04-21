@@ -134,6 +134,7 @@ export default function SearchBautizo({ showSnackbar }) {
                     <span>Nombre Parroquia: {bautizo.nombre_parroquia}</span>
                     <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
                     <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
+                    <span>Parroco: {bautizo.parroco}</span>
                     <fieldset>
                       <legend>Padres</legend>
                       <span>{bautizo.nom_padre + " " + bautizo.a_pat_padre + " " + bautizo.a_mat_padre}</span>

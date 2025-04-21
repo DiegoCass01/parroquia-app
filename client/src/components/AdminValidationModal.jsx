@@ -47,7 +47,6 @@ export default function AdminValidationModal({
         />
 
         <section className="buttons-modal">
-          <button onClick={onValidate} className="validate" >Validar</button>
           <button
             onClick={() => {
               onCancel();
@@ -56,6 +55,8 @@ export default function AdminValidationModal({
           >
             Cancelar
           </button>
+          <button onClick={onValidate} className="validate" >Validar</button>
+
         </section>
       </div>
     </div>

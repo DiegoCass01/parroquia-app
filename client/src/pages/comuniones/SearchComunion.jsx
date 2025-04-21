@@ -131,10 +131,22 @@ export default function SearchComunion({ showSnackbar }) {
                 filteredComuniones.map((comunion) => (
                   <li key={comunion.id_comunion} className="sacramento-item">
                     <span><strong>{comunion.nombre + " " + comunion.a_paterno + " " + comunion.a_materno}</strong></span>
+                    <span>Bautizado(a) en: {comunion.parroquia_bautizo}</span>
                     <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
+                    <span>Nombre Parroquia: {comunion.nombre_parroquia}</span>
                     <span>Lugar Comunion: {comunion.lugar_comunion}</span>
-                    <span>Padre: {comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
-                    <span>Madre: {comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
+                    <span>Parroco: {comunion.parroco}</span>
+                    <fieldset>
+                      <legend>Padres</legend>
+                      <span>{comunion.nom_padre + " " + comunion.a_pat_padre + " " + comunion.a_mat_padre}</span>
+                      <span>{comunion.nom_madre + " " + comunion.a_pat_madre + " " + comunion.a_mat_madre}</span>
+                    </fieldset>
+                    <fieldset>
+                      <legend>Padrinos</legend>
+                      <span>{comunion.pad_nom + " " + comunion.pad_ap_pat + " " + comunion.pad_ap_mat}</span>
+                      <span>{comunion.mad_nom + " " + comunion.mad_ap_pat + " " + comunion.mad_ap_mat}</span>
+                    </fieldset>
+
                     <SacramentoButtons
                       handleDelete={() => handleDelete(comunion.id_comunion)}
                       generarPDF={() => generarPDF({ datos: comunion })}
