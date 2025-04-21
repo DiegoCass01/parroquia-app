@@ -134,13 +134,23 @@ export default function SearchBautizo({ showSnackbar }) {
                     <span>Nombre Parroquia: {bautizo.nombre_parroquia}</span>
                     <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
                     <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
+                    <fieldset>
+                      <legend>Padres</legend>
+                      <span>{bautizo.nom_padre + " " + bautizo.a_pat_padre + " " + bautizo.a_mat_padre}</span>
+                      <span>{bautizo.nom_madre + " " + bautizo.a_pat_madre + " " + bautizo.a_mat_madre}</span>
+                    </fieldset>
+                    <fieldset>
+                      <legend>Padrinos</legend>
+                      <span>{bautizo.pad_nom + " " + bautizo.pad_ap_pat + " " + bautizo.pad_ap_mat}</span>
+                      <span>{bautizo.mad_nom + " " + bautizo.mad_ap_pat + " " + bautizo.mad_ap_mat}</span>
+                    </fieldset>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(bautizo.id_bautizo)}
                       generarPDF={() => generarPDF({ datos: bautizo })}
                       handleEdit={() => handleEdit(bautizo)}
                       tipo="bautizo"
                     />
-                  </li>
+                  </li >
                 ))
               ) : (
                 <div className="no-elements-item">
@@ -148,19 +158,21 @@ export default function SearchBautizo({ showSnackbar }) {
                 </div>
               )
           }
-        </ul>
-      </div>
+        </ul >
+      </div >
 
       {/* Modal para validar admin */}
-      {isModalOpen && (
-        <AdminValidationModal
-          admin={admin}
-          setAdmin={setAdmin}
-          onValidate={handleAdminValidation}
-          onCancel={() => setIsModalOpen(false)}
-        />
-      )}
-    </div>
+      {
+        isModalOpen && (
+          <AdminValidationModal
+            admin={admin}
+            setAdmin={setAdmin}
+            onValidate={handleAdminValidation}
+            onCancel={() => setIsModalOpen(false)}
+          />
+        )
+      }
+    </div >
   )
 }
 

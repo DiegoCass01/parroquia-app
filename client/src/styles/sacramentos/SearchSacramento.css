@@ -126,6 +126,29 @@
   box-shadow: 0 6px 12px #999;
 }
 
+.sacramento-item fieldset {
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+}
+
+.sacramento-item legend {
+  padding: 0 10px;
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+.sacramento-item fieldset span {
+  display: block;
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+
 li span {
   margin-block: 8px;
   color: #000000;
