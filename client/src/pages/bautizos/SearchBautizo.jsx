@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
-import { normalizeText } from "../../functions/normalizeText.js";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
 import AdminValidationModal from "../../components/AdminValidationModal.jsx";
@@ -14,8 +13,7 @@ import AdminValidationModal from "../../components/AdminValidationModal.jsx";
 export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
   const [searchQuery, setSearchQuery] = useState(""); // texto de la busqueda
-  const [filteredBautizos, setFilteredBautizos] = useState([]); // bautizos que arroja la busqueda
-  const [filterParam, setFilterParam] = useState("All"); // filtros
+  const [yearFilter, setYearFilter] = useState(""); // filtros
   const navigate = useNavigate();
 
   const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
@@ -27,8 +25,15 @@ export default function SearchBautizo({ showSnackbar }) {
   const [bautizoIdToDelete, setBautizoIdToDelete] = useState(null); // Estado para almacenar el ID del bautizo
 
   useEffect(() => {
-    fetchBautizos();
-  }, [fetchBautizos]);
+    const delayDebounce = setTimeout(() => {
+      if (searchQuery.trim() !== "") {
+        fetchBautizos(searchQuery, yearFilter);
+      }
+    }, 500); // espera 500ms después de dejar de escribir
+
+    return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
+  }, [searchQuery, yearFilter, fetchBautizos]);
+
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -80,41 +85,16 @@ export default function SearchBautizo({ showSnackbar }) {
     }
   };
 
-  useEffect(() => {
-    if (!bautizos.length) return;
-
-    const resultados = bautizos.filter((bautizo) => {
-      // Combine the name fields
-      const fullName = `${bautizo.nombre} ${bautizo.a_paterno} ${bautizo.a_materno}`;
-
-      // Normalize the full name and search query
-      const fullNameNormalized = normalizeText(fullName);
-      const searchQueryNormalized = normalizeText(searchQuery);
-
-      // Check if the full name contains the search query
-      const nombreMatch = fullNameNormalized.includes(searchQueryNormalized);
-
-      // Handle the year filtering
-      const year = bautizo.fecha_bautizo ? new Date(bautizo.fecha_bautizo).getFullYear() : null;
-      const yearMatch = filterParam !== "All" ? year?.toString() === filterParam : true;
-
-      return nombreMatch && yearMatch;
-    });
-
-    setFilteredBautizos(resultados);
-  }, [searchQuery, bautizos, filterParam]);
-
-
   return (
     <div className="search-page">
       <section className="search-sacramento-header">
         <h1>Busqueda de Bautizo</h1>
         <SearchBar
-          sacramento={bautizos}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          setFilterParam={setFilterParam}
-          fechaField="fecha_bautizo" />
+          setYearFilter={setYearFilter}
+          yearFilter={yearFilter}
+          placeholderFiltro={"Año de bautizo"} />
       </section>
 
       {/* Lista de bautizos filtrados */}
@@ -126,8 +106,8 @@ export default function SearchBautizo({ showSnackbar }) {
                 <strong><p>¿A quién buscas? Escribe el nombre del bautizado.</p></strong>
               </div>
             ) :
-              filteredBautizos.length > 0 ? (
-                filteredBautizos.map((bautizo) => (
+              bautizos.length > 0 ? (
+                bautizos.map((bautizo) => (
                   <li key={bautizo.id_bautizo} className="sacramento-item">
                     <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
                     <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>

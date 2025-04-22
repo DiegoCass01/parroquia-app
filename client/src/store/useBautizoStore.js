@@ -6,21 +6,24 @@ const API_URL = import.meta.env.VITE_API_URL; // Asegúrate de que esta variable
 export const useBautizoStore = create((set) => ({
   bautizos: [],
 
-  fetchBautizos: async () => {
+  fetchBautizos: async (search = "", year = "") => {
     try {
-      const token = localStorage.getItem("token"); // Obtén el token dentro de la función cada vez que la llames
+      const token = localStorage.getItem("token");
       const res = await axios.get(`${API_URL}/bautizos`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: {
+          search,
+          year,
+        },
       });
 
       set({ bautizos: res.data });
-
       return res;
     } catch (error) {
       console.error("Error al obtener bautizos", error);
-      return null; // Retorna null en caso de error
+      return null;
     }
   },
 

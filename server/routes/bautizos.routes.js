@@ -14,22 +14,34 @@ pool.getConnection((err, connection) => {
 
 // Obtener todos los bautizos
 router.get("/", verifyToken, (req, res) => {
-  pool.query(
-    `SELECT
+  const search = req.query.search || "";
+  const year = req.query.year || ""; // filtro
+
+  let baseQuery = `
+    SELECT
       b.*,
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
       p.mad_nom, p.mad_ap_pat, p.mad_ap_mat
     FROM bautizos b
-    LEFT JOIN padrinos p ON b.id_bautizo = p.id_sacramento AND p.tipo_sacramento = 'bautizo';`,
-    (err, results) => {
-      if (err) {
-        console.error("Error al obtener bautizos:", err);
-        res.status(500).json({ error: "Error al obtener los datos" });
-      } else {
-        res.json(results);
-      }
+    LEFT JOIN padrinos p ON b.id_bautizo = p.id_sacramento AND p.tipo_sacramento = 'bautizo'
+    WHERE CONCAT_WS(' ',
+      b.nombre, b.a_paterno, b.a_materno
+    ) LIKE ?`;
+
+  const values = [`%${search}%`];
+
+  if (year !== "") {
+    baseQuery += " AND YEAR(b.fecha_bautizo) = ?";
+    values.push(year);
+  }
+
+  pool.query(baseQuery, values, (err, results) => {
+    if (err) {
+      console.error("Error al obtener bautizos:", err);
+      return res.status(500).json({ error: "Error al obtener los datos" });
     }
-  );
+    res.json(results);
+  });
 });
 
 // Crear un nuevo bautizo
