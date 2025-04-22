@@ -125,9 +125,13 @@ export default function SearchMatrimonio({ showSnackbar }) {
               filteredMatrimonios.length > 0 ? (
                 filteredMatrimonios.map((mat) => (
                   <li key={mat.id_matrimonio} className="sacramento-item">
-                    <span><strong>{`${mat.nombre_novio} ${mat.a_pat_novio} y ${mat.nombre_novia} ${mat.a_pat_novia}`}</strong></span>
-                    <span>Novio: {mat.nombre_novio + " " + mat.a_pat_novio + " " + mat.a_mat_novio}</span>
-                    <span>Novia: {mat.nombre_novia + " " + mat.a_pat_novia + " " + mat.a_mat_novia}</span>
+                    <span><strong>{`${mat.nombre_novio} ${mat.a_pat_novio} ${mat.a_mat_novio} y ${mat.nombre_novia} ${mat.a_pat_novia} ${mat.a_mat_novia}`}</strong></span>
+                    <span>Padre del Novio: {`${mat.nom_padre_novio} ${mat.a_pat_padre_novio} ${mat.a_mat_padre_novio}`}</span>
+                    <span>Madre del Novio: {`${mat.nom_madre_novio} ${mat.a_pat_madre_novio} ${mat.a_mat_madre_novio}`}</span>
+                    <span>Padre de la Novia: {`${mat.nom_padre_novia} ${mat.a_pat_padre_novia} ${mat.a_mat_padre_novia}`}</span>
+                    <span>Madre de la Novia: {`${mat.nom_madre_novia} ${mat.a_pat_madre_novia} ${mat.a_mat_madre_novia}`}</span>
+                    <span>Dirección del Matrimonio: {mat.dir_matrimonio}</span>
+                    <span>Lugar del Matrimonio: {mat.lugar_matrimonio}</span>
                     <span>Fecha Matrimonio: {formatDateLong(mat.fecha_matrimonio)}</span>
                     <span>Libro: {mat.libro}</span>
                     <span>Foja: {mat.foja}</span>

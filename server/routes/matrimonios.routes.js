@@ -6,7 +6,18 @@ const router = express.Router();
 
 // Obtener todos los matrimonios
 router.get("/", verifyToken, (req, res) => {
-  pool.query("SELECT * FROM matrimonio", (err, results) => {
+  const query = `
+    SELECT 
+      m.*, 
+      p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
+      p.mad_nom, p.mad_ap_pat, p.mad_ap_mat
+    FROM matrimonio m
+    LEFT JOIN padrinos p 
+      ON m.id_matrimonio = p.id_sacramento 
+      AND p.tipo_sacramento = 'matrimonio'
+  `;
+
+  pool.query(query, (err, results) => {
     if (err) {
       console.error("Error al obtener matrimonios:", err);
       res.status(500).json({ error: "Error al obtener los datos" });
