@@ -124,12 +124,22 @@ export default function SearchConfirmacion({ showSnackbar }) {
                 filteredConfirmaciones.map((conf) => (
                   <li key={conf.id_confirmacion} className="sacramento-item">
                     <span><strong>{`${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`}</strong></span>
-                    <span>Padre: {conf.nom_padre + " " + conf.a_pat_padre + " " + conf.a_mat_padre}</span>
-                    <span>Madre: {conf.nom_madre + " " + conf.a_pat_madre + " " + conf.a_mat_madre}</span>
                     <span>Fecha Confirmación: {formatDateLong(conf.fecha_confirmacion)}</span>
-                    <span>Libro: {conf.libro}</span>
-                    <span>Foja: {conf.foja}</span>
-                    <span>Acta: {conf.acta}</span>
+                    <span>Dirección: {conf.dir_confirmacion}</span>
+                    <span>Lugar Confirmación: {conf.lugar_confirmacion}</span>
+                    <span>Parroco: {conf.parroco}</span>
+                    <span>Fecha Nacimiento: {formatDateLong(conf.fecha_nac)}</span>
+                    <span>Lugar de Nacimiento: {conf.lugar_nac}</span>
+                    <fieldset>
+                      <legend>Padres</legend>
+                      <span>{conf.nom_padre} {conf.a_pat_padre} {conf.a_mat_padre}</span>
+                      <span>{conf.nom_madre} {conf.a_pat_madre} {conf.a_mat_madre}</span>
+                    </fieldset>
+                    <fieldset>
+                      <legend>Padrinos</legend>
+                      <span>{conf.pad_nom + " " + conf.pad_ap_pat + " " + conf.pad_ap_mat}</span>
+                      <span>{conf.mad_nom + " " + conf.mad_ap_pat + " " + conf.mad_ap_mat}</span>
+                    </fieldset>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(conf.id_confirmacion)}
                       generarPDF={() => generarPDF({ datos: conf })}
