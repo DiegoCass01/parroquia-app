@@ -133,6 +133,7 @@ router.post("/", verifyToken, (req, res) => {
     }
   );
 });
+
 // Actualizar una comunión y sus padrinos
 router.put("/:id_comunion", verifyToken, (req, res) => {
   const { id_comunion } = req.params;

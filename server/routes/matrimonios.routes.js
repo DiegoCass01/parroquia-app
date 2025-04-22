@@ -36,22 +36,67 @@ router.post("/", verifyToken, (req, res) => {
     nombre_novia,
     a_pat_novia,
     a_mat_novia,
+    nom_padre_novio,
+    a_pat_padre_novio,
+    a_mat_padre_novio,
+    nom_madre_novio,
+    a_pat_madre_novio,
+    a_mat_madre_novio,
+    nom_padre_novia,
+    a_pat_padre_novia,
+    a_mat_padre_novia,
+    nom_madre_novia,
+    a_pat_madre_novia,
+    a_mat_madre_novia,
+    dir_matrimonio,
+    lugar_matrimonio,
     fecha_matrimonio,
     libro,
     foja,
     acta,
+    pad_nom,
+    pad_ap_pat,
+    pad_ap_mat,
+    mad_nom,
+    mad_ap_pat,
+    mad_ap_mat,
+    testigo_nom,
+    testigo_ap_pat,
+    testigo_ap_mat,
+    testigo2_nom,
+    testigo2_ap_pat,
+    testigo2_ap_mat,
   } = req.body;
 
-  const query = `
+  const queryMatrimonio = `
     INSERT INTO matrimonio (
-      nombre_novio, a_pat_novio, a_mat_novio,
-      nombre_novia, a_pat_novia, a_mat_novia,
-      fecha_matrimonio, libro, foja, acta
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  nombre_novio,
+  a_pat_novio,
+  a_mat_novio,
+  nombre_novia,
+  a_pat_novia,
+  a_mat_novia,
+  nom_padre_novio,
+  a_pat_padre_novio,
+  a_mat_padre_novio,
+  nom_madre_novio,
+  a_pat_madre_novio,
+  a_mat_madre_novio,
+  nom_padre_novia,
+  a_pat_padre_novia,
+  a_mat_padre_novia,
+  nom_madre_novia,
+  a_pat_madre_novia,
+  a_mat_madre_novia,
+  dir_matrimonio,
+  lugar_matrimonio,
+  fecha_matrimonio
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
   `;
 
   pool.query(
-    query,
+    queryMatrimonio,
     [
       nombre_novio,
       a_pat_novio,
@@ -59,21 +104,85 @@ router.post("/", verifyToken, (req, res) => {
       nombre_novia,
       a_pat_novia,
       a_mat_novia,
+      nom_padre_novio,
+      a_pat_padre_novio,
+      a_mat_padre_novio,
+      nom_madre_novio,
+      a_pat_madre_novio,
+      a_mat_madre_novio,
+      nom_padre_novia,
+      a_pat_padre_novia,
+      a_mat_padre_novia,
+      nom_madre_novia,
+      a_pat_madre_novia,
+      a_mat_madre_novia,
+      dir_matrimonio,
+      lugar_matrimonio,
       fecha_matrimonio,
-      libro,
-      foja,
-      acta,
     ],
     (err, results) => {
       if (err) {
         console.error("Error al crear el matrimonio:", err);
         res.status(500).json({ error: "Error al crear el matrimonio" });
-      } else {
-        res.status(201).json({
-          message: "Matrimonio creado correctamente",
-          id: results.insertId,
-        });
       }
+
+      const matrimonioId = results.insertId;
+
+      const insertPadrinosQuery = `
+        INSERT INTO padrinos (
+          id_sacramento, tipo_sacramento,
+          pad_nom, pad_ap_pat, pad_ap_mat,
+          mad_nom, mad_ap_pat, mad_ap_mat,
+          tipo_pad
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+
+      pool.query(
+        insertPadrinosQuery,
+        [
+          matrimonioId,
+          "matrimonio",
+          pad_nom,
+          pad_ap_pat,
+          pad_ap_mat,
+          mad_nom,
+          mad_ap_pat,
+          mad_ap_mat,
+          "padrinos",
+        ],
+        (err2) => {
+          if (err2) {
+            console.error("Error al insertar padrinos:", err2);
+            // No se hace rollback, solo se notifica
+          }
+
+          pool.query(
+            insertPadrinosQuery,
+            [
+              matrimonioId,
+              "matrimonio",
+              testigo_nom,
+              testigo_ap_pat,
+              testigo_ap_mat,
+              testigo2_nom,
+              testigo2_ap_pat,
+              testigo2_ap_mat,
+              "testigos",
+            ],
+            (err3) => {
+              if (err3) {
+                console.error("Error al insertar testigos:", err2);
+                // No se hace rollback, solo se notifica
+              }
+            }
+          );
+
+          res.status(201).json({
+            message: "Matrimonio creado correctamente",
+            id: matrimonioId,
+          });
+        }
+      );
     }
   );
 });
