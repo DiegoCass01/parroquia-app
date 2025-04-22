@@ -40,7 +40,7 @@ router.post("/", verifyToken, (req, res) => {
     a_pat_madre,
     a_mat_madre,
     parroquia_bautizo,
-    nombre_parroquia,
+    dir_comunion,
     lugar_comunion,
     fecha_comunion,
     parroco,
@@ -61,7 +61,7 @@ router.post("/", verifyToken, (req, res) => {
       nom_padre, a_pat_padre, a_mat_padre,
       nom_madre, a_pat_madre, a_mat_madre,
       parroquia_bautizo,
-      nombre_parroquia, lugar_comunion, 
+      dir_comunion, lugar_comunion, 
       fecha_comunion, parroco,
       libro, foja, acta
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -80,7 +80,7 @@ router.post("/", verifyToken, (req, res) => {
       a_pat_madre,
       a_mat_madre,
       parroquia_bautizo,
-      nombre_parroquia,
+      dir_comunion,
       lugar_comunion,
       fecha_comunion,
       parroco,
@@ -147,7 +147,7 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
     a_pat_madre,
     a_mat_madre,
     parroquia_bautizo,
-    nombre_parroquia,
+    dir_comunion,
     lugar_comunion,
     fecha_comunion,
     parroco,
@@ -168,7 +168,7 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
       nom_padre = ?, a_pat_padre = ?, a_mat_padre = ?,
       nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?,
       parroquia_bautizo = ?,
-      nombre_parroquia = ?, lugar_comunion = ?,
+      dir_comunion = ?, lugar_comunion = ?,
       fecha_comunion = ?, parroco = ?,
       libro = ?, foja = ?, acta = ?
     WHERE id_comunion = ?
@@ -187,7 +187,7 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
       a_pat_madre,
       a_mat_madre,
       parroquia_bautizo,
-      nombre_parroquia,
+      dir_comunion,
       lugar_comunion,
       fecha_comunion,
       parroco,

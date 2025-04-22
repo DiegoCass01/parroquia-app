@@ -131,7 +131,7 @@ export default function SearchBautizo({ showSnackbar }) {
                   <li key={bautizo.id_bautizo} className="sacramento-item">
                     <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
                     <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
-                    <span>Nombre Parroquia: {bautizo.nombre_parroquia}</span>
+                    <span>Dirección Bautizo: {bautizo.dir_bautizo}</span>
                     <span>Lugar Bautizo: {bautizo.lugar_bautizo}</span>
                     <span>Fecha Nacimiento: {formatDateLong(bautizo.fecha_nac)}</span>
                     <span>Parroco: {bautizo.parroco}</span>

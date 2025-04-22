@@ -17,7 +17,7 @@ export default function CreateComunion({ showSnackbar }) {
     a_pat_madre: "",
     a_mat_madre: "",
     parroquia_bautizo: "",
-    nombre_parroquia: "",
+    dir_comunion: "",
     lugar_comunion: "",
     fecha_comunion: "",
     libro: "",
@@ -49,7 +49,7 @@ export default function CreateComunion({ showSnackbar }) {
           a_pat_madre: "",
           a_mat_madre: "",
           parroquia_bautizo: "",
-          nombre_parroquia: "",
+          dir_comunion: "",
           lugar_comunion: "",
           fecha_comunion: "",
           libro: "",
@@ -95,8 +95,8 @@ export default function CreateComunion({ showSnackbar }) {
           <legend>Datos de la Comunión</legend>
           <FormGroup id="parroquia_bautizo" label="Bautizado(a) en" value={comunion.parroquia_bautizo} onChange={handleChange} required />
           <FormGroup id="fecha_comunion" label="Fecha de Comunion" value={comunion.fecha_comunion} onChange={handleChange} type="date" required />
-          <FormGroup id="nombre_parroquia" label="Nombre Parroquia Comunion" value={comunion.nombre_parroquia} onChange={handleChange} required />
-          <FormGroup id="lugar_comunion" label="Ciudad" value={comunion.lugar_comunion} onChange={handleChange} required />
+          <FormGroup id="dir_comunion" label="Dirección de la comunión" value={comunion.dir_comunion} onChange={handleChange} required />
+          <FormGroup id="lugar_comunion" label="Lugar Comunión" value={comunion.lugar_comunion} onChange={handleChange} required />
           <FormGroup id="parroco" label="Parroco" value={comunion.parroco} onChange={handleChange} required />
           <FormGroup id="libro" label="Libro" value={comunion.libro} onChange={handleChange} required />
           <FormGroup id="foja" label="Foja" value={comunion.foja} onChange={handleChange} required />

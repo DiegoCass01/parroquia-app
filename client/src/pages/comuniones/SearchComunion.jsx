@@ -133,7 +133,7 @@ export default function SearchComunion({ showSnackbar }) {
                     <span><strong>{comunion.nombre + " " + comunion.a_paterno + " " + comunion.a_materno}</strong></span>
                     <span>Bautizado(a) en: {comunion.parroquia_bautizo}</span>
                     <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
-                    <span>Nombre Parroquia: {comunion.nombre_parroquia}</span>
+                    <span>Dirección de Comunión: {comunion.dir_comunion}</span>
                     <span>Lugar Comunion: {comunion.lugar_comunion}</span>
                     <span>Parroco: {comunion.parroco}</span>
                     <fieldset>
