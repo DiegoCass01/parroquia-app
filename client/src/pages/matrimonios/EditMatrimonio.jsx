@@ -57,24 +57,66 @@ export default function EditMatrimonio({ showSnackbar }) {
         {/* DATOS DEL NOVIO */}
         <fieldset>
           <legend>Datos del Novio</legend>
-          <FormGroup id="nombre_novio" label="Nombre del Novio" value={matrimonio.nombre_novio} onChange={handleChange} required />
-          <FormGroup id="a_pat_novio" label="Apellido Paterno del Novio" value={matrimonio.a_pat_novio} onChange={handleChange} required />
-          <FormGroup id="a_mat_novio" label="Apellido Materno del Novio" value={matrimonio.a_mat_novio} onChange={handleChange} required />
+          <FormGroup id="nombre_novio" label="Nombre del Novio" value={matrimonio.nombre_novio} onChange={handleChange} />
+          <FormGroup id="a_pat_novio" label="Apellido Paterno del Novio" value={matrimonio.a_pat_novio} onChange={handleChange} />
+          <FormGroup id="a_mat_novio" label="Apellido Materno del Novio" value={matrimonio.a_mat_novio} onChange={handleChange} />
+          <FormGroup id="nom_padre_novio" label="Nombre del Padre del Novio" value={matrimonio.nom_padre_novio} onChange={handleChange} />
+          <FormGroup id="a_pat_padre_novio" label="Apellido Paterno del Padre del Novio" value={matrimonio.a_pat_padre_novio} onChange={handleChange} />
+          <FormGroup id="a_mat_padre_novio" label="Apellido Materno del Padre del Novio" value={matrimonio.a_mat_padre_novio} onChange={handleChange} />
+          <FormGroup id="nom_madre_novio" label="Nombre de la Madre del Novio" value={matrimonio.nom_madre_novio} onChange={handleChange} />
+          <FormGroup id="a_pat_madre_novio" label="Apellido Paterno de la Madre del Novio" value={matrimonio.a_pat_madre_novio} onChange={handleChange} />
+          <FormGroup id="a_mat_madre_novio" label="Apellido Materno de la Madre del Novio" value={matrimonio.a_mat_madre_novio} onChange={handleChange} />
         </fieldset>
+
         <br />
+
         {/* DATOS DE LA NOVIA */}
         <fieldset>
           <legend>Datos de la Novia</legend>
-          <FormGroup id="nombre_novia" label="Nombre de la Novia" value={matrimonio.nombre_novia} onChange={handleChange} required />
-          <FormGroup id="a_pat_novia" label="Apellido Paterno de la Novia" value={matrimonio.a_pat_novia} onChange={handleChange} required />
-          <FormGroup id="a_mat_novia" label="Apellido Materno de la Novia" value={matrimonio.a_mat_novia} onChange={handleChange} required />
+          <FormGroup id="nombre_novia" label="Nombre de la Novia" value={matrimonio.nombre_novia} onChange={handleChange} />
+          <FormGroup id="a_pat_novia" label="Apellido Paterno de la Novia" value={matrimonio.a_pat_novia} onChange={handleChange} />
+          <FormGroup id="a_mat_novia" label="Apellido Materno de la Novia" value={matrimonio.a_mat_novia} onChange={handleChange} />
+          <FormGroup id="nom_padre_novia" label="Nombre del Padre de la Novia" value={matrimonio.nom_padre_novia} onChange={handleChange} />
+          <FormGroup id="a_pat_padre_novia" label="Apellido Paterno del Padre de la Novia" value={matrimonio.a_pat_padre_novia} onChange={handleChange} />
+          <FormGroup id="a_mat_padre_novia" label="Apellido Materno del Padre de la Novia" value={matrimonio.a_mat_padre_novia} onChange={handleChange} />
+          <FormGroup id="nom_madre_novia" label="Nombre de la Madre de la Novia" value={matrimonio.nom_madre_novia} onChange={handleChange} />
+          <FormGroup id="a_pat_madre_novia" label="Apellido Paterno de la Madre de la Novia" value={matrimonio.a_pat_madre_novia} onChange={handleChange} />
+          <FormGroup id="a_mat_madre_novia" label="Apellido Materno de la Madre de la Novia" value={matrimonio.a_mat_madre_novia} onChange={handleChange} />
         </fieldset>
+
         <br />
-        {/* DATOS DEL MATRIMONIO */}
+
+        {/* DATOS DEL SACRAMENTO */}
         <fieldset>
           <legend>Datos del Matrimonio</legend>
-          <FormGroup id="fecha_matrimonio" label="Fecha del Matrimonio" value={matrimonio.fecha_matrimonio} onChange={handleChange} type="date" required />
+          <FormGroup id="dir_matrimonio" label="Dirección del Matrimonio" value={matrimonio.dir_matrimonio} onChange={handleChange} />
+          <FormGroup id="lugar_matrimonio" label="Lugar del Matrimonio" value={matrimonio.lugar_matrimonio} onChange={handleChange} />
+          <FormGroup id="fecha_matrimonio" label="Fecha del Matrimonio" type="date" value={matrimonio.fecha_matrimonio} onChange={handleChange} />
+        </fieldset>
 
+        <br />
+
+        {/* DATOS DE LOS PADRINOS */}
+        <fieldset>
+          <legend>Datos de los Padrinos</legend>
+          <FormGroup id="pad_nom" label="Nombre del Padrino" value={matrimonio.pad_nom} onChange={handleChange} />
+          <FormGroup id="pad_ap_pat" label="Apellido Paterno del Padrino" value={matrimonio.pad_ap_pat} onChange={handleChange} />
+          <FormGroup id="pad_ap_mat" label="Apellido Materno del Padrino" value={matrimonio.pad_ap_mat} onChange={handleChange} />
+          <FormGroup id="mad_nom" label="Nombre de la Madrina" value={matrimonio.mad_nom} onChange={handleChange} />
+          <FormGroup id="mad_ap_pat" label="Apellido Paterno de la Madrina" value={matrimonio.mad_ap_pat} onChange={handleChange} />
+          <FormGroup id="mad_ap_mat" label="Apellido Materno de la Madrina" value={matrimonio.mad_ap_mat} onChange={handleChange} />
+        </fieldset>
+        <br />
+
+        {/* DATOS DE LOS PADRINOS */}
+        <fieldset>
+          <legend>Datos de los Testigos</legend>
+          <FormGroup id="testigo_nom" label="Nombre del Testigo" value={matrimonio.testigo_nom} onChange={handleChange} />
+          <FormGroup id="testigo_ap_pat" label="Apellido Paterno del Testigo" value={matrimonio.testigo_ap_pat} onChange={handleChange} />
+          <FormGroup id="testigo_ap_mat" label="Apellido Materno del Testigo" value={matrimonio.testigo_ap_mat} onChange={handleChange} />
+          <FormGroup id="testigo2_nom" label="Nombre de la Testigo" value={matrimonio.testigo2_nom} onChange={handleChange} />
+          <FormGroup id="testigo2_ap_pat" label="Apellido Paterno de la Testigo" value={matrimonio.testigo2_ap_pat} onChange={handleChange} />
+          <FormGroup id="testigo2_ap_mat" label="Apellido Materno de la Testigo" value={matrimonio.testigo2_ap_mat} onChange={handleChange} />
         </fieldset>
 
         <button type="submit" className="submit-button">Editar</button>

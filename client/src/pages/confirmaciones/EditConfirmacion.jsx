@@ -57,11 +57,11 @@ export default function EditConfirmacion({ showSnackbar }) {
         {/* DATOS DEL CONFIRMADO */}
         <fieldset>
           <legend>Datos del Confirmado</legend>
-          <FormGroup id="nombre" label="Nombre" value={confirmacion.nombre} onChange={handleChange} required />
-          <FormGroup id="a_paterno" label="Apellido Paterno" value={confirmacion.a_paterno} onChange={handleChange} required />
-          <FormGroup id="a_materno" label="Apellido Materno" value={confirmacion.a_materno} onChange={handleChange} required />
-          <FormGroup id="lugar_nac" label="Lugar de Nacimiento" value={confirmacion.lugar_nac} onChange={handleChange} required />
-          <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={confirmacion.fecha_nac} onChange={handleChange} type="date" required />
+          <FormGroup id="nombre" label="Nombre" value={confirmacion.nombre} onChange={handleChange} />
+          <FormGroup id="a_paterno" label="Apellido Paterno" value={confirmacion.a_paterno} onChange={handleChange} />
+          <FormGroup id="a_materno" label="Apellido Materno" value={confirmacion.a_materno} onChange={handleChange} />
+          <FormGroup id="lugar_nac" label="Lugar de Nacimiento" value={confirmacion.lugar_nac} onChange={handleChange} />
+          <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={confirmacion.fecha_nac} onChange={handleChange} type="date" />
 
         </fieldset>
         <br />
@@ -69,41 +69,41 @@ export default function EditConfirmacion({ showSnackbar }) {
         {/* DATOS DEL SACRAMENTO */}
         <fieldset>
           <legend>Datos de la Confirmación</legend>
-          <FormGroup id="dir_confirmacion" label="Dirección de la Confirmación" value={confirmacion.dir_confirmacion} onChange={handleChange} required />
-          <FormGroup id="lugar_confirmacion" label="Parroquia de la Confirmación" value={confirmacion.lugar_confirmacion} onChange={handleChange} required />
-          <FormGroup id="fecha_confirmacion" label="Fecha de Confirmación" value={confirmacion.fecha_confirmacion} onChange={handleChange} type="date" required />
-          <FormGroup id="parroco" label="Párroco" value={confirmacion.parroco} onChange={handleChange} required />
+          <FormGroup id="dir_confirmacion" label="Dirección de la Confirmación" value={confirmacion.dir_confirmacion} onChange={handleChange} />
+          <FormGroup id="lugar_confirmacion" label="Parroquia de la Confirmación" value={confirmacion.lugar_confirmacion} onChange={handleChange} />
+          <FormGroup id="fecha_confirmacion" label="Fecha de Confirmación" value={confirmacion.fecha_confirmacion} onChange={handleChange} type="date" />
+          <FormGroup id="parroco" label="Párroco" value={confirmacion.parroco} onChange={handleChange} />
         </fieldset>
         <br />
 
         {/* DATOS DEL PADRE */}
         <fieldset>
           <legend>Datos del Padre</legend>
-          <FormGroup id="nom_padre" label="Nombre del Padre" value={confirmacion.nom_padre} onChange={handleChange} required />
-          <FormGroup id="a_pat_padre" label="Apellido Paterno del Padre" value={confirmacion.a_pat_padre} onChange={handleChange} required />
-          <FormGroup id="a_mat_padre" label="Apellido Materno del Padre" value={confirmacion.a_mat_padre} onChange={handleChange} required />
+          <FormGroup id="nom_padre" label="Nombre del Padre" value={confirmacion.nom_padre} onChange={handleChange} />
+          <FormGroup id="a_pat_padre" label="Apellido Paterno del Padre" value={confirmacion.a_pat_padre} onChange={handleChange} />
+          <FormGroup id="a_mat_padre" label="Apellido Materno del Padre" value={confirmacion.a_mat_padre} onChange={handleChange} />
         </fieldset>
         <br />
 
         {/* DATOS DE LA MADRE */}
         <fieldset>
           <legend>Datos de la Madre</legend>
-          <FormGroup id="nom_madre" label="Nombre de la Madre" value={confirmacion.nom_madre} onChange={handleChange} required />
-          <FormGroup id="a_pat_madre" label="Apellido Paterno de la Madre" value={confirmacion.a_pat_madre} onChange={handleChange} required />
-          <FormGroup id="a_mat_madre" label="Apellido Materno de la Madre" value={confirmacion.a_mat_madre} onChange={handleChange} required />
+          <FormGroup id="nom_madre" label="Nombre de la Madre" value={confirmacion.nom_madre} onChange={handleChange} />
+          <FormGroup id="a_pat_madre" label="Apellido Paterno de la Madre" value={confirmacion.a_pat_madre} onChange={handleChange} />
+          <FormGroup id="a_mat_madre" label="Apellido Materno de la Madre" value={confirmacion.a_mat_madre} onChange={handleChange} />
         </fieldset>
         <br />
 
         {/* DATOS DE LOS PADRINOS */}
         <fieldset>
           <legend>Datos de los Padrinos</legend>
-          <FormGroup id="pad_nom" label="Nombre del Padrino" value={confirmacion.pad_nom} onChange={handleChange} required />
-          <FormGroup id="pad_ap_pat" label="Apellido Paterno del Padrino" value={confirmacion.pad_ap_pat} onChange={handleChange} required />
-          <FormGroup id="pad_ap_mat" label="Apellido Materno del Padrino" value={confirmacion.pad_ap_mat} onChange={handleChange} required />
+          <FormGroup id="pad_nom" label="Nombre del Padrino" value={confirmacion.pad_nom} onChange={handleChange} />
+          <FormGroup id="pad_ap_pat" label="Apellido Paterno del Padrino" value={confirmacion.pad_ap_pat} onChange={handleChange} />
+          <FormGroup id="pad_ap_mat" label="Apellido Materno del Padrino" value={confirmacion.pad_ap_mat} onChange={handleChange} />
 
-          <FormGroup id="mad_nom" label="Nombre de la Madrina" value={confirmacion.mad_nom} onChange={handleChange} required />
-          <FormGroup id="mad_ap_pat" label="Apellido Paterno de la Madrina" value={confirmacion.mad_ap_pat} onChange={handleChange} required />
-          <FormGroup id="mad_ap_mat" label="Apellido Materno de la Madrina" value={confirmacion.mad_ap_mat} onChange={handleChange} required />
+          <FormGroup id="mad_nom" label="Nombre de la Madrina" value={confirmacion.mad_nom} onChange={handleChange} />
+          <FormGroup id="mad_ap_pat" label="Apellido Paterno de la Madrina" value={confirmacion.mad_ap_pat} onChange={handleChange} />
+          <FormGroup id="mad_ap_mat" label="Apellido Materno de la Madrina" value={confirmacion.mad_ap_mat} onChange={handleChange} />
         </fieldset>
 
         <button type="submit" className="submit-button">Editar</button>
