@@ -72,9 +72,6 @@ export default function EditConfirmacion({ showSnackbar }) {
           <FormGroup id="dir_confirmacion" label="Dirección de la Confirmación" value={confirmacion.dir_confirmacion} onChange={handleChange} required />
           <FormGroup id="lugar_confirmacion" label="Parroquia de la Confirmación" value={confirmacion.lugar_confirmacion} onChange={handleChange} required />
           <FormGroup id="fecha_confirmacion" label="Fecha de Confirmación" value={confirmacion.fecha_confirmacion} onChange={handleChange} type="date" required />
-          <FormGroup id="libro" label="Libro" value={confirmacion.libro} onChange={handleChange} required />
-          <FormGroup id="foja" label="Foja" value={confirmacion.foja} onChange={handleChange} required />
-          <FormGroup id="acta" label="Acta" value={confirmacion.acta} onChange={handleChange} required />
           <FormGroup id="parroco" label="Párroco" value={confirmacion.parroco} onChange={handleChange} required />
         </fieldset>
         <br />

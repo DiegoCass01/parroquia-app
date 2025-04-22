@@ -50,9 +50,6 @@ router.post("/", verifyToken, (req, res) => {
     lugar_nac,
     fecha_nac,
     parroco,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -67,8 +64,8 @@ router.post("/", verifyToken, (req, res) => {
     nom_madre, a_pat_madre, a_mat_madre,
     dir_bautizo, lugar_bautizo, fecha_bautizo,
     lugar_nac, fecha_nac, parroco,
-    libro, foja, acta, folio
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    folio
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   pool.query(
     insertQuery,
@@ -88,9 +85,6 @@ router.post("/", verifyToken, (req, res) => {
       lugar_nac,
       fecha_nac,
       parroco,
-      libro,
-      foja,
-      acta,
       "AB",
     ],
     (err, results) => {
@@ -149,9 +143,6 @@ router.put("/:id_bautizo", verifyToken, (req, res) => {
     lugar_nac,
     fecha_nac,
     parroco,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -188,10 +179,7 @@ router.put("/:id_bautizo", verifyToken, (req, res) => {
       fecha_bautizo = ?, 
       lugar_nac = ?, 
       fecha_nac = ?, 
-      parroco = ?, 
-      libro = ?, 
-      foja = ?, 
-      acta = ? 
+      parroco = ?
     WHERE id_bautizo = ?`;
 
     pool.query(
@@ -212,9 +200,6 @@ router.put("/:id_bautizo", verifyToken, (req, res) => {
         lugar_nac,
         fecha_nac,
         parroco,
-        libro,
-        foja,
-        acta,
         id_bautizo,
       ],
       (err, results) => {

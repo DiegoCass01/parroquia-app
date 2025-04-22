@@ -133,9 +133,6 @@ export default function SearchMatrimonio({ showSnackbar }) {
                     <span>Dirección del Matrimonio: {mat.dir_matrimonio}</span>
                     <span>Lugar del Matrimonio: {mat.lugar_matrimonio}</span>
                     <span>Fecha Matrimonio: {formatDateLong(mat.fecha_matrimonio)}</span>
-                    <span>Libro: {mat.libro}</span>
-                    <span>Foja: {mat.foja}</span>
-                    <span>Acta: {mat.acta}</span>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(mat.id_matrimonio)}
                       generarPDF={() => generarPDF({ datos: mat })}

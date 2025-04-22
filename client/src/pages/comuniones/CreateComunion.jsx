@@ -20,9 +20,6 @@ export default function CreateComunion({ showSnackbar }) {
     dir_comunion: "",
     lugar_comunion: "",
     fecha_comunion: "",
-    libro: "",
-    foja: "",
-    acta: "",
     pad_nom: "",
     pad_ap_pat: "",
     pad_ap_mat: "",
@@ -52,9 +49,6 @@ export default function CreateComunion({ showSnackbar }) {
           dir_comunion: "",
           lugar_comunion: "",
           fecha_comunion: "",
-          libro: "",
-          foja: "",
-          acta: "",
           pad_nom: "",
           pad_ap_pat: "",
           pad_ap_mat: "",
@@ -98,9 +92,6 @@ export default function CreateComunion({ showSnackbar }) {
           <FormGroup id="dir_comunion" label="Dirección de la comunión" value={comunion.dir_comunion} onChange={handleChange} required />
           <FormGroup id="lugar_comunion" label="Lugar Comunión" value={comunion.lugar_comunion} onChange={handleChange} required />
           <FormGroup id="parroco" label="Parroco" value={comunion.parroco} onChange={handleChange} required />
-          <FormGroup id="libro" label="Libro" value={comunion.libro} onChange={handleChange} required />
-          <FormGroup id="foja" label="Foja" value={comunion.foja} onChange={handleChange} required />
-          <FormGroup id="acta" label="Acta" value={comunion.acta} onChange={handleChange} required />
         </fieldset>
         <br />
         {/* DATOS DEL PADRE */}

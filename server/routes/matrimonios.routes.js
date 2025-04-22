@@ -51,9 +51,6 @@ router.post("/", verifyToken, (req, res) => {
     dir_matrimonio,
     lugar_matrimonio,
     fecha_matrimonio,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -92,7 +89,6 @@ router.post("/", verifyToken, (req, res) => {
   lugar_matrimonio,
   fecha_matrimonio
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-
   `;
 
   pool.query(
@@ -198,16 +194,13 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
     a_pat_novia,
     a_mat_novia,
     fecha_matrimonio,
-    libro,
-    foja,
-    acta,
   } = req.body;
 
   const query = `
     UPDATE matrimonio SET
       nombre_novio = ?, a_pat_novio = ?, a_mat_novio = ?,
       nombre_novia = ?, a_pat_novia = ?, a_mat_novia = ?,
-      fecha_matrimonio = ?, libro = ?, foja = ?, acta = ?
+      fecha_matrimonio = ?
     WHERE id_matrimonio = ?
   `;
 
@@ -221,9 +214,6 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
       a_pat_novia,
       a_mat_novia,
       fecha_matrimonio,
-      libro,
-      foja,
-      acta,
       id_matrimonio,
     ],
     (err, results) => {

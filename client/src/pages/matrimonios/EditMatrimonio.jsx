@@ -74,9 +74,7 @@ export default function EditMatrimonio({ showSnackbar }) {
         <fieldset>
           <legend>Datos del Matrimonio</legend>
           <FormGroup id="fecha_matrimonio" label="Fecha del Matrimonio" value={matrimonio.fecha_matrimonio} onChange={handleChange} type="date" required />
-          <FormGroup id="libro" label="Libro" value={matrimonio.libro} onChange={handleChange} required />
-          <FormGroup id="foja" label="Foja" value={matrimonio.foja} onChange={handleChange} required />
-          <FormGroup id="acta" label="Acta" value={matrimonio.acta} onChange={handleChange} required />
+
         </fieldset>
 
         <button type="submit" className="submit-button">Editar</button>

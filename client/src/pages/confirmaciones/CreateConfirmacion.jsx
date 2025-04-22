@@ -23,9 +23,6 @@ export default function CreateConfirmacion({ showSnackbar }) {
     lugar_confirmacion: "",
     fecha_confirmacion: "",
     parroco: "",
-    libro: "",
-    foja: "",
-    acta: "",
     pad_nom: "",
     pad_ap_pat: "",
     pad_ap_mat: "",
@@ -57,9 +54,6 @@ export default function CreateConfirmacion({ showSnackbar }) {
           lugar_confirmacion: "",
           fecha_confirmacion: "",
           parroco: "",
-          libro: "",
-          foja: "",
-          acta: "",
           pad_nom: "",
           pad_ap_pat: "",
           pad_ap_mat: "",
@@ -106,9 +100,6 @@ export default function CreateConfirmacion({ showSnackbar }) {
             <FormGroup id="dir_confirmacion" label="Dirección de la Confirmación" value={confirmacion.dir_confirmacion} onChange={handleChange} required />
             <FormGroup id="lugar_confirmacion" label="Parroquia de la Confirmación" value={confirmacion.lugar_confirmacion} onChange={handleChange} required />
             <FormGroup id="fecha_confirmacion" label="Fecha de Confirmación" value={confirmacion.fecha_confirmacion} onChange={handleChange} type="date" required />
-            <FormGroup id="libro" label="Libro" value={confirmacion.libro} onChange={handleChange} required />
-            <FormGroup id="foja" label="Foja" value={confirmacion.foja} onChange={handleChange} required />
-            <FormGroup id="acta" label="Acta" value={confirmacion.acta} onChange={handleChange} required />
             <FormGroup id="parroco" label="Párroco" value={confirmacion.parroco} onChange={handleChange} required />
           </fieldset>
           <br />

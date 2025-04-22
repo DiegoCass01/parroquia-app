@@ -29,9 +29,6 @@ export default function CreateBautizo({ showSnackbar }) {
     lugar_nac: "",
     fecha_nac: "",
     parroco: "",
-    libro: "",
-    foja: "",
-    acta: "",
     pad_nom: "",
     pad_ap_pat: "",
     pad_ap_mat: "",
@@ -62,9 +59,6 @@ export default function CreateBautizo({ showSnackbar }) {
           lugar_nac: "",
           fecha_nac: "",
           parroco: "",
-          libro: "",
-          foja: "",
-          acta: "",
           pad_nom: "",
           pad_ap_pat: "",
           pad_ap_mat: "",
@@ -110,9 +104,6 @@ export default function CreateBautizo({ showSnackbar }) {
           <FormGroup id="dir_batuizo" label="Dirección de Bautizo" value={bautizo.dir_batuizo} onChange={handleChange} type="select" options={dirBautizo} required />
           <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} type="select" options={lugarBautizo} required />
           <FormGroup id="parroco" label="Parroco" value={bautizo.parroco} onChange={handleChange} required />
-          <FormGroup id="libro" label="Libro" value={bautizo.libro} onChange={handleChange} required />
-          <FormGroup id="foja" label="Foja" value={bautizo.foja} onChange={handleChange} required />
-          <FormGroup id="acta" label="Acta" value={bautizo.acta} onChange={handleChange} required />
         </fieldset>
         <br />
         <fieldset>

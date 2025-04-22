@@ -42,9 +42,6 @@ router.post("/", verifyToken, (req, res) => {
     lugar_confirmacion,
     fecha_confirmacion,
     parroco,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -59,9 +56,8 @@ router.post("/", verifyToken, (req, res) => {
       lugar_nac, fecha_nac,
       nom_padre, a_pat_padre, a_mat_padre,
       nom_madre, a_pat_madre, a_mat_madre,
-      dir_confirmacion, lugar_confirmacion, fecha_confirmacion, parroco,
-      libro, foja, acta
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      dir_confirmacion, lugar_confirmacion, fecha_confirmacion, parroco
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const values = [
@@ -80,9 +76,6 @@ router.post("/", verifyToken, (req, res) => {
     lugar_confirmacion,
     fecha_confirmacion,
     parroco,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -155,9 +148,6 @@ router.put("/:id_confirmacion", verifyToken, (req, res) => {
     lugar_confirmacion,
     fecha_confirmacion,
     parroco,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -172,8 +162,7 @@ router.put("/:id_confirmacion", verifyToken, (req, res) => {
       lugar_nac = ?, fecha_nac = ?,
       nom_padre = ?, a_pat_padre = ?, a_mat_padre = ?,
       nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?,
-      dir_confirmacion = ?, lugar_confirmacion = ?, fecha_confirmacion = ?, parroco = ?,
-      libro = ?, foja = ?, acta = ?
+      dir_confirmacion = ?, lugar_confirmacion = ?, fecha_confirmacion = ?, parroco = ?
     WHERE id_confirmacion = ?
   `;
 
@@ -193,9 +182,6 @@ router.put("/:id_confirmacion", verifyToken, (req, res) => {
     lugar_confirmacion,
     fecha_confirmacion,
     parroco,
-    libro,
-    foja,
-    acta,
     id_confirmacion,
   ];
 

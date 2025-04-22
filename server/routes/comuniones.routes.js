@@ -44,9 +44,6 @@ router.post("/", verifyToken, (req, res) => {
     lugar_comunion,
     fecha_comunion,
     parroco,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -62,9 +59,8 @@ router.post("/", verifyToken, (req, res) => {
       nom_madre, a_pat_madre, a_mat_madre,
       parroquia_bautizo,
       dir_comunion, lugar_comunion, 
-      fecha_comunion, parroco,
-      libro, foja, acta
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      fecha_comunion, parroco
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   pool.query(
@@ -84,9 +80,6 @@ router.post("/", verifyToken, (req, res) => {
       lugar_comunion,
       fecha_comunion,
       parroco,
-      libro,
-      foja,
-      acta,
     ],
     (err, results) => {
       if (err) {
@@ -152,9 +145,6 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
     lugar_comunion,
     fecha_comunion,
     parroco,
-    libro,
-    foja,
-    acta,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -170,8 +160,7 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
       nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?,
       parroquia_bautizo = ?,
       dir_comunion = ?, lugar_comunion = ?,
-      fecha_comunion = ?, parroco = ?,
-      libro = ?, foja = ?, acta = ?
+      fecha_comunion = ?, parroco = ?
     WHERE id_comunion = ?
   `;
 
@@ -192,9 +181,6 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
       lugar_comunion,
       fecha_comunion,
       parroco,
-      libro,
-      foja,
-      acta,
       id_comunion,
     ],
     (err, results) => {
