@@ -6,14 +6,19 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const useComunionStore = create((set) => ({
   comuniones: [],
 
-  fetchComuniones: async () => {
+  fetchComuniones: async (search = "", year = "") => {
     try {
       const token = localStorage.getItem("token"); // Obtén el token cada vez
       const res = await axios.get(`${API_URL}/comuniones`, {
         headers: {
           Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
         },
+        params: {
+          search,
+          year,
+        },
       });
+      console.log(res.data);
 
       set({ comuniones: res.data });
 

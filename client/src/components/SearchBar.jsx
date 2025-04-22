@@ -2,7 +2,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
 
   return (
     <div className="search-sacramento">
-      <form className="form-search-sacramento">
+      <form className="form-search-sacramento" onSubmit={(e) => e.preventDefault()}>
         <input
           type="search"
           placeholder="Ingrese el nombre"

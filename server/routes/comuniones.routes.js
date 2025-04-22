@@ -6,18 +6,28 @@ const router = express.Router();
 
 // Obtener todas las comuniones con padrinos
 router.get("/", verifyToken, (req, res) => {
+  const search = req.query.search || "";
+  const year = req.query.year || ""; // filtro
+
   const query = `
     SELECT 
       c.*, 
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
       p.mad_nom, p.mad_ap_pat, p.mad_ap_mat
     FROM comunion c
-    LEFT JOIN padrinos p 
-      ON c.id_comunion = p.id_sacramento 
-      AND p.tipo_sacramento = 'comunion'
-  `;
+    LEFT JOIN padrinos p ON c.id_comunion = p.id_sacramento AND p.tipo_sacramento = 'comunion'
+      WHERE CONCAT_WS(' ',
+      c.nombre, c.a_paterno, c.a_materno
+    ) LIKE ?`;
 
-  pool.query(query, (err, results) => {
+  const values = [`%${search}%`];
+
+  if (year !== "") {
+    baseQuery += " AND YEAR(b.fecha_comunion) = ?";
+    values.push(year);
+  }
+
+  pool.query(query, values, (err, results) => {
     if (err) {
       console.error("Error al obtener comuniones:", err);
       res.status(500).json({ error: "Error al obtener los datos" });
