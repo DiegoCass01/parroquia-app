@@ -15,8 +15,8 @@ pool.getConnection((err, connection) => {
 // Obtener todos los bautizos
 router.get("/", verifyToken, (req, res) => {
   pool.query(
-    `SELECT 
-      b.*, 
+    `SELECT
+      b.*,
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
       p.mad_nom, p.mad_ap_pat, p.mad_ap_mat
     FROM bautizos b

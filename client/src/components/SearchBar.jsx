@@ -1,4 +1,7 @@
-const SearchBar = ({ sacramento, searchQuery, setSearchQuery, setFilterParam, fechaField }) => {
+const SearchBar = ({ sacramento = [], searchQuery, setSearchQuery, setFilterParam, fechaField }) => {
+  if (!Array.isArray(sacramento)) {
+    return <div>Error: 'sacramento' no es un array.</div>;
+  }
   return (
     <div className="search-sacramento">
       <form className="form-search-sacramento">
