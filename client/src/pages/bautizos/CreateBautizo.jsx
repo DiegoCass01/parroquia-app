@@ -23,7 +23,7 @@ export default function CreateBautizo({ showSnackbar }) {
     nom_madre: "",
     a_pat_madre: "",
     a_mat_madre: "",
-    dir_batuizo: dirBautizo[0].value,
+    dir_bautizo: dirBautizo[0].value,
     lugar_bautizo: lugarBautizo[0].value,
     fecha_bautizo: "",
     lugar_nac: "",
@@ -53,7 +53,7 @@ export default function CreateBautizo({ showSnackbar }) {
           nom_madre: "",
           a_pat_madre: "",
           a_mat_madre: "",
-          dir_batuizo: dirBautizo[0].value,
+          dir_bautizo: dirBautizo[0].value,
           lugar_bautizo: lugarBautizo[0].value,
           fecha_bautizo: "",
           lugar_nac: "",
@@ -101,7 +101,7 @@ export default function CreateBautizo({ showSnackbar }) {
         <fieldset>
           <legend>Datos del Bautizo</legend>
           <FormGroup id="fecha_bautizo" label="Fecha de Bautizo" value={bautizo.fecha_bautizo} onChange={handleChange} type="date" required />
-          <FormGroup id="dir_batuizo" label="Dirección de Bautizo" value={bautizo.dir_batuizo} onChange={handleChange} type="select" options={dirBautizo} required />
+          <FormGroup id="dir_bautizo" label="Dirección de Bautizo" value={bautizo.dir_bautizo} onChange={handleChange} type="select" options={dirBautizo} required />
           <FormGroup id="lugar_bautizo" label="Lugar de Bautizo" value={bautizo.lugar_bautizo} onChange={handleChange} type="select" options={lugarBautizo} required />
           <FormGroup id="parroco" label="Parroco" value={bautizo.parroco} onChange={handleChange} required />
         </fieldset>

@@ -110,13 +110,26 @@ export default function SearchMatrimonio({ showSnackbar }) {
                 matrimonios.map((mat) => (
                   <li key={mat.id_matrimonio} className="sacramento-item">
                     <span><strong>{`${mat.nombre_novio} ${mat.a_pat_novio} ${mat.a_mat_novio} y ${mat.nombre_novia} ${mat.a_pat_novia} ${mat.a_mat_novia}`}</strong></span>
-                    <span>Padre del Novio: {`${mat.nom_padre_novio} ${mat.a_pat_padre_novio} ${mat.a_mat_padre_novio}`}</span>
-                    <span>Madre del Novio: {`${mat.nom_madre_novio} ${mat.a_pat_madre_novio} ${mat.a_mat_madre_novio}`}</span>
-                    <span>Padre de la Novia: {`${mat.nom_padre_novia} ${mat.a_pat_padre_novia} ${mat.a_mat_padre_novia}`}</span>
-                    <span>Madre de la Novia: {`${mat.nom_madre_novia} ${mat.a_pat_madre_novia} ${mat.a_mat_madre_novia}`}</span>
                     <span>Dirección del Matrimonio: {mat.dir_matrimonio}</span>
                     <span>Lugar del Matrimonio: {mat.lugar_matrimonio}</span>
                     <span>Fecha Matrimonio: {formatDateLong(mat.fecha_matrimonio)}</span>
+                    <fieldset>
+                      <legend>Padres</legend>
+                      <span><strong>Padre del Novio: </strong>{`${mat.nom_padre_novio} ${mat.a_pat_padre_novio} ${mat.a_mat_padre_novio}`}</span>
+                      <span><strong>Madre del Novio: </strong>{`${mat.nom_madre_novio} ${mat.a_pat_madre_novio} ${mat.a_mat_madre_novio}`}</span>
+                      <span><strong>Padre de la Novia: </strong>{`${mat.nom_padre_novia} ${mat.a_pat_padre_novia} ${mat.a_mat_padre_novia}`}</span>
+                      <span><strong>Madre de la Novia: </strong>{`${mat.nom_madre_novia} ${mat.a_pat_madre_novia} ${mat.a_mat_madre_novia}`}</span>
+                    </fieldset>
+                    <fieldset>
+                      <legend>Padrinos</legend>
+                      <span>{mat.pad_nom + " " + mat.pad_ap_pat + " " + mat.pad_ap_mat}</span>
+                      <span>{mat.mad_nom + " " + mat.mad_ap_pat + " " + mat.mad_ap_mat}</span>
+                    </fieldset>
+                    <fieldset>
+                      <legend>Testigos</legend>
+                      <span>{mat.nom_testigo + " " + mat.ap_pat_testigo + " " + mat.ap_mat_testigo}</span>
+                      <span>{mat.nom_testigo2 + " " + mat.ap_pat_testigo2 + " " + mat.ap_mat_testigo2}</span>
+                    </fieldset>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(mat.id_matrimonio)}
                       generarPDF={() => generarPDF({ datos: mat })}

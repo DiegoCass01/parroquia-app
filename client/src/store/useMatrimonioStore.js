@@ -18,7 +18,6 @@ export const useMatrimonioStore = create((set) => ({
           year,
         },
       });
-      console.log(res.data);
 
       set({ matrimonios: res.data });
 

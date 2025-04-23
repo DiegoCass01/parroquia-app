@@ -7,26 +7,33 @@ const router = express.Router();
 // Obtener todos los matrimonios
 router.get("/", verifyToken, (req, res) => {
   const search = req.query.search || "";
-  const year = req.query.year || ""; // filtro
+  const year = req.query.year || "";
 
-  const query = `
+  let query = `
     SELECT 
-      m.*, 
+      m.*,
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
-      p.mad_nom, p.mad_ap_pat, p.mad_ap_mat
+      p.mad_nom, p.mad_ap_pat, p.mad_ap_mat,
+      t.pad_nom AS nom_testigo, t.pad_ap_pat AS ap_pat_testigo, t.pad_ap_mat AS ap_mat_testigo,
+      t.mad_nom AS nom_testigo2, t.mad_ap_pat AS ap_pat_testigo2, t.mad_ap_mat AS ap_mat_testigo2
     FROM matrimonio m
     LEFT JOIN padrinos p 
       ON m.id_matrimonio = p.id_sacramento 
       AND p.tipo_sacramento = 'matrimonio'
+      AND p.tipo_pad = 'padrinos'
+    LEFT JOIN padrinos t
+      ON m.id_matrimonio = t.id_sacramento 
+      AND t.tipo_sacramento = 'matrimonio'
+      AND t.tipo_pad = 'testigos'
    WHERE CONCAT_WS(' ',
       m.nombre_novio, m.a_pat_novio, m.a_mat_novio,
-      m.nombre_novia, m.a_pat_novia, m.a_mat_novia,
+      m.nombre_novia, m.a_pat_novia, m.a_mat_novia
     ) LIKE ?`;
 
   const values = [`%${search}%`];
 
   if (year !== "") {
-    query += " AND YEAR(b.fecha_matrimonio) = ?";
+    query += " AND YEAR(m.fecha_matrimonio) = ?";
     values.push(year);
   }
 

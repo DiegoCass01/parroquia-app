@@ -125,6 +125,7 @@ export default function SearchConfirmacion({ showSnackbar }) {
                       <span>{conf.pad_nom + " " + conf.pad_ap_pat + " " + conf.pad_ap_mat}</span>
                       <span>{conf.mad_nom + " " + conf.mad_ap_pat + " " + conf.mad_ap_mat}</span>
                     </fieldset>
+
                     <SacramentoButtons
                       handleDelete={() => handleDelete(conf.id_confirmacion)}
                       generarPDF={() => generarPDF({ datos: conf })}
