@@ -6,6 +6,9 @@ const router = express.Router();
 
 // Obtener todas las confirmaciones con padrinos
 router.get("/", verifyToken, (req, res) => {
+  const search = req.query.search || "";
+  const year = req.query.year || ""; // filtro
+
   const query = `
     SELECT c.*, 
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
@@ -13,8 +16,18 @@ router.get("/", verifyToken, (req, res) => {
     FROM confirmacion c
     LEFT JOIN padrinos p ON c.id_confirmacion = p.id_sacramento
     AND p.tipo_sacramento = 'confirmacion'
-  `;
-  pool.query(query, (err, results) => {
+        WHERE CONCAT_WS(' ',
+      c.nombre, c.a_paterno, c.a_materno
+    ) LIKE ?`;
+
+  const values = [`%${search}%`];
+
+  if (year !== "") {
+    query += " AND YEAR(b.fecha_confirmacion) = ?";
+    values.push(year);
+  }
+
+  pool.query(query, values, (err, results) => {
     if (err) {
       console.error("Error al obtener confirmaciones:", err);
       res.status(500).json({ error: "Error al obtener los datos" });

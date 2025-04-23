@@ -23,7 +23,7 @@ router.get("/", verifyToken, (req, res) => {
   const values = [`%${search}%`];
 
   if (year !== "") {
-    baseQuery += " AND YEAR(b.fecha_comunion) = ?";
+    query += " AND YEAR(b.fecha_comunion) = ?";
     values.push(year);
   }
 

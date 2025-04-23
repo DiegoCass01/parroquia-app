@@ -6,7 +6,6 @@ import { SearchBar } from "../../components/SearchBar";
 import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf";
-import { normalizeText } from "../../functions/normalizeText";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import AdminValidationModal from "../../components/AdminValidationModal";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -14,8 +13,7 @@ import { useAuthStore } from "../../store/useAuthStore";
 export default function SearchConfirmacion({ showSnackbar }) {
   const { confirmaciones, fetchConfirmaciones, deleteConfirmacion } = useConfirmacionStore();
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredConfirmaciones, setFilteredConfirmaciones] = useState([]);
-  const [filterParam, setFilterParam] = useState("All");
+  const [yearFilter, setYearFilter] = useState(""); // filtros
   const navigate = useNavigate();
 
   const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
@@ -27,8 +25,14 @@ export default function SearchConfirmacion({ showSnackbar }) {
   const [confIdToDelete, setConfIdToDelete] = useState(null); // Estado para almacenar el ID del confirmacion
 
   useEffect(() => {
-    fetchConfirmaciones();
-  }, [fetchConfirmaciones]);
+    const delayDebounce = setTimeout(() => {
+      if (searchQuery.trim() !== "") {
+        fetchConfirmaciones(searchQuery, yearFilter);
+      }
+    }, 500); // espera 500ms después de dejar de escribir
+
+    return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
+  }, [searchQuery, yearFilter, fetchConfirmaciones]);
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -80,35 +84,16 @@ export default function SearchConfirmacion({ showSnackbar }) {
     }
   };
 
-  useEffect(() => {
-    if (!confirmaciones.length) return;
-
-    const resultados = confirmaciones.filter((conf) => {
-      const fullName = `${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`;
-      const fullNameNormalized = normalizeText(fullName);
-      const searchQueryNormalized = normalizeText(searchQuery);
-
-      const nombreMatch = fullNameNormalized.includes(searchQueryNormalized);
-
-      const year = conf.fecha_confirmacion ? new Date(conf.fecha_confirmacion).getFullYear() : null;
-      const yearMatch = filterParam !== "All" ? year?.toString() === filterParam : true;
-
-      return nombreMatch && yearMatch;
-    });
-
-    setFilteredConfirmaciones(resultados);
-  }, [searchQuery, confirmaciones, filterParam]);
-
   return (
     <div className="search-page">
       <section className="search-sacramento-header">
         <h1>Búsqueda de Confirmación</h1>
         <SearchBar
-          sacramento={confirmaciones}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          setFilterParam={setFilterParam}
-          fechaField="fecha_confirmacion"
+          setYearFilter={setYearFilter}
+          yearFilter={yearFilter}
+          placeholderFiltro={"Año de confirmacion"}
         />
       </section>
 
@@ -120,8 +105,8 @@ export default function SearchConfirmacion({ showSnackbar }) {
                 <strong><p>Busca por nombre de la persona confirmada.</p></strong>
               </div>
             ) :
-              filteredConfirmaciones.length > 0 ? (
-                filteredConfirmaciones.map((conf) => (
+              confirmaciones.length > 0 ? (
+                confirmaciones.map((conf) => (
                   <li key={conf.id_confirmacion} className="sacramento-item">
                     <span><strong>{`${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`}</strong></span>
                     <span>Fecha Confirmación: {formatDateLong(conf.fecha_confirmacion)}</span>

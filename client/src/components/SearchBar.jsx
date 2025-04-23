@@ -2,7 +2,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
 
   return (
     <div className="search-sacramento">
-      <form className="form-search-sacramento" onSubmit={(e) => e.preventDefault()}>
+      <div className="form-search-sacramento" >
         <input
           type="search"
           placeholder="Ingrese el nombre"
@@ -11,7 +11,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </form>
+      </div>
       <div className="search-filters">
         {/* Filtrado por año */}
         <input

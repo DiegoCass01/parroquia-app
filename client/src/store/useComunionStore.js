@@ -18,7 +18,6 @@ export const useComunionStore = create((set) => ({
           year,
         },
       });
-      console.log(res.data);
 
       set({ comuniones: res.data });
 

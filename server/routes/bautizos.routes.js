@@ -17,7 +17,7 @@ router.get("/", verifyToken, (req, res) => {
   const search = req.query.search || "";
   const year = req.query.year || ""; // filtro
 
-  let baseQuery = `
+  let query = `
     SELECT
       b.*,
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
@@ -31,11 +31,11 @@ router.get("/", verifyToken, (req, res) => {
   const values = [`%${search}%`];
 
   if (year !== "") {
-    baseQuery += " AND YEAR(b.fecha_bautizo) = ?";
+    query += " AND YEAR(b.fecha_bautizo) = ?";
     values.push(year);
   }
 
-  pool.query(baseQuery, values, (err, results) => {
+  pool.query(query, values, (err, results) => {
     if (err) {
       console.error("Error al obtener bautizos:", err);
       return res.status(500).json({ error: "Error al obtener los datos" });
