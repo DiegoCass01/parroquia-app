@@ -14,8 +14,8 @@ router.get("/", verifyToken, (req, res) => {
       m.*,
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
       p.mad_nom, p.mad_ap_pat, p.mad_ap_mat,
-      t.pad_nom AS nom_testigo, t.pad_ap_pat AS ap_pat_testigo, t.pad_ap_mat AS ap_mat_testigo,
-      t.mad_nom AS nom_testigo2, t.mad_ap_pat AS ap_pat_testigo2, t.mad_ap_mat AS ap_mat_testigo2
+      t.pad_nom AS testigo_nom, t.pad_ap_pat AS testigo_ap_pat, t.pad_ap_mat AS testigo_ap_mat,
+      t.mad_nom AS testigo2_nom, t.mad_ap_pat AS testigo2_ap_pat, t.mad_ap_mat AS testigo2_ap_mat
     FROM matrimonio m
     LEFT JOIN padrinos p 
       ON m.id_matrimonio = p.id_sacramento 
@@ -213,19 +213,49 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
     nombre_novia,
     a_pat_novia,
     a_mat_novia,
+    nom_padre_novio,
+    a_pat_padre_novio,
+    a_mat_padre_novio,
+    nom_madre_novio,
+    a_pat_madre_novio,
+    a_mat_madre_novio,
+    nom_padre_novia,
+    a_pat_padre_novia,
+    a_mat_padre_novia,
+    nom_madre_novia,
+    a_pat_madre_novia,
+    a_mat_madre_novia,
+    dir_matrimonio,
+    lugar_matrimonio,
     fecha_matrimonio,
+    pad_nom,
+    pad_ap_pat,
+    pad_ap_mat,
+    mad_nom,
+    mad_ap_pat,
+    mad_ap_mat,
+    testigo_nom,
+    testigo_ap_pat,
+    testigo_ap_mat,
+    testigo2_nom,
+    testigo2_ap_pat,
+    testigo2_ap_mat,
   } = req.body;
 
-  const query = `
+  const updateMatrimonioQuery = `
     UPDATE matrimonio SET
       nombre_novio = ?, a_pat_novio = ?, a_mat_novio = ?,
       nombre_novia = ?, a_pat_novia = ?, a_mat_novia = ?,
-      fecha_matrimonio = ?
+      nom_padre_novio = ?, a_pat_padre_novio = ?, a_mat_padre_novio = ?,
+      nom_madre_novio = ?, a_pat_madre_novio = ?, a_mat_madre_novio = ?,
+      nom_padre_novia = ?, a_pat_padre_novia = ?, a_mat_padre_novia = ?,
+      nom_madre_novia = ?, a_pat_madre_novia = ?, a_mat_madre_novia = ?,
+      dir_matrimonio = ?, lugar_matrimonio = ?, fecha_matrimonio = ?
     WHERE id_matrimonio = ?
   `;
 
   pool.query(
-    query,
+    updateMatrimonioQuery,
     [
       nombre_novio,
       a_pat_novio,
@@ -233,20 +263,93 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
       nombre_novia,
       a_pat_novia,
       a_mat_novia,
+      nom_padre_novio,
+      a_pat_padre_novio,
+      a_mat_padre_novio,
+      nom_madre_novio,
+      a_pat_madre_novio,
+      a_mat_madre_novio,
+      nom_padre_novia,
+      a_pat_padre_novia,
+      a_mat_padre_novia,
+      nom_madre_novia,
+      a_pat_madre_novia,
+      a_mat_madre_novia,
+      dir_matrimonio,
+      lugar_matrimonio,
       fecha_matrimonio,
       id_matrimonio,
     ],
-    (err, results) => {
+    (err) => {
       if (err) {
         console.error("Error al actualizar el matrimonio:", err);
-        res.status(500).json({ error: "Error al actualizar el matrimonio" });
-      } else {
-        if (results.affectedRows > 0) {
-          res.json({ message: "Matrimonio actualizado correctamente" });
-        } else {
-          res.status(404).json({ error: "Matrimonio no encontrado" });
-        }
+        return res
+          .status(500)
+          .json({ error: "Error al actualizar el matrimonio" });
       }
+
+      // Actualizar padrinos
+      const updatePadrinosQuery = `
+        UPDATE padrinos SET
+          pad_nom = ?, pad_ap_pat = ?, pad_ap_mat = ?,
+          mad_nom = ?, mad_ap_pat = ?, mad_ap_mat = ?
+        WHERE id_sacramento = ? AND tipo_sacramento = 'matrimonio' AND tipo_pad = 'padrinos'
+      `;
+
+      pool.query(
+        updatePadrinosQuery,
+        [
+          pad_nom,
+          pad_ap_pat,
+          pad_ap_mat,
+          mad_nom,
+          mad_ap_pat,
+          mad_ap_mat,
+          id_matrimonio,
+        ],
+        (err2) => {
+          if (err2) {
+            console.error("Error al actualizar padrinos:", err2);
+            return res
+              .status(500)
+              .json({ error: "Error al actualizar los padrinos" });
+          }
+
+          // Actualizar testigos
+          const updateTestigosQuery = `
+            UPDATE padrinos SET
+              pad_nom = ?, pad_ap_pat = ?, pad_ap_mat = ?,
+              mad_nom = ?, mad_ap_pat = ?, mad_ap_mat = ?
+            WHERE id_sacramento = ? AND tipo_sacramento = 'matrimonio' AND tipo_pad = 'testigos'
+          `;
+
+          pool.query(
+            updateTestigosQuery,
+            [
+              testigo_nom,
+              testigo_ap_pat,
+              testigo_ap_mat,
+              testigo2_nom,
+              testigo2_ap_pat,
+              testigo2_ap_mat,
+              id_matrimonio,
+            ],
+            (err3) => {
+              if (err3) {
+                console.error("Error al actualizar testigos:", err3);
+                return res
+                  .status(500)
+                  .json({ error: "Error al actualizar los testigos" });
+              }
+
+              res.status(200).json({
+                message:
+                  "Matrimonio, padrinos y testigos actualizados correctamente",
+              });
+            }
+          );
+        }
+      );
     }
   );
 });

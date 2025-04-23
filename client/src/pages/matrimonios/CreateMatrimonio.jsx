@@ -160,7 +160,7 @@ export default function CreateMatrimonio({ showSnackbar }) {
         </fieldset>
         <br />
 
-        {/* DATOS DE LOS PADRINOS */}
+        {/* DATOS DE LOS TESTIGOS */}
         <fieldset>
           <legend>Datos de los Testigos</legend>
           <FormGroup id="testigo_nom" label="Nombre del Testigo" value={matrimonio.testigo_nom} onChange={handleChange} required />

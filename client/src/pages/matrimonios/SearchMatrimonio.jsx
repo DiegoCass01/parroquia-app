@@ -127,8 +127,8 @@ export default function SearchMatrimonio({ showSnackbar }) {
                     </fieldset>
                     <fieldset>
                       <legend>Testigos</legend>
-                      <span>{mat.nom_testigo + " " + mat.ap_pat_testigo + " " + mat.ap_mat_testigo}</span>
-                      <span>{mat.nom_testigo2 + " " + mat.ap_pat_testigo2 + " " + mat.ap_mat_testigo2}</span>
+                      <span>{mat.testigo_nom + " " + mat.testigo_ap_pat + " " + mat.testigo_ap_mat}</span>
+                      <span>{mat.testigo2_nom + " " + mat.testigo2_ap_pat + " " + mat.testigo2_ap_mat}</span>
                     </fieldset>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(mat.id_matrimonio)}
