@@ -358,22 +358,41 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
 router.delete("/:id_matrimonio", verifyToken, (req, res) => {
   const { id_matrimonio } = req.params;
 
-  pool.query(
-    "DELETE FROM matrimonio WHERE id_matrimonio = ?",
-    [id_matrimonio],
-    (err, results) => {
-      if (err) {
-        console.error("Error al eliminar el matrimonio:", err);
-        res.status(500).json({ error: "Error al eliminar el matrimonio" });
-      } else {
-        if (results.affectedRows > 0) {
-          res.json({ message: "Matrimonio eliminado correctamente" });
-        } else {
-          res.status(404).json({ error: "Matrimonio no encontrado" });
-        }
-      }
+  // Primero eliminamos los padrinos (tipo_pad = 'padrinos' o 'testigos') relacionados
+  const deletePadrinosQuery = `
+    DELETE FROM padrinos WHERE id_sacramento = ? AND tipo_sacramento = 'matrimonio'
+  `;
+
+  pool.query(deletePadrinosQuery, [id_matrimonio], (err1, results1) => {
+    if (err1) {
+      console.error("Error al eliminar padrinos/testigos:", err1);
+      return res
+        .status(500)
+        .json({ error: "Error al eliminar los padrinos o testigos" });
     }
-  );
+
+    // Luego eliminamos el matrimonio
+    const deleteMatrimonioQuery = `
+      DELETE FROM matrimonio WHERE id_matrimonio = ?
+    `;
+
+    pool.query(deleteMatrimonioQuery, [id_matrimonio], (err2, results2) => {
+      if (err2) {
+        console.error("Error al eliminar el matrimonio:", err2);
+        return res
+          .status(500)
+          .json({ error: "Error al eliminar el matrimonio" });
+      }
+
+      if (results2.affectedRows > 0) {
+        res.json({
+          message: "Matrimonio y padrinos/testigos eliminados correctamente",
+        });
+      } else {
+        res.status(404).json({ error: "Matrimonio no encontrado" });
+      }
+    });
+  });
 });
 
 export { router as routerMatrimonios };
