@@ -6,6 +6,9 @@ const router = express.Router();
 
 // Obtener todos los matrimonios
 router.get("/", verifyToken, (req, res) => {
+  const search = req.query.search || "";
+  const year = req.query.year || ""; // filtro
+
   const query = `
     SELECT 
       m.*, 
@@ -15,9 +18,19 @@ router.get("/", verifyToken, (req, res) => {
     LEFT JOIN padrinos p 
       ON m.id_matrimonio = p.id_sacramento 
       AND p.tipo_sacramento = 'matrimonio'
-  `;
+   WHERE CONCAT_WS(' ',
+      m.nombre_novio, m.a_pat_novio, m.a_mat_novio,
+      m.nombre_novia, m.a_pat_novia, m.a_mat_novia,
+    ) LIKE ?`;
 
-  pool.query(query, (err, results) => {
+  const values = [`%${search}%`];
+
+  if (year !== "") {
+    query += " AND YEAR(b.fecha_matrimonio) = ?";
+    values.push(year);
+  }
+
+  pool.query(query, values, (err, results) => {
     if (err) {
       console.error("Error al obtener matrimonios:", err);
       res.status(500).json({ error: "Error al obtener los datos" });

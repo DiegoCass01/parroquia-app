@@ -6,15 +6,22 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const useMatrimonioStore = create((set) => ({
   matrimonios: [],
 
-  fetchMatrimonios: async () => {
+  fetchMatrimonios: async (search = "", year = "") => {
     try {
       const token = localStorage.getItem("token"); // Obtén el token cada vez
       const res = await axios.get(`${API_URL}/matrimonios`, {
         headers: {
           Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
         },
+        params: {
+          search,
+          year,
+        },
       });
+      console.log(res.data);
+
       set({ matrimonios: res.data });
+
       return res;
     } catch (error) {
       console.error("Error al obtener matrimonios", error);

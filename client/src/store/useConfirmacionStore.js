@@ -18,7 +18,6 @@ export const useConfirmacionStore = create((set) => ({
           year,
         },
       });
-      console.log(res.data);
 
       set({ confirmaciones: res.data });
 

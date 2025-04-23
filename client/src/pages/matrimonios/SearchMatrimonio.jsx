@@ -6,7 +6,6 @@ import { SearchBar } from "../../components/SearchBar";
 import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
 import { generarPDF } from "../../functions/feBautizoPdf";
-import { normalizeText } from "../../functions/normalizeText";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import { useAuthStore } from "../../store/useAuthStore";
 import AdminValidationModal from "../../components/AdminValidationModal";
@@ -14,10 +13,9 @@ import AdminValidationModal from "../../components/AdminValidationModal";
 export default function SearchMatrimonio({ showSnackbar }) {
   const { matrimonios, fetchMatrimonios, deleteMatrimonio } = useMatrimonioStore();
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredMatrimonios, setFilteredMatrimonios] = useState([]);
-  const [filterParam, setFilterParam] = useState("All");
-  const navigate = useNavigate();
+  const [yearFilter, setYearFilter] = useState(""); // filtros
 
+  const navigate = useNavigate();
 
   const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
   const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para el modal
@@ -28,8 +26,14 @@ export default function SearchMatrimonio({ showSnackbar }) {
   const [matrimonioIdToDelete, setMatrimonioIdToDelete] = useState(null); // Estado para almacenar el ID del matrimonio
 
   useEffect(() => {
-    fetchMatrimonios();
-  }, [fetchMatrimonios]);
+    const delayDebounce = setTimeout(() => {
+      if (searchQuery.trim() !== "") {
+        fetchMatrimonios(searchQuery, yearFilter);
+      }
+    }, 500); // espera 500ms después de dejar de escribir
+
+    return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
+  }, [searchQuery, yearFilter, fetchMatrimonios]);
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -81,36 +85,16 @@ export default function SearchMatrimonio({ showSnackbar }) {
     }
   };
 
-  useEffect(() => {
-    if (!matrimonios.length) return;
-
-    const resultados = matrimonios.filter((mat) => {
-      const fullNameNovio = `${mat.nombre_novio} ${mat.a_pat_novio} ${mat.a_mat_novio}`;
-      const fullNameNovia = `${mat.nombre_novia} ${mat.a_pat_novia} ${mat.a_mat_novia}`;
-      const fullNameNormalized = normalizeText(fullNameNovio + " " + fullNameNovia);
-      const searchQueryNormalized = normalizeText(searchQuery);
-
-      const nombreMatch = fullNameNormalized.includes(searchQueryNormalized);
-
-      const year = mat.fecha_matrimonio ? new Date(mat.fecha_matrimonio).getFullYear() : null;
-      const yearMatch = filterParam !== "All" ? year?.toString() === filterParam : true;
-
-      return nombreMatch && yearMatch;
-    });
-
-    setFilteredMatrimonios(resultados);
-  }, [searchQuery, matrimonios, filterParam]);
-
   return (
     <div className="search-page">
       <section className="search-sacramento-header">
         <h1>Búsqueda de Matrimonio</h1>
         <SearchBar
-          sacramento={matrimonios}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          setFilterParam={setFilterParam}
-          fechaField="fecha_matrimonio"
+          setYearFilter={setYearFilter}
+          yearFilter={yearFilter}
+          placeholderFiltro={"Año de matrimonio"}
         />
       </section>
 
@@ -122,8 +106,8 @@ export default function SearchMatrimonio({ showSnackbar }) {
                 <strong><p>Escribe el nombre de uno de los esposos.</p></strong>
               </div>
             ) :
-              filteredMatrimonios.length > 0 ? (
-                filteredMatrimonios.map((mat) => (
+              matrimonios.length > 0 ? (
+                matrimonios.map((mat) => (
                   <li key={mat.id_matrimonio} className="sacramento-item">
                     <span><strong>{`${mat.nombre_novio} ${mat.a_pat_novio} ${mat.a_mat_novio} y ${mat.nombre_novia} ${mat.a_pat_novia} ${mat.a_mat_novia}`}</strong></span>
                     <span>Padre del Novio: {`${mat.nom_padre_novio} ${mat.a_pat_padre_novio} ${mat.a_mat_padre_novio}`}</span>
