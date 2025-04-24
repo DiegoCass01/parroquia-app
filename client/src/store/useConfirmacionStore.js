@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const useConfirmacionStore = create((set) => ({
   confirmaciones: [],
 
-  fetchConfirmaciones: async (search = "", year = "") => {
+  fetchConfirmaciones: async (search = "", year = "", yearNac = "") => {
     try {
       const token = localStorage.getItem("token"); // Obtén el token cada vez
       const res = await axios.get(`${API_URL}/confirmaciones`, {
@@ -16,6 +16,7 @@ export const useConfirmacionStore = create((set) => ({
         params: {
           search,
           year,
+          yearNac,
         },
       });
 

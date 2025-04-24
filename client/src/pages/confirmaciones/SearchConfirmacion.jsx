@@ -16,6 +16,7 @@ export default function SearchConfirmacion({ showSnackbar }) {
   const { confirmaciones, fetchConfirmaciones, deleteConfirmacion } = useConfirmacionStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [yearFilter, setYearFilter] = useState(""); // filtros
+  const [yearNac, setYearNac] = useState(""); // filtros
   const navigate = useNavigate();
 
   const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
@@ -29,12 +30,12 @@ export default function SearchConfirmacion({ showSnackbar }) {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchQuery.trim() !== "") {
-        fetchConfirmaciones(searchQuery, yearFilter);
+        fetchConfirmaciones(searchQuery, yearFilter, yearNac);
       }
     }, 500); // espera 500ms después de dejar de escribir
 
     return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
-  }, [searchQuery, yearFilter, fetchConfirmaciones]);
+  }, [searchQuery, yearFilter, fetchConfirmaciones, yearNac]);
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -122,6 +123,8 @@ export default function SearchConfirmacion({ showSnackbar }) {
           setYearFilter={setYearFilter}
           yearFilter={yearFilter}
           placeholderFiltro={"Año de confirmacion"}
+          yearNac={yearNac}
+          setYearNac={setYearNac}
         />
       </section>
 

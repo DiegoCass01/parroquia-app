@@ -1,4 +1,4 @@
-const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, placeholderFiltro }) => {
+const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, placeholderFiltro, yearNac, setYearNac }) => {
 
   return (
     <div className="search-sacramento">
@@ -13,7 +13,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
         />
       </div>
       <div className="search-filters">
-        {/* Filtrado por año */}
+        {/* Filtrado por año de sacramento */}
         <input
           type="number"
           placeholder={placeholderFiltro}
@@ -21,6 +21,15 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
           onChange={(e) => setYearFilter(e.target.value)}
           className="filter"
         />
+        {yearNac !== undefined && setYearNac && (
+          <input
+            type="number"
+            placeholder="Año de nacimiento"
+            value={yearNac}
+            onChange={(e) => setYearNac(e.target.value)}
+            className="filter"
+          />
+        )}
       </div>
     </div>
   );

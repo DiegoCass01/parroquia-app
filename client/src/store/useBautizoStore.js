@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL; // Asegúrate de que esta variable
 export const useBautizoStore = create((set) => ({
   bautizos: [],
 
-  fetchBautizos: async (search = "", year = "") => {
+  fetchBautizos: async (search = "", year = "", yearNac = "") => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(`${API_URL}/bautizos`, {
@@ -16,6 +16,7 @@ export const useBautizoStore = create((set) => ({
         params: {
           search,
           year,
+          yearNac,
         },
       });
 

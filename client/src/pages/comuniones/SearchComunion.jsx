@@ -17,6 +17,7 @@ export default function SearchComunion({ showSnackbar }) {
   const { comuniones, fetchComuniones, deleteComunion } = useComunionStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [yearFilter, setYearFilter] = useState(""); // filtros
+  const [yearNac, setYearNac] = useState(""); // filtros
 
   const navigate = useNavigate();
 
@@ -31,12 +32,12 @@ export default function SearchComunion({ showSnackbar }) {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchQuery.trim() !== "") {
-        fetchComuniones(searchQuery, yearFilter);
+        fetchComuniones(searchQuery, yearFilter, yearNac);
       }
     }, 500); // espera 500ms después de dejar de escribir
 
     return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
-  }, [searchQuery, yearFilter, fetchComuniones]);
+  }, [searchQuery, yearFilter, fetchComuniones, yearNac]);
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -123,7 +124,10 @@ export default function SearchComunion({ showSnackbar }) {
           setSearchQuery={setSearchQuery}
           setYearFilter={setYearFilter}
           yearFilter={yearFilter}
-          placeholderFiltro={"Año de comunion"} />
+          placeholderFiltro={"Año de comunion"}
+          yearNac={yearNac}
+          setYearNac={setYearNac}
+        />
       </section>
 
       {/* Lista de comuniones filtrados */}

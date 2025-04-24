@@ -8,8 +8,9 @@ const router = express.Router();
 router.get("/", verifyToken, (req, res) => {
   const search = req.query.search || "";
   const year = req.query.year || ""; // filtro
+  const yearNac = req.query.yearNac || ""; // filtro
 
-  const query = `
+  let query = `
     SELECT 
       c.*, 
       p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
@@ -23,8 +24,13 @@ router.get("/", verifyToken, (req, res) => {
   const values = [`%${search}%`];
 
   if (year !== "") {
-    query += " AND YEAR(b.fecha_comunion) = ?";
+    query += " AND YEAR(c.fecha_comunion) = ?";
     values.push(year);
+  }
+
+  if (yearNac !== "") {
+    query += " AND YEAR(c.fecha_nac) = ?";
+    values.push(yearNac);
   }
 
   pool.query(query, values, (err, results) => {

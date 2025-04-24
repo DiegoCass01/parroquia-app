@@ -16,6 +16,7 @@ export default function SearchBautizo({ showSnackbar }) {
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
   const [searchQuery, setSearchQuery] = useState(""); // texto de la busqueda
   const [yearFilter, setYearFilter] = useState(""); // filtros
+  const [yearNac, setYearNac] = useState(""); // filtros
   const navigate = useNavigate();
 
   const { user, validateAdminPassword } = useAuthStore(); // para validar el admin cuando usuario moderador ocupe eliminar registross
@@ -29,12 +30,12 @@ export default function SearchBautizo({ showSnackbar }) {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchQuery.trim() !== "") {
-        fetchBautizos(searchQuery, yearFilter);
+        fetchBautizos(searchQuery, yearFilter, yearNac);
       }
     }, 500); // espera 500ms después de dejar de escribir
 
     return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
-  }, [searchQuery, yearFilter, fetchBautizos]);
+  }, [searchQuery, yearFilter, fetchBautizos, yearNac]);
 
 
   const handleDelete = async (id) => {
@@ -122,7 +123,10 @@ export default function SearchBautizo({ showSnackbar }) {
           setSearchQuery={setSearchQuery}
           setYearFilter={setYearFilter}
           yearFilter={yearFilter}
-          placeholderFiltro={"Año de bautizo"} />
+          placeholderFiltro={"Año de bautizo"}
+          yearNac={yearNac}
+          setYearNac={setYearNac}
+        />
       </section>
 
       {/* Lista de bautizos filtrados */}

@@ -16,6 +16,7 @@ pool.getConnection((err, connection) => {
 router.get("/", verifyToken, (req, res) => {
   const search = req.query.search || "";
   const year = req.query.year || ""; // filtro
+  const yearNac = req.query.yearNac || ""; // filtro
 
   let query = `
     SELECT
@@ -33,6 +34,11 @@ router.get("/", verifyToken, (req, res) => {
   if (year !== "") {
     query += " AND YEAR(b.fecha_bautizo) = ?";
     values.push(year);
+  }
+
+  if (yearNac !== "") {
+    query += " AND YEAR(b.fecha_nac) = ?";
+    values.push(yearNac);
   }
 
   pool.query(query, values, (err, results) => {
