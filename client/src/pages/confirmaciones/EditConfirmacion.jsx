@@ -3,9 +3,13 @@ import { FormGroup } from "../../components/FormGroup.jsx";
 import { useConfirmacionStore } from "../../store/useConfirmacionStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/sacramentos/CreateSacramento.css";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
 
 export default function EditConfirmacion({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const location = useLocation();
   const initialConfirmacion = location.state?.confirmacion;
   const navigate = useNavigate();
@@ -38,7 +42,19 @@ export default function EditConfirmacion({ showSnackbar }) {
     try {
       const response = await editConfirmacion(confirmacion);
 
-      if (response?.status === 200) {
+      const nuevoMovimiento = {
+        id_sacramento: confirmacion.id_confirmacion,
+        tipo_sacramento: "confirmacion",
+        tipo_movimiento: "edicion",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         navigate("/search/confirmacion", { replace: true });
         showSnackbar("Confirmación editada correctamente!", "success");
       } else {

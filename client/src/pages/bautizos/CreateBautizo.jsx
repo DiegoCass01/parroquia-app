@@ -56,7 +56,7 @@ export default function CreateBautizo({ showSnackbar }) {
         id_usuario: user.id,
         usuario: user.n_usuario,
         nombre_completo: user.nombre,
-        folio: `${folio}-${baptismId}`,
+        folio: folio,
       };
 
       const res = await createMovimiento(nuevoMovimiento);

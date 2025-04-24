@@ -3,8 +3,12 @@ import { FormGroup } from "../../components/FormGroup.jsx";
 import { useMatrimonioStore } from "../../store/useMatrimonioStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/sacramentos/CreateSacramento.css";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
 export default function EditMatrimonio({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const location = useLocation();
   const initialMatrimonio = location.state?.matrimonio;
   const navigate = useNavigate();
@@ -36,7 +40,19 @@ export default function EditMatrimonio({ showSnackbar }) {
     try {
       const response = await editMatrimonio(matrimonio);
 
-      if (response?.status === 200) {
+      const nuevoMovimiento = {
+        id_sacramento: matrimonio.id_matrimonio,
+        tipo_sacramento: "matrimonio",
+        tipo_movimiento: "edicion",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         navigate("/search/matrimonio", { replace: true });
         showSnackbar("Matrimonio editado correctamente!", "success");
       } else {

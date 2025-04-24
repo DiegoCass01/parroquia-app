@@ -3,8 +3,12 @@ import { FormGroup } from "../../components/FormGroup.jsx";
 import { useBautizoStore } from "../../store/useBautizoStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/sacramentos/CreateSacramento.css";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
+import { useAuthStore } from "../../store/useAuthStore.js";
 
 export default function EditBautizo({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const location = useLocation();
   const initialBautizo = location.state?.bautizo;
   const navigate = useNavigate();
@@ -54,7 +58,19 @@ export default function EditBautizo({ showSnackbar }) {
     try {
       const response = await editBautizo(bautizo);
 
-      if (response?.status === 200) {
+      const nuevoMovimiento = {
+        id_sacramento: bautizo.id_bautizo,
+        tipo_sacramento: "bautizo",
+        tipo_movimiento: "edicion",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: bautizo.folio,
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         navigate("/search/bautizo", { replace: true });
         showSnackbar("Bautizo editado correctamente!", "success");
 

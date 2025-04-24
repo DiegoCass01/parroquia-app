@@ -3,8 +3,12 @@ import { FormGroup } from "../../components/FormGroup.jsx";
 import { useUsuarioStore } from "../../store/useUsuarioStore.js";
 import "../../styles/admin/CreateUsuario.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
+import { useAuthStore } from "../../store/useAuthStore.js";
 
 export default function EditUsuario({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const location = useLocation();
   const initialUsuario = location.state?.usuario;
   const navigate = useNavigate();
@@ -61,7 +65,19 @@ export default function EditUsuario({ showSnackbar }) {
     try {
       const response = await editUsuario(dataToSend);
 
-      if (response && response.status >= 200 && response.status < 300) {
+      const nuevoMovimiento = {
+        id_sacramento: dataToSend.id,
+        tipo_sacramento: "usuario",
+        tipo_movimiento: "edicion",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         navigate("/search/usuario", { replace: true });
         showSnackbar("Usuario editado correctamente!", "success");
       } else {

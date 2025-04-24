@@ -3,8 +3,12 @@ import { FormGroup } from "../../components/FormGroup.jsx";
 import { useComunionStore } from "../../store/useComunionStore.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/sacramentos/CreateSacramento.css";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
 export default function EditComunion({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const location = useLocation();
   const initialComunion = location.state?.comunion;
   const navigate = useNavigate();
@@ -46,7 +50,19 @@ export default function EditComunion({ showSnackbar }) {
     try {
       const response = await editComunion(comunion);
 
-      if (response?.status === 200) {
+      const nuevoMovimiento = {
+        id_sacramento: comunion.id_comunion,
+        tipo_sacramento: "comunion",
+        tipo_movimiento: "edicion",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         navigate("/search/comunion", { replace: true });
         showSnackbar("Comunion editado correctamente!", "success");
 
