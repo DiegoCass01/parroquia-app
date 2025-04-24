@@ -75,23 +75,23 @@ export const useMovimientoStore = create((set) => ({
   //   }
   // },
 
-  deleteMovimiento: async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.delete(`${API_URL}/movimiento/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  // deleteMovimiento: async (id) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     const res = await axios.delete(`${API_URL}/movimiento/${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
 
-      set((state) => ({
-        movimientos: state.movimientos.filter((m) => m.id_movimiento !== id),
-      }));
+  //     set((state) => ({
+  //       movimientos: state.movimientos.filter((m) => m.id_movimiento !== id),
+  //     }));
 
-      return res;
-    } catch (error) {
-      console.error("Error al eliminar movimiento", error);
-      return null;
-    }
-  },
+  //     return res;
+  //   } catch (error) {
+  //     console.error("Error al eliminar movimiento", error);
+  //     return null;
+  //   }
+  // },
 }));

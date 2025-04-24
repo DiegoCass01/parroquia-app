@@ -30,15 +30,15 @@ router.post("/", verifyToken, (req, res) => {
     id_sacramento,
     tipo_sacramento,
     tipo_movimiento,
-    fecha_mov,
     id_usuario,
     usuario,
+    nombre_completo,
     folio,
   } = req.body;
 
   const query = `
     INSERT INTO movimiento 
-    (id_sacramento, tipo_sacramento, tipo_movimiento, fecha_mov, id_usuario, usuario, folio) 
+    (id_sacramento, tipo_sacramento, tipo_movimiento, id_usuario, usuario, nombre_completo, folio) 
     VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
   pool.query(
@@ -47,15 +47,17 @@ router.post("/", verifyToken, (req, res) => {
       id_sacramento,
       tipo_sacramento,
       tipo_movimiento,
-      fecha_mov,
       id_usuario,
       usuario,
+      nombre_completo,
       folio,
     ],
     (err, results) => {
       if (err) {
         console.error("Error al crear el movimiento:", err);
-        return res.status(500).json({ error: "Error al crear el movimiento" });
+        return res
+          .status(500)
+          .json({ error: "Error al crear el movimiento", e: err });
       }
       res.status(201).json({
         message: "Movimiento creado correctamente",
@@ -66,53 +68,54 @@ router.post("/", verifyToken, (req, res) => {
 });
 
 // Actualizar un movimiento
-router.put("/:id_movimiento", verifyToken, (req, res) => {
-  const { id_movimiento } = req.params;
-  const {
-    id_sacramento,
-    tipo_sacramento,
-    tipo_movimiento,
-    fecha_mov,
-    id_usuario,
-    usuario,
-    folio,
-  } = req.body;
+// router.put("/:id_movimiento", verifyToken, (req, res) => {
+//   const { id_movimiento } = req.params;
+//   const {
+//     id_sacramento,
+//     tipo_sacramento,
+//     tipo_movimiento,
+//     fecha_mov,
+//     id_usuario,
+//     usuario,
+//     folio,
+//   } = req.body;
 
-  const query = `
-    UPDATE movimiento 
-    SET id_sacramento = ?, tipo_sacramento = ?, tipo_movimiento = ?, fecha_mov = ?, id_usuario = ?, usuario = ?, folio = ?
-    WHERE id_movimiento = ?`;
+//   const query = `
+//     UPDATE movimiento
+//     SET id_sacramento = ?, tipo_sacramento = ?, tipo_movimiento = ?, fecha_mov = ?, id_usuario = ?, usuario = ?, folio = ?
+//     WHERE id_movimiento = ?`;
 
-  pool.query(
-    query,
-    [
-      id_sacramento,
-      tipo_sacramento,
-      tipo_movimiento,
-      fecha_mov,
-      id_usuario,
-      usuario,
-      folio,
-      id_movimiento,
-    ],
-    (err, results) => {
-      if (err) {
-        console.error("Error al actualizar el movimiento:", err);
-        res.status(500).json({ error: "Error al actualizar el movimiento" });
-      } else {
-        if (results.affectedRows > 0) {
-          res.json({
-            message: "Movimiento actualizado correctamente",
-          });
-        } else {
-          res.status(404).json({ error: "Movimiento no encontrado" });
-        }
-      }
-    }
-  );
-});
+//   pool.query(
+//     query,
+//     [
+//       id_sacramento,
+//       tipo_sacramento,
+//       tipo_movimiento,
+//       fecha_mov,
+//       id_usuario,
+//       usuario,
+//       folio,
+//       id_movimiento,
+//     ],
+//     (err, results) => {
+//       if (err) {
+//         console.error("Error al actualizar el movimiento:", err);
+//         res.status(500).json({ error: "Error al actualizar el movimiento" });
+//       } else {
+//         if (results.affectedRows > 0) {
+//           res.json({
+//             message: "Movimiento actualizado correctamente",
+//           });
+//         } else {
+//           res.status(404).json({ error: "Movimiento no encontrado" });
+//         }
+//       }
+//     }
+//   );
+// });
 
 // Eliminar un movimiento
+
 router.delete("/:id_movimiento", verifyToken, (req, res) => {
   const { id_movimiento } = req.params;
   pool.query(

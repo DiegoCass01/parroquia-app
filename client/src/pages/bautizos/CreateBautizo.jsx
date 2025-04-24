@@ -2,8 +2,12 @@ import { useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
 import { useBautizoStore } from "../../store/useBautizoStore.js";
 import "../../styles/sacramentos/CreateSacramento.css";
-export default function CreateBautizo({ showSnackbar }) {
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
+import { useAuthStore } from "../../store/useAuthStore.js";
 
+export default function CreateBautizo({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const { createBautizo } = useBautizoStore();
   const dirBautizo = [
     { value: "Cd. Mante", name: "Cd. Mante" }
@@ -42,7 +46,23 @@ export default function CreateBautizo({ showSnackbar }) {
 
     try {
       const response = await createBautizo(bautizo);
-      if (response && response.status >= 200 && response.status < 300) {
+
+      const { baptismId, folio } = response.data.bautizo;
+
+      const nuevoMovimiento = {
+        id_sacramento: baptismId,
+        tipo_sacramento: "bautizo",
+        tipo_movimiento: "registro",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: `${folio}-${baptismId}`,
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
+
         setBautizo({
           nombre: "",
           a_paterno: "",
@@ -66,7 +86,9 @@ export default function CreateBautizo({ showSnackbar }) {
           mad_ap_pat: "",
           mad_ap_mat: "",
         });
+
         showSnackbar("Bautizo creado correctamente!", "success");
+
       } else {
         console.error("Error creating bautizo:", response?.data || response);
         showSnackbar("Error al crear bautizo!", "error");

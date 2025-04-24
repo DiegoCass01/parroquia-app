@@ -2,9 +2,13 @@ import { useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
 import { useUsuarioStore } from "../../store/useUsuarioStore.js";
 import "../../styles/admin/CreateUsuario.css";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 export default function CreateUsuario({ showSnackbar }) {
-
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const { createUsuario } = useUsuarioStore();
+
   const roleOptions = [
     { value: "usuario", name: "Usuario" },
     { value: "moderador", name: "Moderador" },
@@ -21,8 +25,21 @@ export default function CreateUsuario({ showSnackbar }) {
 
     try {
       const response = await createUsuario(usuario);
+      const usuarioId = response.data.id;
 
-      if (response && response.status >= 200 && response.status < 300) {
+      const nuevoMovimiento = {
+        id_sacramento: usuarioId,
+        tipo_sacramento: "usuario",
+        tipo_movimiento: "registro",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         setUsuario({
           nombre: "", a_paterno: "", a_materno: "", n_usuario: "", password: "", rol: "usuario"
         });

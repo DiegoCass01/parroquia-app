@@ -2,9 +2,12 @@ import { useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
 import { useConfirmacionStore } from "../../store/useConfirmacionStore.js";
 import "../../styles/sacramentos/CreateSacramento.css";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
 export default function CreateConfirmacion({ showSnackbar }) {
-
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const { createConfirmacion } = useConfirmacionStore();
 
   const [confirmacion, setConfirmacion] = useState({
@@ -36,8 +39,21 @@ export default function CreateConfirmacion({ showSnackbar }) {
 
     try {
       const response = await createConfirmacion(confirmacion);
+      const confId = response.data.id;
 
-      if (response && response.status >= 200 && response.status < 300) {
+      const nuevoMovimiento = {
+        id_sacramento: confId,
+        tipo_sacramento: "confirmacion",
+        tipo_movimiento: "registro",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         setConfirmacion({
           nombre: "",
           a_paterno: "",

@@ -36,9 +36,11 @@ router.post("/", (req, res) => {
     pool.query(
       insertQuery,
       [nombre, a_paterno, a_materno, n_usuario, hashedPassword, rol],
-      (err) => {
+      (err, results) => {
         if (err) return res.status(500).json({ error: err });
-        res.status(201).json({ message: "Usuario registrado" });
+        res
+          .status(201)
+          .json({ message: "Usuario registrado", id: results.insertId });
       }
     );
   });

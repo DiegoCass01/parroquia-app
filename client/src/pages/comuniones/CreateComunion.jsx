@@ -2,8 +2,12 @@ import { useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
 import { useComunionStore } from "../../store/useComunionStore.js";
 import "../../styles/sacramentos/CreateSacramento.css";
-export default function CreateComunion({ showSnackbar }) {
+import { useAuthStore } from "../../store/useAuthStore.js";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
+export default function CreateComunion({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const { createComunion } = useComunionStore();
 
   const [comunion, setComunion] = useState({
@@ -20,6 +24,7 @@ export default function CreateComunion({ showSnackbar }) {
     dir_comunion: "",
     lugar_comunion: "",
     fecha_comunion: "",
+    parroco: "",
     pad_nom: "",
     pad_ap_pat: "",
     pad_ap_mat: "",
@@ -33,8 +38,21 @@ export default function CreateComunion({ showSnackbar }) {
 
     try {
       const response = await createComunion(comunion);
+      const comunionId = response.data.id;
 
-      if (response && response.status >= 200 && response.status < 300) {
+      const nuevoMovimiento = {
+        id_sacramento: comunionId,
+        tipo_sacramento: "comunion",
+        tipo_movimiento: "registro",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         setComunion({
           nombre: "",
           a_paterno: "",
@@ -49,6 +67,7 @@ export default function CreateComunion({ showSnackbar }) {
           dir_comunion: "",
           lugar_comunion: "",
           fecha_comunion: "",
+          parroco: "",
           pad_nom: "",
           pad_ap_pat: "",
           pad_ap_mat: "",

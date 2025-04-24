@@ -70,6 +70,14 @@ router.post("/", verifyToken, (req, res) => {
     mad_ap_mat,
   } = req.body;
 
+  // Validación básica
+  if (!nombre || !a_paterno || !a_materno || !fecha_bautizo || !parroco) {
+    return res.status(400).json({ error: "Faltan campos obligatorios." });
+  }
+
+  // Aquí se genera el folio
+  const folio = "AB";
+
   const insertQuery = `INSERT INTO bautizos (
     nombre, a_paterno, a_materno,
     nom_padre, a_pat_padre, a_mat_padre,
@@ -97,7 +105,7 @@ router.post("/", verifyToken, (req, res) => {
       lugar_nac,
       fecha_nac,
       parroco,
-      "AB",
+      folio,
     ],
     (err, results) => {
       if (err) {
@@ -130,7 +138,7 @@ router.post("/", verifyToken, (req, res) => {
 
       res.status(201).json({
         message: "Bautizo creado correctamente",
-        bautizo: results.insertId,
+        bautizo: { baptismId, folio },
       });
     }
   );

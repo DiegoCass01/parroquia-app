@@ -2,8 +2,12 @@ import { useState } from "react";
 import { FormGroup } from "../../components/FormGroup.jsx";
 import { useMatrimonioStore } from "../../store/useMatrimonioStore.js";
 import "../../styles/sacramentos/CreateSacramento.css";
+import { useAuthStore } from "../../store/useAuthStore.js";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
 export default function CreateMatrimonio({ showSnackbar }) {
+  const { user } = useAuthStore();
+  const { createMovimiento } = useMovimientoStore();
   const { createMatrimonio } = useMatrimonioStore();
 
   const [matrimonio, setMatrimonio] = useState({
@@ -55,7 +59,21 @@ export default function CreateMatrimonio({ showSnackbar }) {
     try {
       const response = await createMatrimonio(matrimonio);
 
-      if (response && response.status >= 200 && response.status < 300) {
+      const matrimonioId = response.data.id;
+
+      const nuevoMovimiento = {
+        id_sacramento: matrimonioId,
+        tipo_sacramento: "matrimonio",
+        tipo_movimiento: "registro",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+
+      const res = await createMovimiento(nuevoMovimiento);
+
+      if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
         setMatrimonio({
           nombre_novio: "",
           a_pat_novio: "",
