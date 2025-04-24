@@ -4,6 +4,8 @@ const formatDate = (date) => {
 };
 
 const formatDateLong = (date) => {
+  if (date === null || date === "") return "Fecha no disponible";
+
   if (!(date instanceof Date)) {
     date = new Date(date); // Convertir a Date si es una cadena
   }

@@ -143,6 +143,7 @@ export default function SearchComunion({ showSnackbar }) {
                     <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
                     <span>Dirección de Comunión: {comunion.dir_comunion}</span>
                     <span>Lugar Comunion: {comunion.lugar_comunion}</span>
+                    <span>Fecha Nacimiento: {formatDateLong(comunion.fecha_nac)}</span>
                     <span>Parroco: {comunion.parroco}</span>
                     <fieldset>
                       <legend>Padres</legend>

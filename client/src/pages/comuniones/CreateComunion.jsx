@@ -14,6 +14,7 @@ export default function CreateComunion({ showSnackbar }) {
     nombre: "",
     a_paterno: "",
     a_materno: "",
+    fecha_nac: "",
     nom_padre: "",
     a_pat_padre: "",
     a_mat_padre: "",
@@ -57,6 +58,7 @@ export default function CreateComunion({ showSnackbar }) {
           nombre: "",
           a_paterno: "",
           a_materno: "",
+          fecha_nac: "",
           nom_padre: "",
           a_pat_padre: "",
           a_mat_padre: "",
@@ -101,6 +103,7 @@ export default function CreateComunion({ showSnackbar }) {
           <FormGroup id="nombre" label="Nombre" value={comunion.nombre} onChange={handleChange} name="nombre" required />
           <FormGroup id="a_paterno" label="Apellido Paterno" value={comunion.a_paterno} onChange={handleChange} name="a_paterno" required />
           <FormGroup id="a_materno" label="Apellido Materno" value={comunion.a_materno} onChange={handleChange} name="a_materno" required />
+          <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={comunion.fecha_nac} onChange={handleChange} type="date" required />
         </fieldset>
         <br />
         {/* DATOS DEL SACRAMENTO */}

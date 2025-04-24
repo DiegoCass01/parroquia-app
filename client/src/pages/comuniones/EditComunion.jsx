@@ -24,6 +24,7 @@ export default function EditComunion({ showSnackbar }) {
     setComunion((prev) => ({
       ...prev,
       fecha_comunion: prev.fecha_comunion?.substring(0, 10) || "",
+      fecha_nac: prev.fecha_nac?.substring(0, 10) || "",
     }));
 
   }, []);
@@ -86,6 +87,7 @@ export default function EditComunion({ showSnackbar }) {
           <FormGroup id="nombre" label="Nombre" value={comunion.nombre} onChange={handleChange} name="nombre" />
           <FormGroup id="a_paterno" label="Apellido Paterno" value={comunion.a_paterno} onChange={handleChange} name="a_paterno" />
           <FormGroup id="a_materno" label="Apellido Materno" value={comunion.a_materno} onChange={handleChange} name="a_materno" />
+          <FormGroup id="fecha_nac" label="Fecha de Nacimiento" value={comunion.fecha_nac} onChange={handleChange} type="date" />
         </fieldset>
         <br />
         {/* DATOS DEL SACRAMENTO */}
