@@ -43,6 +43,7 @@ router.post("/", verifyToken, (req, res) => {
     nombre,
     a_paterno,
     a_materno,
+    fecha_nac,
     nom_padre,
     a_pat_padre,
     a_mat_padre,
@@ -64,13 +65,13 @@ router.post("/", verifyToken, (req, res) => {
 
   const insertComunQuery = `
     INSERT INTO comunion (
-      nombre, a_paterno, a_materno,
+      nombre, a_paterno, a_materno, nom_padre,
       nom_padre, a_pat_padre, a_mat_padre,
       nom_madre, a_pat_madre, a_mat_madre,
       parroquia_bautizo,
       dir_comunion, lugar_comunion, 
       fecha_comunion, parroco
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   pool.query(
@@ -79,6 +80,7 @@ router.post("/", verifyToken, (req, res) => {
       nombre,
       a_paterno,
       a_materno,
+      fecha_nac,
       nom_padre,
       a_pat_padre,
       a_mat_padre,
@@ -144,6 +146,7 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
     nombre,
     a_paterno,
     a_materno,
+    fecha_nac,
     nom_padre,
     a_pat_padre,
     a_mat_padre,
@@ -165,7 +168,7 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
 
   const updateComunQuery = `
     UPDATE comunion SET
-      nombre = ?, a_paterno = ?, a_materno = ?,
+      nombre = ?, a_paterno = ?, a_materno = ?, fecha_nac = ?,
       nom_padre = ?, a_pat_padre = ?, a_mat_padre = ?,
       nom_madre = ?, a_pat_madre = ?, a_mat_madre = ?,
       parroquia_bautizo = ?,
@@ -180,6 +183,7 @@ router.put("/:id_comunion", verifyToken, (req, res) => {
       nombre,
       a_paterno,
       a_materno,
+      fecha_nac,
       nom_padre,
       a_pat_padre,
       a_mat_padre,
