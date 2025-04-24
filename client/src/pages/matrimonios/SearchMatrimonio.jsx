@@ -9,8 +9,10 @@ import { generarPDF } from "../../functions/feBautizoPdf";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import { useAuthStore } from "../../store/useAuthStore";
 import AdminValidationModal from "../../components/AdminValidationModal";
+import { useMovimientoStore } from "../../store/useMovimientoStore";
 
 export default function SearchMatrimonio({ showSnackbar }) {
+  const { createMovimiento } = useMovimientoStore();
   const { matrimonios, fetchMatrimonios, deleteMatrimonio } = useMatrimonioStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [yearFilter, setYearFilter] = useState(""); // filtros
@@ -40,7 +42,20 @@ export default function SearchMatrimonio({ showSnackbar }) {
       if (!window.confirm("¿Estás seguro de que deseas eliminar este matrimonio?")) return;
       try {
         const response = await deleteMatrimonio(id);
-        if (response?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: id,
+          tipo_sacramento: "matrimonio",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Matrimonio eliminado correctamente!", "success");
         } else {
           showSnackbar("Error al eliminar matrimonio!", "error");
@@ -69,7 +84,20 @@ export default function SearchMatrimonio({ showSnackbar }) {
       if (response?.status === 200) {
         // Si las credenciales son correctas, proceder con la eliminación
         const deleteResponse = await deleteMatrimonio(matrimonioIdToDelete); // Llama a la función de eliminación
-        if (deleteResponse?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: matrimonioIdToDelete,
+          tipo_sacramento: "matrimonio",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (deleteResponse && deleteResponse.status >= 200 && deleteResponse.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Matrimonio eliminado correctamente!", "success");
           setAdmin({ adminName: "", adminPassword: "" })
           setIsModalOpen(false); // Cierra el modal después de la eliminación

@@ -9,8 +9,10 @@ import { generarPDF } from "../../functions/feBautizoPdf";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import AdminValidationModal from "../../components/AdminValidationModal";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useMovimientoStore } from "../../store/useMovimientoStore";
 
 export default function SearchConfirmacion({ showSnackbar }) {
+  const { createMovimiento } = useMovimientoStore();
   const { confirmaciones, fetchConfirmaciones, deleteConfirmacion } = useConfirmacionStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [yearFilter, setYearFilter] = useState(""); // filtros
@@ -39,7 +41,20 @@ export default function SearchConfirmacion({ showSnackbar }) {
       if (!window.confirm("¿Estás seguro de que deseas eliminar esta confirmación?")) return;
       try {
         const response = await deleteConfirmacion(id);
-        if (response?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: id,
+          tipo_sacramento: "confirmacion",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Confirmación eliminada correctamente!", "success");
         } else {
           showSnackbar("Error al eliminar confirmación!", "error");
@@ -68,7 +83,20 @@ export default function SearchConfirmacion({ showSnackbar }) {
       if (response?.status === 200) {
         // Si las credenciales son correctas, proceder con la eliminación
         const deleteResponse = await deleteConfirmacion(confIdToDelete); // Llama a la función de eliminación
-        if (deleteResponse?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: confIdToDelete,
+          tipo_sacramento: "confirmacion",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (deleteResponse && deleteResponse.status >= 200 && deleteResponse.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Confirmacion eliminado correctamente!", "success");
           setAdmin({ adminName: "", adminPassword: "" })
           setIsModalOpen(false); // Cierra el modal después de la eliminación

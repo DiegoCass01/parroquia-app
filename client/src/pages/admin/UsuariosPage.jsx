@@ -6,8 +6,10 @@ import "../../App.css";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
 import AdminValidationModal from "../../components/AdminValidationModal.jsx";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
 export default function UsuariosPage({ showSnackbar }) {
+  const { createMovimiento } = useMovimientoStore();
   const { usuarios, fetchUsuarios, deleteUsuario } = useUsuarioStore();
   const navigate = useNavigate();
 
@@ -30,7 +32,20 @@ export default function UsuariosPage({ showSnackbar }) {
       if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
       try {
         const response = await deleteUsuario(id);
-        if (response?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: id,
+          tipo_sacramento: "usuario",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Usuario eliminado correctamente!", "success");
         } else {
           showSnackbar("Error al eliminar usuario!", "error");
@@ -55,7 +70,20 @@ export default function UsuariosPage({ showSnackbar }) {
       if (response?.status === 200) {
         // Si las credenciales son correctas, proceder con la eliminación
         const deleteResponse = await deleteUsuario(usuarioIdToDelete); // Llama a la función de eliminación
-        if (deleteResponse?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: usuarioIdToDelete,
+          tipo_sacramento: "usuario",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (deleteResponse && deleteResponse.status >= 200 && deleteResponse.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Usuario eliminado correctamente!", "success");
           setAdmin({ adminName: "", adminPassword: "" })
           setIsModalOpen(false); // Cierra el modal después de la eliminación

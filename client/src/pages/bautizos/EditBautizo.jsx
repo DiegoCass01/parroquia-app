@@ -65,7 +65,7 @@ export default function EditBautizo({ showSnackbar }) {
         id_usuario: user.id,
         usuario: user.n_usuario,
         nombre_completo: user.nombre,
-        folio: bautizo.folio,
+        folio: "",
       };
 
       const res = await createMovimiento(nuevoMovimiento);

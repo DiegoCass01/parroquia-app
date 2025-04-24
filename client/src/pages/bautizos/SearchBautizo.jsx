@@ -9,8 +9,10 @@ import "../../App.css";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
 import AdminValidationModal from "../../components/AdminValidationModal.jsx";
+import { useMovimientoStore } from "../../store/useMovimientoStore.js";
 
 export default function SearchBautizo({ showSnackbar }) {
+  const { createMovimiento } = useMovimientoStore();
   const { bautizos, fetchBautizos, deleteBautizo } = useBautizoStore();
   const [searchQuery, setSearchQuery] = useState(""); // texto de la busqueda
   const [yearFilter, setYearFilter] = useState(""); // filtros
@@ -40,7 +42,20 @@ export default function SearchBautizo({ showSnackbar }) {
       if (!window.confirm("¿Estás seguro de que deseas eliminar este bautizo?")) return;
       try {
         const response = await deleteBautizo(id);
-        if (response?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: id,
+          tipo_sacramento: "bautizo",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (response && response.status >= 200 && response.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Bautizo eliminado correctamente!", "success");
         } else {
           showSnackbar("Error al eliminar bautizo!", "error");
@@ -69,7 +84,20 @@ export default function SearchBautizo({ showSnackbar }) {
       if (response?.status === 200) {
         // Si las credenciales son correctas, proceder con la eliminación
         const deleteResponse = await deleteBautizo(bautizoIdToDelete); // Llama a la función de eliminación
-        if (deleteResponse?.status === 200) {
+
+        const nuevoMovimiento = {
+          id_sacramento: bautizoIdToDelete,
+          tipo_sacramento: "bautizo",
+          tipo_movimiento: "eliminacion",
+          id_usuario: user.id,
+          usuario: user.n_usuario,
+          nombre_completo: user.nombre,
+          folio: "",
+        };
+
+        const res = await createMovimiento(nuevoMovimiento);
+
+        if (deleteResponse && deleteResponse.status >= 200 && deleteResponse.status < 300 && res && res.status >= 200 && res.status < 300) {
           showSnackbar("Bautizo eliminado correctamente!", "success");
           setAdmin({ adminName: "", adminPassword: "" })
           setIsModalOpen(false); // Cierra el modal después de la eliminación
