@@ -30,14 +30,35 @@ export default function SearchComunion({ showSnackbar }) {
   const [comunionIdToDelete, setComunionIdToDelete] = useState(null); // Estado para almacenar el ID del comunion
 
   useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (searchQuery.trim() !== "") {
-        fetchComuniones(searchQuery, yearFilter, yearNac);
-      }
-    }, 500); // espera 500ms después de dejar de escribir
+    if (searchQuery.trim() === "") {
+      // Limpia los registros del estado cuando no hay búsqueda activa
+      useComunionStore.setState({ comuniones: [] });
+    }
+  }, [searchQuery]);
 
-    return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
-  }, [searchQuery, yearFilter, fetchComuniones, yearNac]);
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+    if (searchQuery.trim() === "") return;
+
+    try {
+      await fetchComuniones(searchQuery, yearFilter, yearNac);
+
+      // const nuevoMovimiento = {
+      //   id_sacramento: 0, // o null si no aplica
+      //   tipo_sacramento: "comunion",
+      //   tipo_movimiento: "busqueda",
+      //   id_usuario: user.id,
+      //   usuario: user.n_usuario,
+      //   nombre_completo: user.nombre,
+      //   folio: "",
+      // };
+
+      // await createMovimiento(nuevoMovimiento);
+    } catch (err) {
+      console.error("Error en búsqueda o movimiento:", err);
+      showSnackbar("Hubo un error al buscar registros.", "error");
+    }
+  };
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -127,6 +148,7 @@ export default function SearchComunion({ showSnackbar }) {
           placeholderFiltro={"Año de comunion"}
           yearNac={yearNac}
           setYearNac={setYearNac}
+          onSubmit={handleSearchSubmit}
         />
       </section>
 

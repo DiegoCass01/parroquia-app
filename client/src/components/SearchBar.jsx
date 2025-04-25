@@ -1,7 +1,7 @@
-const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, placeholderFiltro, yearNac, setYearNac }) => {
+const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, placeholderFiltro, yearNac, setYearNac, onSubmit }) => {
 
   return (
-    <div className="search-sacramento">
+    <form className="search-sacramento" onSubmit={onSubmit}>
       <div className="form-search-sacramento" >
         <input
           type="search"
@@ -11,6 +11,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+        <button type="submit">Buscar</button>
       </div>
       <div className="search-filters">
         {/* Filtrado por año de sacramento */}
@@ -31,7 +32,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
           />
         )}
       </div>
-    </div>
+    </form>
   );
 }
 

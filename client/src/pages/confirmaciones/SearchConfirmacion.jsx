@@ -27,15 +27,37 @@ export default function SearchConfirmacion({ showSnackbar }) {
   });
   const [confIdToDelete, setConfIdToDelete] = useState(null); // Estado para almacenar el ID del confirmacion
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (searchQuery.trim() !== "") {
-        fetchConfirmaciones(searchQuery, yearFilter, yearNac);
-      }
-    }, 500); // espera 500ms después de dejar de escribir
 
-    return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
-  }, [searchQuery, yearFilter, fetchConfirmaciones, yearNac]);
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      // Limpia los registros del estado cuando no hay búsqueda activa
+      useConfirmacionStore.setState({ confirmaciones: [] });
+    }
+  }, [searchQuery]);
+
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+    if (searchQuery.trim() === "") return;
+
+    try {
+      await fetchConfirmaciones(searchQuery, yearFilter, yearNac);
+
+      // const nuevoMovimiento = {
+      //   id_sacramento: 0, // o null si no aplica
+      //   tipo_sacramento: "confirmacion",
+      //   tipo_movimiento: "busqueda",
+      //   id_usuario: user.id,
+      //   usuario: user.n_usuario,
+      //   nombre_completo: user.nombre,
+      //   folio: "",
+      // };
+
+      // await createMovimiento(nuevoMovimiento);
+    } catch (err) {
+      console.error("Error en búsqueda o movimiento:", err);
+      showSnackbar("Hubo un error al buscar registros.", "error");
+    }
+  };
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -125,6 +147,7 @@ export default function SearchConfirmacion({ showSnackbar }) {
           placeholderFiltro={"Año de confirmacion"}
           yearNac={yearNac}
           setYearNac={setYearNac}
+          onSubmit={handleSearchSubmit}
         />
       </section>
 

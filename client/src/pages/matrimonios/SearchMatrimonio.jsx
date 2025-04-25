@@ -27,15 +27,37 @@ export default function SearchMatrimonio({ showSnackbar }) {
   });
   const [matrimonioIdToDelete, setMatrimonioIdToDelete] = useState(null); // Estado para almacenar el ID del matrimonio
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (searchQuery.trim() !== "") {
-        fetchMatrimonios(searchQuery, yearFilter);
-      }
-    }, 500); // espera 500ms después de dejar de escribir
 
-    return () => clearTimeout(delayDebounce); // limpia si el user sigue escribiendo
-  }, [searchQuery, yearFilter, fetchMatrimonios]);
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      // Limpia los registros del estado cuando no hay búsqueda activa
+      useMatrimonioStore.setState({ matrimonios: [] });
+    }
+  }, [searchQuery]);
+
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+    if (searchQuery.trim() === "") return;
+
+    try {
+      await fetchMatrimonios(searchQuery, yearFilter);
+
+      // const nuevoMovimiento = {
+      //   id_sacramento: 0, // o null si no aplica
+      //   tipo_sacramento: "matrimonio",
+      //   tipo_movimiento: "busqueda",
+      //   id_usuario: user.id,
+      //   usuario: user.n_usuario,
+      //   nombre_completo: user.nombre,
+      //   folio: "",
+      // };
+
+      // await createMovimiento(nuevoMovimiento);
+    } catch (err) {
+      console.error("Error en búsqueda o movimiento:", err);
+      showSnackbar("Hubo un error al buscar registros.", "error");
+    }
+  };
 
   const handleDelete = async (id) => {
     if (user.rol === "admin") {
@@ -123,6 +145,7 @@ export default function SearchMatrimonio({ showSnackbar }) {
           setYearFilter={setYearFilter}
           yearFilter={yearFilter}
           placeholderFiltro={"Año de matrimonio"}
+          onSubmit={handleSearchSubmit}
         />
       </section>
 
