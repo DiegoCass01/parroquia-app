@@ -1,3 +1,6 @@
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, placeholderFiltro, yearNac, setYearNac, onSubmit }) => {
 
   return (
@@ -11,7 +14,9 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button type="submit">Buscar</button>
+        <button type="submit">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </button>
       </div>
       <div className="search-filters">
         {/* Filtrado por año de sacramento */}
