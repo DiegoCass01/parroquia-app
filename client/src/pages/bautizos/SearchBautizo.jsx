@@ -181,26 +181,29 @@ export default function SearchBautizo({ showSnackbar }) {
                     </fieldset>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(bautizo.id_bautizo)}
-
-                      handleEdit={() => handleEdit(bautizo)}
-                      tipo="bautizo"
                       pdfComponent={
-                        <PDFDownloadLink
+                        <PDFDownloadLink className="submit-button"
                           document={<FeBautizoPDF datos={bautizo} />}
                           fileName={`Fe_Bautizo_${bautizo.nombre}_${bautizo.a_paterno}.pdf`}
                           style={{
                             textDecoration: 'none',
-                            color: 'white',
-                            backgroundColor: '#3f51b5',
-                            padding: '5px 10px',
+                            textAlign: 'center',
+                            color: 'aliceblue',
+                            backgroundColor: '#007bff',
+                            padding: '12px 20px',
                             borderRadius: 4,
-                            marginTop: '8px',
-                            display: 'inline-block',
+                            marginTop: '10px',
+                            transition: 'background-color 0.3s',
                           }}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0056b3')}
+                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#007bff')}
                         >
                           {({ loading }) => loading ? 'Generando PDF...' : 'Descargar PDF'}
                         </PDFDownloadLink>
                       }
+                      handleEdit={() => handleEdit(bautizo)}
+                      tipo="bautizo"
+
                     />
                   </li >
                 ))

@@ -1,4 +1,3 @@
-// FeBautizoPDF.jsx
 import React from "react";
 import {
   Document,
@@ -7,33 +6,63 @@ import {
   View,
   StyleSheet,
   Image,
+  Font,
 } from "@react-pdf/renderer";
 import { formatoFechaLarga } from "./formatDate"; // usa tu función de formato
 
+// Registrar una fuente similar a Arial (Open Sans)
+Font.register({
+  family: "Open Sans",
+  src: "https://fonts.gstatic.com/s/opensans/v28/mem8YaGs126MiZpBA-U1UpcaXcl0Aw.ttf",
+});
+
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
-    fontSize: 12,
+    paddingTop: 10,
+    paddingHorizontal: 70,
+    fontSize: 14,
     fontFamily: "Times-Roman",
-    lineHeight: 1.6,
+    textAlign: "justify",
+    color: '#0706a0'
+  },
+  headerImage: {
+    width: 400,
+    height: "auto",
+    marginBottom: 20,
+    alignSelf: "center",
   },
   title: {
-    fontSize: 20,
+    fontSize: 10,
     textAlign: "center",
-    marginBottom: 15,
-    color: "#0706a0",
+    family: "Open Sans",
   },
   section: {
-    marginBottom: 10,
+    marginBottom: 15,
+    paddingHorizontal: 10,
+    lineHeight: 1.8,
   },
-  firma: {
-    marginTop: 40,
-    textAlign: "right",
-    marginRight: 20,
+  paragraph: {
+    marginVertical: 10,
   },
-  imagen: {
-    width: 150,
-    margin: "0 auto",
+  boldText: {
+    fontFamily: "Times-Bold",
+    textDecoration: "underline",
+  },
+  footer: {
+    marginTop: 5,
+    textAlign: "left",
+    fontFamily: 'Helvetica'
+  },
+  signatureLine: {
+    marginTop: 60,
+    textAlign: "center",
+  },
+  signatureText: {
+    marginTop: 5,
+    textAlign: "center",
+  },
+  firstLineIndent: {
+    textIndent: 40, // Sangría solo para la primera línea
   },
 });
 
@@ -44,47 +73,49 @@ const FeBautizoPDF = ({ datos }) => {
   return (
     <Document>
       <Page size="LETTER" style={styles.page}>
-        <Image src="/assets/membrete_mejorado.png" style={styles.imagen} />
+        <Text style={styles.title}>DIÓCESIS DE TAMPICO, A.R.</Text>
 
-        <Text style={styles.title}>FE DE BAUTIZO</Text>
+        <Image src="/assets/membrete.png" style={styles.headerImage} />
+
 
         <View style={styles.section}>
-          <Text>
-            El día {fechaBautizo.dia} de {fechaBautizo.mes} del año{" "}
-            {fechaBautizo.anio} fue bautizado(a) en esta Parroquia por el{" "}
-            {datos.parroco}, un(a) niño(a) a quien se le puso por nombre:
+          <Text style={styles.paragraph}>
+            <Text style={styles.firstLineIndent}>El día </Text><Text style={styles.boldText}>{"   "}{fechaBautizo.dia}{"   "}</Text> de{" "}
+            <Text style={styles.boldText}>{"            "}{fechaBautizo.mes}{"            "}</Text> del año{" "}
+            <Text style={styles.boldText}>{"    "}{fechaBautizo.anio}{"     "}</Text> fue bautizado(a){"\n"}
+            en esta Parroquia por el{" "}<Text style={styles.boldText}>{"     "}{datos.parroco}{"     "}</Text>{"\n"}
+            un(a) niño(a) que recibió el nombre de:
           </Text>
-          <Text>
-            {datos.nombre} {datos.a_paterno} {datos.a_materno}
+          <Text style={{ ...styles.paragraph, textAlign: "center", fontSize: 14 }}>
+            <Text style={styles.boldText}>&nbsp;{"     "}{datos.nombre} {datos.a_paterno} {datos.a_materno}{"     "}&nbsp;</Text>
           </Text>
         </View>
 
         <View style={styles.section}>
-          <Text>Nació en {datos.lugar_nac}</Text>
-          <Text>
-            El día {fechaNac.dia} de {fechaNac.mes} del año {fechaNac.anio}
-          </Text>
-          <Text>
-            Hijo(a) de {datos.nom_padre} {datos.a_pat_padre} {datos.a_mat_padre}
-          </Text>
-          <Text>
-            y de {datos.nom_madre} {datos.a_pat_madre} {datos.a_mat_madre}
-          </Text>
-          <Text>
-            Fueron padrinos {datos.pad_nom} {datos.pad_ap_pat}{" "}
-            {datos.pad_ap_mat} y {datos.mad_nom} {datos.mad_ap_pat}{" "}
-            {datos.mad_ap_mat}
+          <Text style={styles.paragraph}>
+            <Text style={styles.firstLineIndent}>Nació en </Text><Text style={styles.boldText}>{"   "}{datos.lugar_nac}{"   "}</Text>{"\n"}
+            el día{" "}<Text style={styles.boldText}>{"   "}{fechaNac.dia}{"   "}</Text> de{" "}
+            <Text style={styles.boldText}>{"            "}{"   "}{fechaNac.mes}{"            "}{"   "}</Text> del año
+            <Text style={styles.boldText}>{"    "}{fechaNac.anio}{"    "}.</Text>{"\n"}
+            hijo(a) de <Text style={styles.boldText}>&nbsp;{"                   "}{datos.nom_padre} {datos.a_pat_padre} {datos.a_mat_padre}{"                   "}&nbsp;</Text>{" "}
+            y de{" "}<Text style={styles.boldText}>&nbsp;{"                     "}{datos.nom_madre} {datos.a_pat_madre} {datos.a_mat_madre}{"                     "}&nbsp;</Text>.
+            {"\n"}fueron Padrinos <Text style={styles.boldText}>&nbsp;{"                     "}{datos.pad_nom} {datos.pad_ap_pat} {datos.pad_ap_mat}{"                     "}&nbsp;</Text>
+            {" "}y{" "}<Text style={styles.boldText}>&nbsp;{"                     "}{datos.mad_nom} {datos.mad_ap_pat} {datos.mad_ap_mat}{"                     "}&nbsp;</Text>.
           </Text>
         </View>
 
-        <View style={styles.firma}>
-          <Text>No {datos.folio || "_____"}</Text>
-          <Text>_________________________</Text>
-          <Text>El Párroco</Text>
+        <View style={styles.footer}>
+          <Text style={styles.boldText.fontFamily}>Nº {datos.folio || "_____"}</Text>
+        </View>
+
+        <View style={styles.signatureLine}>
+          <Text>_____________________________</Text>
+          <Text style={styles.signatureText}>El Párroco</Text>
         </View>
       </Page>
-    </Document>
+    </Document >
   );
 };
 
-export default FeBautizoPDF;
+export { FeBautizoPDF };
+

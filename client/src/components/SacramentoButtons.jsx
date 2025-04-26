@@ -8,7 +8,7 @@ const SacramentoButtons = ({ handleDelete, handleEdit, tipo, pdfComponent }) => 
       {handleEdit && (<button onClick={handleEdit} className="submit-button-edit">
         Editar {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
       </button>)}
-      {pdfComponent && ({ pdfComponent })}
+      {pdfComponent && (pdfComponent)}
       {handleDelete && (user.rol === "admin" || user.rol === "moderador") && (<button onClick={handleDelete} className="submit-button-delete">Eliminar</button>)}
     </section>
   );

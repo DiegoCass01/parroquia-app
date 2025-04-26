@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
-import { generarPDF } from "../../functions/feBautizoPdf.js";
+// import { generarPDF } from "../../functions/feBautizoPdf.js";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
 import AdminValidationModal from "../../components/AdminValidationModal.jsx";
@@ -184,7 +184,7 @@ export default function SearchComunion({ showSnackbar }) {
 
                     <SacramentoButtons
                       handleDelete={() => handleDelete(comunion.id_comunion)}
-                      generarPDF={() => generarPDF({ datos: comunion })}
+                      // generarPDF={() => generarPDF({ datos: comunion })}
                       handleEdit={() => handleEdit(comunion)}
                       tipo="comunion"
                     />

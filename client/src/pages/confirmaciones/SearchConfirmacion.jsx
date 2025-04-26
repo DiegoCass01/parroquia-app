@@ -5,7 +5,7 @@ import { formatDateLong } from "../../functions/formatDate";
 import { SearchBar } from "../../components/SearchBar";
 import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
-import { generarPDF } from "../../functions/feBautizoPdf";
+// import { generarPDF } from "../../functions/feBautizoPdf";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import AdminValidationModal from "../../components/AdminValidationModal";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -182,7 +182,7 @@ export default function SearchConfirmacion({ showSnackbar }) {
 
                     <SacramentoButtons
                       handleDelete={() => handleDelete(conf.id_confirmacion)}
-                      generarPDF={() => generarPDF({ datos: conf })}
+                      // generarPDF={() => generarPDF({ datos: conf })}
                       handleEdit={() => handleEdit(conf)}
                       tipo="confirmación"
                     />

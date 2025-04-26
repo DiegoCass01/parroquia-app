@@ -5,7 +5,7 @@ import { formatDateLong } from "../../functions/formatDate";
 import { SearchBar } from "../../components/SearchBar";
 import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
-import { generarPDF } from "../../functions/feBautizoPdf";
+// import { generarPDF } from "../../functions/feBautizoPdf";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import { useAuthStore } from "../../store/useAuthStore";
 import AdminValidationModal from "../../components/AdminValidationModal";
@@ -183,7 +183,7 @@ export default function SearchMatrimonio({ showSnackbar }) {
                     </fieldset>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(mat.id_matrimonio)}
-                      generarPDF={() => generarPDF({ datos: mat })}
+                      // generarPDF={() => generarPDF({ datos: mat })}
                       handleEdit={() => handleEdit(mat)}
                       tipo="matrimonio"
                     />
