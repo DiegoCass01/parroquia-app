@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { generarPDF } from "../../functions/feBautizoPdf.js";
+import { FeBautizoPDF } from "../../functions/FeBautizoPDF.jsx";
 import { useBautizoStore } from "../../store/useBautizoStore.js";
 import "../../styles/sacramentos/SearchSacramento.css";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
 import AdminValidationModal from "../../components/AdminValidationModal.jsx";
 import { useMovimientoStore } from "../../store/useMovimientoStore.js";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export default function SearchBautizo({ showSnackbar }) {
   const { createMovimiento } = useMovimientoStore();
@@ -180,9 +181,26 @@ export default function SearchBautizo({ showSnackbar }) {
                     </fieldset>
                     <SacramentoButtons
                       handleDelete={() => handleDelete(bautizo.id_bautizo)}
-                      generarPDF={() => generarPDF({ datos: bautizo })}
+
                       handleEdit={() => handleEdit(bautizo)}
                       tipo="bautizo"
+                      pdfComponent={
+                        <PDFDownloadLink
+                          document={<FeBautizoPDF datos={bautizo} />}
+                          fileName={`Fe_Bautizo_${bautizo.nombre}_${bautizo.a_paterno}.pdf`}
+                          style={{
+                            textDecoration: 'none',
+                            color: 'white',
+                            backgroundColor: '#3f51b5',
+                            padding: '5px 10px',
+                            borderRadius: 4,
+                            marginTop: '8px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          {({ loading }) => loading ? 'Generando PDF...' : 'Descargar PDF'}
+                        </PDFDownloadLink>
+                      }
                     />
                   </li >
                 ))

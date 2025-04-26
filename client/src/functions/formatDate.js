@@ -36,4 +36,13 @@ const formatDateLong = (date) => {
   return `${dia} de ${mes} de ${anio}`;
 };
 
-export { formatDate, formatDateLong };
+const formatoFechaLarga = (fechaStr) => {
+  const fecha = new Date(fechaStr);
+  const dia = fecha.getDate();
+  const mes = fecha.toLocaleString("es-MX", { month: "long" });
+  const anio = fecha.getFullYear();
+
+  return { dia, mes, anio };
+};
+
+export { formatDate, formatDateLong, formatoFechaLarga };
