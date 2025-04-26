@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FeBautizoPDF } from "../../functions/FeBautizoPDF.jsx";
+import { FeBautizoPDF } from "../../components/FeBautizoPDF.jsx";
 import { useBautizoStore } from "../../store/useBautizoStore.js";
 import "../../styles/sacramentos/SearchSacramento.css";
 import { useNavigate } from "react-router-dom";
