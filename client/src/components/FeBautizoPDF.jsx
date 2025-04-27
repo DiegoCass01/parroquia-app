@@ -95,12 +95,12 @@ const FeBautizoPDF = ({ datos }) => {
           <Text style={styles.paragraph}>
             <Text style={styles.firstLineIndent}>Nació en{" "}</Text><Text style={styles.boldText}>{"             "}{datos.lugar_nac}{"             "}</Text>{" "}
             el día{" "}<Text style={styles.boldText}>&nbsp;{"   "}{fechaNac.dia}{"   "}&nbsp;</Text>{" "}de{" "}
-            <Text style={styles.boldText}>{"            "}{"   "}{fechaNac.mes}{"            "}{"   "}</Text>{" "}del año{" "}
-            <Text style={styles.boldText}>{"    "}{fechaNac.anio}{"    "}.</Text>{"\n"}
-            hijo(a) de{" "}<Text style={styles.boldText}>&nbsp;{"                   "}{datos.nom_padre} {datos.a_pat_padre} {datos.a_mat_padre}{"                   "}&nbsp;</Text>{" "}
-            y de{" "}<Text style={styles.boldText}>&nbsp;{"                     "}{datos.nom_madre} {datos.a_pat_madre} {datos.a_mat_madre}{"                     "}&nbsp;</Text>.
-            {"\n"}fueron Padrinos <Text style={styles.boldText}>&nbsp;{"                     "}{datos.pad_nom} {datos.pad_ap_pat} {datos.pad_ap_mat}{"                     "}&nbsp;</Text>
-            {" "}y{" "}<Text style={styles.boldText}>&nbsp;{"                     "}{datos.mad_nom} {datos.mad_ap_pat} {datos.mad_ap_mat}{"                     "}&nbsp;</Text>.
+            <Text style={styles.boldText}>&nbsp;{"          "}{fechaNac.mes}{"          "}&nbsp;</Text>{" "}del año{" "}
+            <Text style={styles.boldText}>{"    "}{fechaNac.anio}{"    "}</Text>{" "}
+            hijo(a) de{" "}<Text style={styles.boldText}>&nbsp;{"          "}{datos.nom_padre} {datos.a_pat_padre} {datos.a_mat_padre}{"          "}&nbsp;</Text>{" "}
+            y de{" "}<Text style={styles.boldText}>&nbsp;{"          "}{datos.nom_madre} {datos.a_pat_madre} {datos.a_mat_madre}{"          "}&nbsp;</Text>
+            {" "}fueron Padrinos <Text style={styles.boldText}>&nbsp;{"          "}{datos.pad_nom} {datos.pad_ap_pat} {datos.pad_ap_mat}{"          "}&nbsp;</Text>
+            {" "}y{" "}<Text style={styles.boldText}>&nbsp;{"          "}{datos.mad_nom} {datos.mad_ap_pat} {datos.mad_ap_mat}{"          "}&nbsp;</Text>.
           </Text>
         </View>
 
