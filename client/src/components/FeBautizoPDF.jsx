@@ -69,13 +69,18 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: 'Helvetica'
   },
+  signatureContainer: {
+    marginTop: 100,
+    alignItems: "flex-end", // Empuja todo a la derecha
+  },
   signatureLine: {
-    marginTop: 60,
-    textAlign: "center",
+    width: "50%", // O el ancho que quieras de la firma
+    borderTop: "1px solid #0706a0", // Línea en lugar de puro texto
+    marginBottom: 5,
   },
   signatureText: {
-    marginTop: 5,
     textAlign: "center",
+    width: "50%", // Igual que la línea para que estén alineados
   },
   firstLineIndent: {
     textIndent: 40, // Sangría solo para la primera línea
@@ -136,9 +141,9 @@ const FeBautizoPDF = ({ datos }) => {
           <Text style={styles.boldText.fontFamily}>Nº {datos.folio || "_____"}</Text>
         </View>
 
-        <View style={styles.signatureLine}>
-          <Text>_____________________________</Text>
-          <Text style={styles.signatureText}>El Párroco</Text>
+        <View style={styles.signatureContainer}>
+          <View style={styles.signatureLine} />
+          <Text style={styles.signatureText}>{"El Párroco"}</Text>
         </View>
       </Page>
     </Document >
