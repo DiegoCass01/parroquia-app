@@ -135,6 +135,24 @@ export default function SearchBautizo({ showSnackbar }) {
     }
   };
 
+  const handleCreateMovimientoBautizo = async (bautizo) => {
+    try {
+      const nuevoMovimiento = {
+        id_sacramento: bautizo.id_bautizo,
+        tipo_sacramento: "bautizo",
+        tipo_movimiento: "constancia_bautizo",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: bautizo.folio || "",
+      };
+      await createMovimiento(nuevoMovimiento);
+    } catch (error) {
+      console.error("Error al registrar movimiento de descarga:", error);
+    }
+  };
+
+
   return (
     <div className="search-page">
       <section className="search-sacramento-header">
@@ -185,6 +203,7 @@ export default function SearchBautizo({ showSnackbar }) {
                         <PDFDownloadLink className="submit-button"
                           document={<FeBautizoPDF datos={bautizo} />}
                           fileName={`Fe_Bautizo_${bautizo.nombre}_${bautizo.a_paterno}.pdf`}
+                          onClick={() => handleCreateMovimientoBautizo(bautizo)}
                           style={{
                             textDecoration: 'none',
                             textAlign: 'center',
