@@ -117,7 +117,7 @@ export default function UsuariosPage({ showSnackbar }) {
         <ul >
           {usuarios.length > 0 ? (
             usuarios.map((usuario) => (
-              user.id !== usuario.id & usuario.rol !== "admin" && (
+              user.id !== usuario.id && (
                 < li key={usuario.id} className={`usuario-item ${usuario.rol}`} >
                   <div className="usuario-info">
                     <div className="info-item">
