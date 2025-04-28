@@ -20,17 +20,33 @@ const styles = StyleSheet.create({
   page: {
     paddingTop: 20,
     paddingHorizontal: 70,
-    fontSize: 14,
+    fontSize: 15,
     fontFamily: "Times-Roman",
     textAlign: "justify",
     color: '#0706a0'
   },
   headerImage: {
-    width: 400,
+    width: 420,
     height: "auto",
-    marginBottom: 20,
+    marginBottom: 15,
     alignSelf: "center",
   },
+  sideTexts: {
+    marginBottom: 30,
+    fontSize: 10,
+    textAlign: "center",
+    lineHeight: 1.5,
+    fontFamily: "Times-Roman",
+    fontStyle: "italic",
+    color: "#0706a0",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  columnText: {
+    width: "33%", // Cada frase ocupa un tercio de la hoja
+    textAlign: "center",
+  }
+  ,
   title: {
     fontSize: 10,
     textAlign: "center",
@@ -39,7 +55,7 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 15,
     paddingHorizontal: 10,
-    lineHeight: 1.8,
+    lineHeight: 2,
   },
   paragraph: {
     marginVertical: 10,
@@ -77,13 +93,25 @@ const FeBautizoPDF = ({ datos }) => {
 
         <Image src="/assets/membrete.png" style={styles.headerImage} />
 
+        {/* Frases del lado derecho */}
+        <View style={styles.sideTexts}>
+          <Text style={styles.columnText}>
+            El Bautismo nos hace{"\n"}Hijos de Dios
+          </Text>
+          <Text style={styles.columnText}>
+            El Bautismo nos hace{"\n"}miembros de la Iglesia
+          </Text>
+          <Text style={styles.columnText}>
+            El Bautismo nos da{"\n"}derecho a la vida eterna
+          </Text>
+        </View>
 
         <View style={styles.section}>
           <Text style={styles.paragraph}>
             <Text style={styles.firstLineIndent}>El día{" "}</Text><Text style={styles.boldText}>{"   "}{fechaBautizo.dia}{"   "}</Text>{" "}de{" "}
             <Text style={styles.boldText}>{"            "}{fechaBautizo.mes}{"            "}</Text>{" "}del año{" "}
-            <Text style={styles.boldText}>{"    "}{fechaBautizo.anio}{"     "}</Text>{" "}fue bautizado(a){"\n"}
-            en esta Parroquia por el{" "}<Text style={styles.boldText}>{"     "}{datos.parroco}{"     "}</Text>{"\n"}
+            <Text style={styles.boldText}>{"    "}{fechaBautizo.anio}{"     "}</Text>{" "}fue bautizado(a){" "}
+            en esta Parroquia por el{" "}<Text style={styles.boldText}>{"     "}{datos.parroco}{"     "}</Text>{" "}
             un(a) niño(a) que recibió el nombre de:
           </Text>
           <Text style={{ ...styles.paragraph, textAlign: "center", fontSize: 14 }}>
