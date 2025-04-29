@@ -5,6 +5,7 @@ import { formatDateLong } from "../../functions/formatDate";
 import { SearchBar } from "../../components/SearchBar";
 import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
+import "../../styles/sacramentos/SacramentoButtons.css";
 // import { generarPDF } from "../../functions/feBautizoPdf";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import AdminValidationModal from "../../components/AdminValidationModal";
@@ -162,6 +163,12 @@ export default function SearchConfirmacion({ showSnackbar }) {
               confirmaciones.length > 0 ? (
                 confirmaciones.map((conf) => (
                   <li key={conf.id_confirmacion} className="sacramento-item">
+                    <SacramentoButtons
+                      handleDelete={() => handleDelete(conf.id_confirmacion)}
+                      // generarPDF={() => generarPDF({ datos: conf })}
+                      handleEdit={() => handleEdit(conf)}
+                      tipo="confirmación"
+                    />
                     <span><strong>{`${conf.nombre} ${conf.a_paterno} ${conf.a_materno}`}</strong></span>
                     <span>Fecha Confirmación: {formatDateLong(conf.fecha_confirmacion)}</span>
                     <span>Dirección: {conf.dir_confirmacion}</span>
@@ -180,12 +187,7 @@ export default function SearchConfirmacion({ showSnackbar }) {
                       <span>{conf.mad_nom + " " + conf.mad_ap_pat + " " + conf.mad_ap_mat}</span>
                     </fieldset>
 
-                    <SacramentoButtons
-                      handleDelete={() => handleDelete(conf.id_confirmacion)}
-                      // generarPDF={() => generarPDF({ datos: conf })}
-                      handleEdit={() => handleEdit(conf)}
-                      tipo="confirmación"
-                    />
+
 
                   </li>
                 ))

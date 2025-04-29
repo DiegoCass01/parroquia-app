@@ -14,8 +14,8 @@ const SearchBar = ({ searchQuery, setSearchQuery, setYearFilter, yearFilter, pla
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button type="submit">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <button type="submit" className="btn-search">
+          <FontAwesomeIcon icon={faMagnifyingGlass} color="black" />
         </button>
       </div>
       <div className="search-filters">

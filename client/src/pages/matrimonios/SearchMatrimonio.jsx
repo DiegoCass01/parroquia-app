@@ -5,6 +5,7 @@ import { formatDateLong } from "../../functions/formatDate";
 import { SearchBar } from "../../components/SearchBar";
 import "../../styles/sacramentos/SearchSacramento.css";
 import "../../App.css";
+import "../../styles/sacramentos/SacramentoButtons.css";
 // import { generarPDF } from "../../functions/feBautizoPdf";
 import SacramentoButtons from "../../components/SacramentoButtons";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -160,6 +161,12 @@ export default function SearchMatrimonio({ showSnackbar }) {
               matrimonios.length > 0 ? (
                 matrimonios.map((mat) => (
                   <li key={mat.id_matrimonio} className="sacramento-item">
+                    <SacramentoButtons
+                      handleDelete={() => handleDelete(mat.id_matrimonio)}
+                      // generarPDF={() => generarPDF({ datos: mat })}
+                      handleEdit={() => handleEdit(mat)}
+                      tipo="matrimonio"
+                    />
                     <span><strong>{`${mat.nombre_novio} ${mat.a_pat_novio} ${mat.a_mat_novio} y ${mat.nombre_novia} ${mat.a_pat_novia} ${mat.a_mat_novia}`}</strong></span>
                     <span>Dirección del Matrimonio: {mat.dir_matrimonio}</span>
                     <span>Lugar del Matrimonio: {mat.lugar_matrimonio}</span>
@@ -181,12 +188,7 @@ export default function SearchMatrimonio({ showSnackbar }) {
                       <span>{mat.testigo_nom + " " + mat.testigo_ap_pat + " " + mat.testigo_ap_mat}</span>
                       <span>{mat.testigo2_nom + " " + mat.testigo2_ap_pat + " " + mat.testigo2_ap_mat}</span>
                     </fieldset>
-                    <SacramentoButtons
-                      handleDelete={() => handleDelete(mat.id_matrimonio)}
-                      // generarPDF={() => generarPDF({ datos: mat })}
-                      handleEdit={() => handleEdit(mat)}
-                      tipo="matrimonio"
-                    />
+
                   </li>
                 ))
               ) : (

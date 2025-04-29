@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FeBautizoPDF } from "../../components/FeBautizoPDF.jsx";
 import { useBautizoStore } from "../../store/useBautizoStore.js";
 import "../../styles/sacramentos/SearchSacramento.css";
+import "../../styles/sacramentos/SacramentoButtons.css";
 import { useNavigate } from "react-router-dom";
 import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
@@ -181,6 +182,21 @@ export default function SearchBautizo({ showSnackbar }) {
               bautizos.length > 0 ? (
                 bautizos.map((bautizo) => (
                   <li key={bautizo.id_bautizo} className="sacramento-item">
+                    <SacramentoButtons
+                      handleDelete={() => handleDelete(bautizo.id_bautizo)}
+                      pdfComponent={
+                        <PDFDownloadLink
+                          className="dropdown-item"
+                          document={<FeBautizoPDF datos={bautizo} />}
+                          fileName={`Fe_Bautizo_${bautizo.nombre}_${bautizo.a_paterno}.pdf`}
+                          onClick={() => handleCreateMovimientoBautizo(bautizo)}
+                        >
+                          {({ loading }) => loading ? 'Generando PDF...' : 'Descargar PDF'}
+                        </PDFDownloadLink>
+                      }
+                      handleEdit={() => handleEdit(bautizo)}
+                      tipo="bautizo"
+                    />
                     <span><strong>{bautizo.nombre + " " + bautizo.a_paterno + " " + bautizo.a_materno}</strong></span>
                     <span>Fecha Bautizo: {formatDateLong(bautizo.fecha_bautizo)}</span>
                     <span>Dirección Bautizo: {bautizo.dir_bautizo}</span>
@@ -197,33 +213,7 @@ export default function SearchBautizo({ showSnackbar }) {
                       <span>{bautizo.pad_nom + " " + bautizo.pad_ap_pat + " " + bautizo.pad_ap_mat}</span>
                       <span>{bautizo.mad_nom + " " + bautizo.mad_ap_pat + " " + bautizo.mad_ap_mat}</span>
                     </fieldset>
-                    <SacramentoButtons
-                      handleDelete={() => handleDelete(bautizo.id_bautizo)}
-                      pdfComponent={
-                        <PDFDownloadLink className="submit-button"
-                          document={<FeBautizoPDF datos={bautizo} />}
-                          fileName={`Fe_Bautizo_${bautizo.nombre}_${bautizo.a_paterno}.pdf`}
-                          onClick={() => handleCreateMovimientoBautizo(bautizo)}
-                          style={{
-                            textDecoration: 'none',
-                            textAlign: 'center',
-                            color: 'aliceblue',
-                            backgroundColor: '#007bff',
-                            padding: '12px 20px',
-                            borderRadius: 4,
-                            marginTop: '10px',
-                            transition: 'background-color 0.3s',
-                          }}
-                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0056b3')}
-                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#007bff')}
-                        >
-                          {({ loading }) => loading ? 'Generando PDF...' : 'Descargar PDF'}
-                        </PDFDownloadLink>
-                      }
-                      handleEdit={() => handleEdit(bautizo)}
-                      tipo="bautizo"
 
-                    />
                   </li >
                 ))
               ) : (

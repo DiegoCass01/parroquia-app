@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDateLong } from "../../functions/formatDate.js";
 import { SearchBar } from "../../components/SearchBar.jsx";
 import "../../App.css";
+import "../../styles/sacramentos/SacramentoButtons.css";
 // import { generarPDF } from "../../functions/feBautizoPdf.js";
 import SacramentoButtons from "../../components/SacramentoButtons.jsx";
 import { useAuthStore } from "../../store/useAuthStore.js";
@@ -164,6 +165,13 @@ export default function SearchComunion({ showSnackbar }) {
               comuniones.length > 0 ? (
                 comuniones.map((comunion) => (
                   <li key={comunion.id_comunion} className="sacramento-item">
+
+                    <SacramentoButtons
+                      handleDelete={() => handleDelete(comunion.id_comunion)}
+                      // generarPDF={() => generarPDF({ datos: comunion })}
+                      handleEdit={() => handleEdit(comunion)}
+                      tipo="comunion"
+                    />
                     <span><strong>{comunion.nombre + " " + comunion.a_paterno + " " + comunion.a_materno}</strong></span>
                     <span>Bautizado(a) en: {comunion.parroquia_bautizo}</span>
                     <span>Fecha Comunion: {formatDateLong(comunion.fecha_comunion)}</span>
@@ -182,12 +190,7 @@ export default function SearchComunion({ showSnackbar }) {
                       <span>{comunion.mad_nom + " " + comunion.mad_ap_pat + " " + comunion.mad_ap_mat}</span>
                     </fieldset>
 
-                    <SacramentoButtons
-                      handleDelete={() => handleDelete(comunion.id_comunion)}
-                      // generarPDF={() => generarPDF({ datos: comunion })}
-                      handleEdit={() => handleEdit(comunion)}
-                      tipo="comunion"
-                    />
+
                   </li>
                 ))
               ) : (
