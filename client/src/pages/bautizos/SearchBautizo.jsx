@@ -186,7 +186,7 @@ export default function SearchBautizo({ showSnackbar }) {
                       handleDelete={() => handleDelete(bautizo.id_bautizo)}
                       pdfComponent={
                         <PDFDownloadLink
-                          className="dropdown-item"
+                          className="dropdown-item download"
                           document={<FeBautizoPDF datos={bautizo} />}
                           fileName={`Fe_Bautizo_${bautizo.nombre}_${bautizo.a_paterno}.pdf`}
                           onClick={() => handleCreateMovimientoBautizo(bautizo)}

@@ -35,6 +35,14 @@
   }
 }
 
+.dropdown-item.download {
+  color: dodgerblue;
+
+  &:hover {
+    background-color: dodgerblue;
+    color: white;
+  }
+}
 
 .dropdown-item.delete {
   color: red;
