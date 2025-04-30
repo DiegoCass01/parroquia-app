@@ -56,11 +56,15 @@
 
 .form-search-sacramento .btn-search {
   background-color: transparent;
-  border-color: black;
+  border: none;
 
   &:hover {
     background-color: #999;
     border-color: #999;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 
