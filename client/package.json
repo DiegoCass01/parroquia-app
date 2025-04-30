@@ -17,8 +17,6 @@
     "@mui/material": "^6.4.8",
     "@react-pdf/renderer": "^4.3.0",
     "axios": "^1.8.4",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.2",
