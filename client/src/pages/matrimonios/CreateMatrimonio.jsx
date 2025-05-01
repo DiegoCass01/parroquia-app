@@ -32,6 +32,7 @@ export default function CreateMatrimonio({ showSnackbar }) {
     dir_matrimonio: "",
     lugar_matrimonio: "",
     fecha_matrimonio: "",
+    parroco: "",
     pad_nom: "",
     pad_ap_pat: "",
     pad_ap_mat: "",
@@ -96,6 +97,7 @@ export default function CreateMatrimonio({ showSnackbar }) {
           dir_matrimonio: "",
           lugar_matrimonio: "",
           fecha_matrimonio: "",
+          parroco: "",
           pad_nom: "",
           pad_ap_pat: "",
           pad_ap_mat: "",
@@ -162,6 +164,7 @@ export default function CreateMatrimonio({ showSnackbar }) {
           <FormGroup id="dir_matrimonio" label="Dirección del Matrimonio" value={matrimonio.dir_matrimonio} onChange={handleChange} required />
           <FormGroup id="lugar_matrimonio" label="Lugar del Matrimonio" value={matrimonio.lugar_matrimonio} onChange={handleChange} required />
           <FormGroup id="fecha_matrimonio" label="Fecha del Matrimonio" type="date" value={matrimonio.fecha_matrimonio} onChange={handleChange} required />
+          <FormGroup id="parroco" label="Parroco" value={matrimonio.parroco} onChange={handleChange} required />
         </fieldset>
 
         <br />

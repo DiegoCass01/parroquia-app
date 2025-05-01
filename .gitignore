@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
-iniciar_todo.bat
-parar_servicios.bat
+iniciar-app.bat
+iniciar-servidor.bat
+parar-servidor.bat

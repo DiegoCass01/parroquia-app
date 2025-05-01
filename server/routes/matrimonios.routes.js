@@ -71,6 +71,7 @@ router.post("/", verifyToken, (req, res) => {
     dir_matrimonio,
     lugar_matrimonio,
     fecha_matrimonio,
+    parroco,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -107,8 +108,9 @@ router.post("/", verifyToken, (req, res) => {
   a_mat_madre_novia,
   dir_matrimonio,
   lugar_matrimonio,
-  fecha_matrimonio
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  fecha_matrimonio,
+  parroco
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   pool.query(
@@ -135,6 +137,7 @@ router.post("/", verifyToken, (req, res) => {
       dir_matrimonio,
       lugar_matrimonio,
       fecha_matrimonio,
+      parroco,
     ],
     (err, results) => {
       if (err) {
@@ -228,6 +231,7 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
     dir_matrimonio,
     lugar_matrimonio,
     fecha_matrimonio,
+    parroco,
     pad_nom,
     pad_ap_pat,
     pad_ap_mat,
@@ -250,7 +254,8 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
       nom_madre_novio = ?, a_pat_madre_novio = ?, a_mat_madre_novio = ?,
       nom_padre_novia = ?, a_pat_padre_novia = ?, a_mat_padre_novia = ?,
       nom_madre_novia = ?, a_pat_madre_novia = ?, a_mat_madre_novia = ?,
-      dir_matrimonio = ?, lugar_matrimonio = ?, fecha_matrimonio = ?
+      dir_matrimonio = ?, lugar_matrimonio = ?, fecha_matrimonio = ?,
+      parroco = ?
     WHERE id_matrimonio = ?
   `;
 
@@ -278,6 +283,7 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
       dir_matrimonio,
       lugar_matrimonio,
       fecha_matrimonio,
+      parroco,
       id_matrimonio,
     ],
     (err) => {

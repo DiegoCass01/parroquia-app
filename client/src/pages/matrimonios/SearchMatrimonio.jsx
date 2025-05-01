@@ -11,6 +11,8 @@ import SacramentoButtons from "../../components/SacramentoButtons";
 import { useAuthStore } from "../../store/useAuthStore";
 import AdminValidationModal from "../../components/AdminValidationModal";
 import { useMovimientoStore } from "../../store/useMovimientoStore";
+import { ConstanciaMatrimonio } from "../../components/ConstanciaMatrimonio";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export default function SearchMatrimonio({ showSnackbar }) {
   const { createMovimiento } = useMovimientoStore();
@@ -136,6 +138,23 @@ export default function SearchMatrimonio({ showSnackbar }) {
     }
   };
 
+  const handleCreateMovimientoMatrimonio = async (matrimonioId) => {
+    try {
+      const nuevoMovimiento = {
+        id_sacramento: matrimonioId,
+        tipo_sacramento: "matrimonio",
+        tipo_movimiento: "constancia_matrimonio",
+        id_usuario: user.id,
+        usuario: user.n_usuario,
+        nombre_completo: user.nombre,
+        folio: "",
+      };
+      await createMovimiento(nuevoMovimiento);
+    } catch (error) {
+      console.error("Error al registrar movimiento de descarga:", error);
+    }
+  };
+
   return (
     <div className="search-page">
       <section className="search-sacramento-header">
@@ -163,7 +182,16 @@ export default function SearchMatrimonio({ showSnackbar }) {
                   <li key={mat.id_matrimonio} className="sacramento-item">
                     <SacramentoButtons
                       handleDelete={() => handleDelete(mat.id_matrimonio)}
-                      // generarPDF={() => generarPDF({ datos: mat })}
+                      pdfComponent={
+                        <PDFDownloadLink
+                          className="dropdown-item download"
+                          document={<ConstanciaMatrimonio matrimonio={mat} />}
+                          fileName={`Constancia_Matrimonio_${mat.nombre_novio}_${mat.nombre_novia}.pdf`}
+                          onClick={() => handleCreateMovimientoMatrimonio(mat.id_matrimonio)}
+                        >
+                          {({ loading }) => loading ? 'Generando PDF...' : 'Descargar PDF'}
+                        </PDFDownloadLink>
+                      }
                       handleEdit={() => handleEdit(mat)}
                       tipo="matrimonio"
                     />
