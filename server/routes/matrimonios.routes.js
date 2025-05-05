@@ -12,15 +12,9 @@ router.get("/", verifyToken, (req, res) => {
   let query = `
     SELECT 
       m.*,
-      p.pad_nom, p.pad_ap_pat, p.pad_ap_mat,
-      p.mad_nom, p.mad_ap_pat, p.mad_ap_mat,
       t.pad_nom AS testigo_nom, t.pad_ap_pat AS testigo_ap_pat, t.pad_ap_mat AS testigo_ap_mat,
       t.mad_nom AS testigo2_nom, t.mad_ap_pat AS testigo2_ap_pat, t.mad_ap_mat AS testigo2_ap_mat
     FROM matrimonio m
-    LEFT JOIN padrinos p 
-      ON m.id_matrimonio = p.id_sacramento 
-      AND p.tipo_sacramento = 'matrimonio'
-      AND p.tipo_pad = 'padrinos'
     LEFT JOIN padrinos t
       ON m.id_matrimonio = t.id_sacramento 
       AND t.tipo_sacramento = 'matrimonio'
@@ -72,12 +66,7 @@ router.post("/", verifyToken, (req, res) => {
     lugar_matrimonio,
     fecha_matrimonio,
     parroco,
-    pad_nom,
-    pad_ap_pat,
-    pad_ap_mat,
-    mad_nom,
-    mad_ap_pat,
-    mad_ap_mat,
+    asistente,
     testigo_nom,
     testigo_ap_pat,
     testigo_ap_mat,
@@ -109,8 +98,9 @@ router.post("/", verifyToken, (req, res) => {
   dir_matrimonio,
   lugar_matrimonio,
   fecha_matrimonio,
-  parroco
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  parroco,
+  asistente
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   pool.query(
@@ -138,6 +128,7 @@ router.post("/", verifyToken, (req, res) => {
       lugar_matrimonio,
       fecha_matrimonio,
       parroco,
+      asistente,
     ],
     (err, results) => {
       if (err) {
@@ -161,47 +152,26 @@ router.post("/", verifyToken, (req, res) => {
         [
           matrimonioId,
           "matrimonio",
-          pad_nom,
-          pad_ap_pat,
-          pad_ap_mat,
-          mad_nom,
-          mad_ap_pat,
-          mad_ap_mat,
-          "padrinos",
+          testigo_nom,
+          testigo_ap_pat,
+          testigo_ap_mat,
+          testigo2_nom,
+          testigo2_ap_pat,
+          testigo2_ap_mat,
+          "testigos",
         ],
-        (err2) => {
-          if (err2) {
-            console.error("Error al insertar padrinos:", err2);
+        (err3) => {
+          if (err3) {
+            console.error("Error al insertar testigos:", err2);
             // No se hace rollback, solo se notifica
           }
-
-          pool.query(
-            insertPadrinosQuery,
-            [
-              matrimonioId,
-              "matrimonio",
-              testigo_nom,
-              testigo_ap_pat,
-              testigo_ap_mat,
-              testigo2_nom,
-              testigo2_ap_pat,
-              testigo2_ap_mat,
-              "testigos",
-            ],
-            (err3) => {
-              if (err3) {
-                console.error("Error al insertar testigos:", err2);
-                // No se hace rollback, solo se notifica
-              }
-            }
-          );
-
-          res.status(201).json({
-            message: "Matrimonio creado correctamente",
-            id: matrimonioId,
-          });
         }
       );
+
+      res.status(201).json({
+        message: "Matrimonio creado correctamente",
+        id: matrimonioId,
+      });
     }
   );
 });
@@ -232,12 +202,7 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
     lugar_matrimonio,
     fecha_matrimonio,
     parroco,
-    pad_nom,
-    pad_ap_pat,
-    pad_ap_mat,
-    mad_nom,
-    mad_ap_pat,
-    mad_ap_mat,
+    asistente,
     testigo_nom,
     testigo_ap_pat,
     testigo_ap_mat,
@@ -255,7 +220,7 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
       nom_padre_novia = ?, a_pat_padre_novia = ?, a_mat_padre_novia = ?,
       nom_madre_novia = ?, a_pat_madre_novia = ?, a_mat_madre_novia = ?,
       dir_matrimonio = ?, lugar_matrimonio = ?, fecha_matrimonio = ?,
-      parroco = ?
+      parroco = ?, asistente = ?
     WHERE id_matrimonio = ?
   `;
 
@@ -284,6 +249,7 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
       lugar_matrimonio,
       fecha_matrimonio,
       parroco,
+      asistente,
       id_matrimonio,
     ],
     (err) => {
@@ -302,58 +268,37 @@ router.put("/:id_matrimonio", verifyToken, (req, res) => {
         WHERE id_sacramento = ? AND tipo_sacramento = 'matrimonio' AND tipo_pad = 'padrinos'
       `;
 
-      pool.query(
-        updatePadrinosQuery,
-        [
-          pad_nom,
-          pad_ap_pat,
-          pad_ap_mat,
-          mad_nom,
-          mad_ap_pat,
-          mad_ap_mat,
-          id_matrimonio,
-        ],
-        (err2) => {
-          if (err2) {
-            console.error("Error al actualizar padrinos:", err2);
-            return res
-              .status(500)
-              .json({ error: "Error al actualizar los padrinos" });
-          }
-
-          // Actualizar testigos
-          const updateTestigosQuery = `
+      // Actualizar testigos
+      const updateTestigosQuery = `
             UPDATE padrinos SET
               pad_nom = ?, pad_ap_pat = ?, pad_ap_mat = ?,
               mad_nom = ?, mad_ap_pat = ?, mad_ap_mat = ?
             WHERE id_sacramento = ? AND tipo_sacramento = 'matrimonio' AND tipo_pad = 'testigos'
           `;
 
-          pool.query(
-            updateTestigosQuery,
-            [
-              testigo_nom,
-              testigo_ap_pat,
-              testigo_ap_mat,
-              testigo2_nom,
-              testigo2_ap_pat,
-              testigo2_ap_mat,
-              id_matrimonio,
-            ],
-            (err3) => {
-              if (err3) {
-                console.error("Error al actualizar testigos:", err3);
-                return res
-                  .status(500)
-                  .json({ error: "Error al actualizar los testigos" });
-              }
+      pool.query(
+        updateTestigosQuery,
+        [
+          testigo_nom,
+          testigo_ap_pat,
+          testigo_ap_mat,
+          testigo2_nom,
+          testigo2_ap_pat,
+          testigo2_ap_mat,
+          id_matrimonio,
+        ],
+        (err3) => {
+          if (err3) {
+            console.error("Error al actualizar testigos:", err3);
+            return res
+              .status(500)
+              .json({ error: "Error al actualizar los testigos" });
+          }
 
-              res.status(200).json({
-                message:
-                  "Matrimonio, padrinos y testigos actualizados correctamente",
-              });
-            }
-          );
+          res.status(200).json({
+            message:
+              "Matrimonio, padrinos y testigos actualizados correctamente",
+          });
         }
       );
     }

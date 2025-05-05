@@ -33,12 +33,7 @@ export default function CreateMatrimonio({ showSnackbar }) {
     lugar_matrimonio: "",
     fecha_matrimonio: "",
     parroco: "",
-    pad_nom: "",
-    pad_ap_pat: "",
-    pad_ap_mat: "",
-    mad_nom: "",
-    mad_ap_pat: "",
-    mad_ap_mat: "",
+    asistente: "",
     testigo_nom: "",
     testigo_ap_pat: "",
     testigo_ap_mat: "",
@@ -98,12 +93,7 @@ export default function CreateMatrimonio({ showSnackbar }) {
           lugar_matrimonio: "",
           fecha_matrimonio: "",
           parroco: "",
-          pad_nom: "",
-          pad_ap_pat: "",
-          pad_ap_mat: "",
-          mad_nom: "",
-          mad_ap_pat: "",
-          mad_ap_mat: "",
+          asistente: "",
           testigo_nom: "",
           testigo_ap_pat: "",
           testigo_ap_mat: "",
@@ -165,20 +155,9 @@ export default function CreateMatrimonio({ showSnackbar }) {
           <FormGroup id="lugar_matrimonio" label="Lugar del Matrimonio" value={matrimonio.lugar_matrimonio} onChange={handleChange} required />
           <FormGroup id="fecha_matrimonio" label="Fecha del Matrimonio" type="date" value={matrimonio.fecha_matrimonio} onChange={handleChange} required />
           <FormGroup id="parroco" label="Parroco" value={matrimonio.parroco} onChange={handleChange} required />
+          <FormGroup id="asistente" label="Asistente" value={matrimonio.asistente} onChange={handleChange} required />
         </fieldset>
 
-        <br />
-
-        {/* DATOS DE LOS PADRINOS */}
-        <fieldset>
-          <legend>Datos de los Padrinos</legend>
-          <FormGroup id="pad_nom" label="Nombre del Padrino" value={matrimonio.pad_nom} onChange={handleChange} required />
-          <FormGroup id="pad_ap_pat" label="Apellido Paterno del Padrino" value={matrimonio.pad_ap_pat} onChange={handleChange} required />
-          <FormGroup id="pad_ap_mat" label="Apellido Materno del Padrino" value={matrimonio.pad_ap_mat} onChange={handleChange} required />
-          <FormGroup id="mad_nom" label="Nombre de la Madrina" value={matrimonio.mad_nom} onChange={handleChange} required />
-          <FormGroup id="mad_ap_pat" label="Apellido Paterno de la Madrina" value={matrimonio.mad_ap_pat} onChange={handleChange} required />
-          <FormGroup id="mad_ap_mat" label="Apellido Materno de la Madrina" value={matrimonio.mad_ap_mat} onChange={handleChange} required />
-        </fieldset>
         <br />
 
         {/* DATOS DE LOS TESTIGOS */}

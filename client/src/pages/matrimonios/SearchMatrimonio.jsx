@@ -199,17 +199,14 @@ export default function SearchMatrimonio({ showSnackbar }) {
                     <span>Dirección del Matrimonio: {mat.dir_matrimonio}</span>
                     <span>Lugar del Matrimonio: {mat.lugar_matrimonio}</span>
                     <span>Fecha Matrimonio: {formatDateLong(mat.fecha_matrimonio)}</span>
+                    <span>Parroco: {mat.parroco}</span>
+                    <span>Asistente: {mat.asistente}</span>
                     <fieldset>
                       <legend>Padres</legend>
                       <span><strong>Padre del Novio: </strong>{`${mat.nom_padre_novio} ${mat.a_pat_padre_novio} ${mat.a_mat_padre_novio}`}</span>
                       <span><strong>Madre del Novio: </strong>{`${mat.nom_madre_novio} ${mat.a_pat_madre_novio} ${mat.a_mat_madre_novio}`}</span>
                       <span><strong>Padre de la Novia: </strong>{`${mat.nom_padre_novia} ${mat.a_pat_padre_novia} ${mat.a_mat_padre_novia}`}</span>
                       <span><strong>Madre de la Novia: </strong>{`${mat.nom_madre_novia} ${mat.a_pat_madre_novia} ${mat.a_mat_madre_novia}`}</span>
-                    </fieldset>
-                    <fieldset>
-                      <legend>Padrinos</legend>
-                      <span>{mat.pad_nom + " " + mat.pad_ap_pat + " " + mat.pad_ap_mat}</span>
-                      <span>{mat.mad_nom + " " + mat.mad_ap_pat + " " + mat.mad_ap_mat}</span>
                     </fieldset>
                     <fieldset>
                       <legend>Testigos</legend>

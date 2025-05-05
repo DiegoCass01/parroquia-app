@@ -109,6 +109,7 @@ export default function EditMatrimonio({ showSnackbar }) {
           <FormGroup id="lugar_matrimonio" label="Lugar del Matrimonio" value={matrimonio.lugar_matrimonio} onChange={handleChange} required />
           <FormGroup id="fecha_matrimonio" label="Fecha del Matrimonio" type="date" value={matrimonio.fecha_matrimonio} onChange={handleChange} required />
           <FormGroup id="parroco" label="Parroco" value={matrimonio.parroco} onChange={handleChange} required />
+          <FormGroup id="asistente" label="Asistente" value={matrimonio.asistente} onChange={handleChange} required />
         </fieldset>
 
         <br />

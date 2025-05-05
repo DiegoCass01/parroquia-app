@@ -126,7 +126,7 @@ const ConstanciaMatrimonio = ({ matrimonio }) => {
           </Text>
 
           <Text style={styles.paragraph}>
-            Asistió al matrimonio <Text style={styles.boldText}>{matrimonio.parroco || "párroco correspondiente"}</Text>, en la Parroquia de Nuestra Señora de Guadalupe, de Ciudad Mante, Tamaulipas.
+            Asistió al matrimonio <Text style={styles.boldText}>{"  "}{matrimonio.asistente}{"  "}</Text>, en la Parroquia de Nuestra Señora de Guadalupe, de Ciudad Mante, Tamaulipas.
           </Text>
         </View>
 
