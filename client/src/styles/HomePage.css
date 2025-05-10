@@ -41,11 +41,16 @@ body {
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
 
-.btn-navigate:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(255, 255, 255, 0.15);
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(255, 255, 255, 0.15);
+    border-color: transparent;
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .btn-navigate .btn-title {

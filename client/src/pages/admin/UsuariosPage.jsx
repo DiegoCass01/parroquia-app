@@ -114,18 +114,23 @@ export default function UsuariosPage({ showSnackbar }) {
 
       {/* Lista de usuarios filtrados */}
       <div className="usuario-container">
-        <ul >
+        <ul>
           {usuarios.length > 0 ? (
-            usuarios.map((usuario) => (
-              user.id !== usuario.id && (
-                < li key={usuario.id} className={`usuario-item ${usuario.rol}`} >
+            usuarios.map((usuario) => {
+              // Si el usuario a renderizar es admin y el usuario actual no lo es, no mostrarlo
+              if (usuario.rol === "admin" && user.rol !== "admin") return null;
+
+              if (user.id === usuario.id) return null;
+
+              return (
+                <li key={usuario.id} className={`usuario-item ${usuario.rol}`}>
+                  <SacramentoButtons
+                    handleDelete={() => handleDelete(usuario.id)}
+                    handleEdit={() => handleEdit(usuario)}
+                    tipo="usuario"
+                  />
+                  <span><strong>{usuario.nombre + " " + usuario.a_paterno + " " + usuario.a_materno}</strong></span>
                   <div className="usuario-info">
-                    <div className="info-item">
-                      <label>Nombre completo</label>
-                      <div className="info-content">
-                        <span>{usuario.nombre + " " + usuario.a_paterno + " " + usuario.a_materno}</span>
-                      </div>
-                    </div>
                     <div className="info-item">
                       <label>Nombre de usuario</label>
                       <div className="info-content">
@@ -139,16 +144,9 @@ export default function UsuariosPage({ showSnackbar }) {
                       </div>
                     </div>
                   </div>
-
-                  <SacramentoButtons
-                    handleDelete={() => handleDelete(usuario.id)}
-                    handleEdit={() => handleEdit(usuario)}
-                    tipo="usuario"
-
-                  />
-                </li>)
-
-            ))
+                </li>
+              );
+            })
           ) : (
             <div className="no-elements-item">
               <strong><p>No se encontraron usuarios.</p></strong>

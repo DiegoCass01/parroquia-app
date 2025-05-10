@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Obtener todos los usuarios que tengan el rol de usuario
 router.get("/", verifyToken, verifyRole(["admin", "moderador"]), (req, res) => {
-  const query = `SELECT * FROM usuario WHERE rol != 'admin'`;
+  const query = `SELECT * FROM usuario`;
   pool.query(query, (err, rows) => {
     if (err) return res.status(500).json({ error: err });
     res.status(200).json(rows);
